@@ -1,0 +1,153 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply bg-gray-50 dark:bg-slate-950 text-gray-900 dark:text-gray-100 transition-colors duration-300;
+  }
+
+  /* Custom scrollbar for a more modern look */
+  ::-webkit-scrollbar {
+    @apply w-2;
+  }
+  ::-webkit-scrollbar-track {
+    @apply bg-transparent;
+  }
+  ::-webkit-scrollbar-thumb {
+    @apply bg-gray-200 dark:bg-slate-800 rounded-full hover:bg-gray-300 dark:hover:bg-slate-700 transition-colors;
+  }
+}
+
+@layer components {
+  /* Layout & Main Containers */
+  .ls-header {
+    @apply p-6 bg-white dark:bg-slate-900 border-b border-gray-200 dark:border-slate-800 flex items-center justify-between;
+  }
+
+  .ls-toolbar {
+    @apply flex flex-wrap justify-between items-center mb-8 gap-4 bg-white dark:bg-slate-900 p-4 rounded-2xl shadow-sm border border-gray-100 dark:border-slate-800;
+  }
+
+  /* Buttons */
+  .ls-btn-icon {
+    @apply p-2 rounded-lg bg-gray-100 dark:bg-slate-800 hover:bg-gray-200 dark:hover:bg-slate-700 transition-colors focus:outline-none cursor-pointer;
+  }
+
+  .ls-btn-toolbar {
+    @apply p-2 bg-gray-100 dark:bg-slate-800 rounded-lg hover:bg-gray-200 dark:hover:bg-slate-700 transition;
+  }
+
+  .ls-btn-view-switcher {
+    @apply p-2 rounded-lg font-medium cursor-pointer transition-colors;
+  }
+  .ls-btn-view-switcher.active {
+    @apply text-blue-600 bg-blue-50 dark:bg-blue-900/40;
+  }
+  .ls-btn-view-switcher.inactive {
+    @apply text-gray-500 hover:text-gray-700 dark:hover:text-gray-300;
+  }
+
+  .ls-btn-primary {
+    @apply bg-blue-600 text-white px-4 py-2 rounded-xl text-sm font-semibold hover:bg-blue-700 transition shadow-lg shadow-blue-500/20;
+  }
+
+  .ls-btn-secondary {
+    @apply bg-gray-100 dark:bg-slate-800 text-gray-700 dark:text-gray-300 p-1.5 rounded-lg hover:bg-gray-200 dark:hover:bg-slate-700 transition cursor-pointer;
+  }
+
+  .ls-btn-action-small {
+    @apply text-[10px] uppercase tracking-wider px-3 py-1.5 rounded-lg font-bold transition;
+  }
+  .ls-btn-action-small.get {
+    @apply bg-gray-100 dark:bg-slate-800 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-slate-700;
+  }
+  .ls-btn-action-small.open {
+    @apply bg-blue-600 text-white hover:bg-blue-700 shadow-md shadow-blue-500/10;
+  }
+
+  /* Form Elements */
+  .ls-toolbar-select {
+    @apply bg-gray-50 dark:bg-slate-800 border border-gray-200 dark:border-slate-700 text-sm rounded-lg p-2 focus:ring-blue-500 dark:text-white;
+  }
+
+  /* File Cards */
+  .ls-card-grid {
+    @apply bg-white dark:bg-slate-900 rounded-2xl shadow-sm border border-gray-100 dark:border-slate-800 overflow-hidden flex flex-col;
+  }
+  .ls-card-list {
+    @apply bg-white dark:bg-slate-900 p-3 rounded-xl border border-gray-100 dark:border-slate-800 flex items-center justify-between shadow-sm;
+  }
+
+  .ls-preview-box-grid {
+    @apply h-40 bg-gray-100 dark:bg-slate-800 flex items-center justify-center cursor-pointer overflow-hidden;
+  }
+  .ls-preview-box-list {
+    @apply w-12 h-12 bg-gray-100 dark:bg-slate-800 rounded-lg flex-shrink-0 flex items-center justify-center cursor-pointer overflow-hidden;
+  }
+
+  .ls-card-content-grid {
+    @apply p-4 flex flex-col flex-grow items-center text-center;
+  }
+  .ls-card-content-list {
+    @apply flex-grow grid grid-cols-2 md:grid-cols-4 items-center px-2;
+  }
+
+  .ls-file-name {
+    @apply font-bold text-gray-900 dark:text-white truncate block w-full;
+  }
+  .ls-file-size {
+    @apply text-xs text-gray-500 dark:text-slate-400 font-mono;
+  }
+
+  /* Slideshow */
+  .ls-slideshow-container {
+    @apply bg-white dark:bg-slate-900 rounded-3xl shadow-xl border border-gray-100 dark:border-slate-800 overflow-hidden flex flex-col min-h-[60vh];
+  }
+  .ls-slideshow-header {
+    @apply p-4 border-b border-gray-100 dark:border-slate-800 flex justify-between items-center;
+  }
+  .ls-slideshow-main {
+    @apply flex-grow flex items-center justify-center relative p-4 md:p-12 min-h-[400px];
+  }
+  .ls-slideshow-btn-nav {
+    @apply absolute p-4 text-gray-300 hover:text-blue-600 transition cursor-pointer z-10;
+  }
+  .ls-slideshow-img {
+    @apply w-48 h-48 md:w-64 md:h-64 object-contain transition-all duration-500;
+  }
+  .ls-slideshow-footer {
+    @apply p-6 bg-gray-50 dark:bg-slate-900/50 border-t border-gray-100 dark:border-slate-800 flex flex-wrap justify-center gap-4;
+  }
+  .ls-slideshow-btn-action {
+    @apply px-6 py-2 rounded-xl font-bold transition;
+  }
+  .ls-slideshow-btn-action.secondary {
+    @apply bg-white dark:bg-slate-800 text-gray-700 dark:text-white border border-gray-200 dark:border-slate-700 hover:bg-gray-100 dark:hover:bg-slate-700;
+  }
+  .ls-slideshow-btn-action.primary {
+    @apply bg-blue-600 text-white px-8 hover:bg-blue-700 shadow-lg shadow-blue-500/20;
+  }
+
+  /* Sidebar */
+  .ls-sidebar-panel {
+    @apply fixed inset-y-0 left-0 w-3/4 min-w-[320px] bg-white dark:bg-slate-900 shadow-2xl border-r border-gray-200 dark:border-slate-800 flex flex-col;
+  }
+  .ls-sidebar-header {
+    @apply p-6 border-b border-gray-100 dark:border-slate-800 flex items-center justify-between;
+  }
+  .ls-sidebar-content-item {
+    @apply bg-gray-50 dark:bg-slate-800/50 p-4 rounded-xl border border-gray-100 dark:border-slate-700;
+  }
+  .ls-sidebar-btn-copy {
+    @apply flex-shrink-0 p-2 bg-white dark:bg-slate-700 shadow-sm border border-gray-100 dark:border-slate-600 rounded-lg hover:bg-gray-100 dark:hover:bg-slate-600 transition;
+  }
+  .ls-sidebar-backdrop {
+    @apply absolute inset-0 bg-black/50 backdrop-blur-sm transition-opacity;
+  }
+
+  /* Footer */
+  .ls-main-footer {
+    @apply mt-20 p-8 text-center text-gray-400 dark:text-slate-500 text-sm border-t border-gray-100 dark:border-slate-800;
+  }
+}
