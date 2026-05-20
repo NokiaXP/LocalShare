@@ -99,7 +99,7 @@ fun HomeScreen(
         QrCodeDialog(
             url = state.qrCodeUrl,
             qrCodeBitmap = state.qrCodeBitmap,
-            onDismiss = { viewModel.onCloseQrCodeDialog() }
+            onDismiss = viewModel::onCloseQrCodeDialog
         )
     }
 
@@ -127,8 +127,8 @@ fun HomeScreen(
                         notificationPermissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS)
                     }
                 },
-                startServer = { viewModel.onStartServer() },
-                stopServer = { viewModel.onStopServer() },
+                startServer = viewModel::onStartServer,
+                stopServer = viewModel::onStopServer,
                 modifier = Modifier.navigationBarsPadding()
             )
         }
@@ -163,7 +163,7 @@ fun HomeScreen(
                     @OptIn(ExperimentalMaterial3Api::class)
                     CompositionLocalProvider(LocalMinimumInteractiveComponentSize provides Dp.Unspecified) {
                         IconButton(
-                            onClick = { viewModel.clearFiles() },
+                            onClick = viewModel::clearFiles,
                             modifier = Modifier.size(24.dp)
                         ) {
                             Icon(
@@ -186,7 +186,7 @@ fun HomeScreen(
                 FileCarousel(
                     fileList = state.fileList,
                     selectedFiles = state.filesToDelete,
-                    onToggleSelection = { viewModel.toggleFileToDelete(it) },
+                    onToggleSelection = viewModel::toggleFileToDelete,
                 )
             } else {
                 HintCard(text = "No files added yet. Add files to start sharing.")
@@ -211,7 +211,7 @@ fun HomeScreen(
                         Text("Delete Selected")
                     }
                     Button(
-                        onClick = { viewModel.clearFilesToDelete() }
+                        onClick = viewModel::clearFilesToDelete
                     ) {
                         Icon(imageVector = Icons.Default.Cancel, contentDescription = null)
                         Spacer(modifier = Modifier.width(8.dp))
@@ -231,7 +231,7 @@ fun HomeScreen(
             Spacer(modifier = Modifier.height(24.dp))
 
             // --- Advanced Settings (Collapsible) ---
-            AdvancedSettingsSection(state, viewModel, scope)
+            AdvancedSettingsSection(state, viewModel)
 
             Spacer(modifier = Modifier.height(24.dp))
 

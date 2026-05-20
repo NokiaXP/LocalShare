@@ -11,6 +11,7 @@ import com.defname.localshare.domain.model.Settings
 import com.defname.localshare.domain.repository.SettingsRepository
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.launch
 
 class SettingsViewModel(
     private val settingsRepository: SettingsRepository,
@@ -24,31 +25,45 @@ class SettingsViewModel(
 
     val runtimeState = serviceRepository.runtimeState
 
-    suspend fun setPort(port: Int) {
-        settingsRepository.setPort(port)
+    fun setPort(port: Int) {
+        viewModelScope.launch {
+            settingsRepository.setPort(port)
+        }
     }
 
-    suspend fun setIdleTimeoutSeconds(seconds: Int) {
-        settingsRepository.setServerIdleTimeoutSeconds(seconds)
+    fun setIdleTimeoutSeconds(seconds: Int) {
+        viewModelScope.launch {
+            settingsRepository.setServerIdleTimeoutSeconds(seconds)
+        }
     }
 
-    suspend fun setRequireApproval(requireApproval: Boolean) {
-        settingsRepository.setRequireApproval(requireApproval)
+    fun setRequireApproval(requireApproval: Boolean) {
+        viewModelScope.launch {
+            settingsRepository.setRequireApproval(requireApproval)
+        }
     }
 
-    suspend fun setWhiteListEntryTTLSeconds(seconds: Int) {
-        settingsRepository.setWhitelistEntryTTLSeconds(seconds)
+    fun setWhiteListEntryTTLSeconds(seconds: Int) {
+        viewModelScope.launch {
+            settingsRepository.setWhitelistEntryTTLSeconds(seconds)
+        }
     }
 
-    suspend fun setClearFilesListOnSendIntent(clear: Boolean) {
-        settingsRepository.setClearFileListOnShareIntent(clear)
+    fun setClearFilesListOnSendIntent(clear: Boolean) {
+        viewModelScope.launch {
+            settingsRepository.setClearFileListOnShareIntent(clear)
+        }
     }
 
-    suspend fun setHeartbeatPeriodSeconds(seconds: Int) {
-        settingsRepository.setHeartbeatPeriodSeconds(seconds)
+    fun setHeartbeatPeriodSeconds(seconds: Int) {
+        viewModelScope.launch {
+            settingsRepository.setHeartbeatPeriodSeconds(seconds)
+        }
     }
 
-    suspend fun setRegenerateTokenAtAppStart(regenerateTokenAtAppStart: Boolean) {
-        settingsRepository.setRegenerateTokenAtAppStart(regenerateTokenAtAppStart)
+    fun setRegenerateTokenAtAppStart(regenerateTokenAtAppStart: Boolean) {
+        viewModelScope.launch {
+            settingsRepository.setRegenerateTokenAtAppStart(regenerateTokenAtAppStart)
+        }
     }
 }

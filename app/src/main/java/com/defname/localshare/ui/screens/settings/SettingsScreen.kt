@@ -35,6 +35,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -42,7 +43,6 @@ import com.defname.localshare.R
 import com.defname.localshare.data.RuntimeState
 import com.defname.localshare.ui.components.ConfirmedTextField
 import com.defname.localshare.ui.theme.LocalShareTheme
-import kotlinx.coroutines.launch
 import org.koin.androidx.compose.koinViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -94,11 +94,10 @@ fun SettingsScreen(
                                 Text(stringResource(R.string.settings_server_port_hint))
                             }
                         },
-                        onValueChange = {
-                            scope.launch { viewModel.setPort(it.toIntOrNull() ?: 8080) }
-                        },
+                        onValueChange = { viewModel.setPort(it.toInt()) },
                         keyboardOptions = KeyboardOptions.Default.copy(
-                            keyboardType = KeyboardType.Number
+                            keyboardType = KeyboardType.Number,
+                            imeAction = ImeAction.Done
                         )
                     )
                 }
@@ -113,11 +112,10 @@ fun SettingsScreen(
                         supportingText = {
                             Text(stringResource(R.string.settings_server_timeout_hint))
                         },
-                        onValueChange = {
-                            scope.launch { viewModel.setIdleTimeoutSeconds(it.toIntOrNull() ?: 30) }
-                        },
+                        onValueChange = { viewModel.setIdleTimeoutSeconds(it.toInt()) },
                         keyboardOptions = KeyboardOptions.Default.copy(
-                            keyboardType = KeyboardType.Number
+                            keyboardType = KeyboardType.Number,
+                            imeAction = ImeAction.Done
                         )
                     )
                 }
@@ -129,13 +127,13 @@ fun SettingsScreen(
                     title = stringResource(R.string.settings_regenerate_token_at_app_start_label),
                     subtitle = stringResource(R.string.settings_generate_a_new_security_token_every_time_the_app_starts_hint),
                     checked = settings.regenerateTokenAtAppStart,
-                    onCheckedChange = { scope.launch { viewModel.setRegenerateTokenAtAppStart(it) } }
+                    onCheckedChange =viewModel::setRegenerateTokenAtAppStart
                 )
                 SettingsSwitchRow(
                     title = stringResource(R.string.settings_security_require_approval_label),
                     subtitle = stringResource(R.string.settings_security_require_approval_hint),
                     checked = settings.requireApproval,
-                    onCheckedChange = { scope.launch { viewModel.setRequireApproval(it) } }
+                    onCheckedChange =viewModel::setRequireApproval
                 )
 
                 if (settings.requireApproval) {
@@ -146,15 +144,14 @@ fun SettingsScreen(
                             validator = { it.toIntOrNull() != null },
                             errorHint = { Text("Number of seconds must be a number.") },
                             keyboardOptions = KeyboardOptions.Default.copy(
-                                keyboardType = KeyboardType.Number
+                                keyboardType = KeyboardType.Number,
+                                imeAction = ImeAction.Done
                             ),
                             modifier = Modifier.weight(1f),
                             supportingText = {
                                 Text(stringResource(R.string.settings_security_whitelist_ttl_hint))
                             },
-                            onValueChange = {
-                                scope.launch { viewModel.setWhiteListEntryTTLSeconds(it.toIntOrNull() ?: 30) }
-                            }
+                            onValueChange = { viewModel.setWhiteListEntryTTLSeconds(it.toInt()) }
                         )
                     }
                 }
@@ -168,15 +165,14 @@ fun SettingsScreen(
                         validator = { it.toIntOrNull() != null },
                         errorHint = { Text("Number of seconds must be a number.") },
                         keyboardOptions = KeyboardOptions.Default.copy(
-                            keyboardType = KeyboardType.Number
+                            keyboardType = KeyboardType.Number,
+                            imeAction = ImeAction.Done
                         ),
                         modifier = Modifier.weight(1f),
                         supportingText = {
                             Text(stringResource(R.string.settings_webinterface_heartbeat_hint))
                         },
-                        onValueChange = {
-                            scope.launch { viewModel.setHeartbeatPeriodSeconds(it.toIntOrNull() ?: 1) }
-                        }
+                        onValueChange = { viewModel.setHeartbeatPeriodSeconds(it.toInt()) }
                     )
                 }
             }
@@ -186,7 +182,7 @@ fun SettingsScreen(
                     title = stringResource(R.string.settings_misc_clear_file_list_on_share_label),
                     subtitle = stringResource(R.string.settings_misc_clear_file_list_on_share_hint),
                     checked = settings.clearFileListOnShareIntent,
-                    onCheckedChange = { scope.launch { viewModel.setClearFilesListOnSendIntent(it) } }
+                    onCheckedChange = viewModel::setClearFilesListOnSendIntent
                 )
             }
         }

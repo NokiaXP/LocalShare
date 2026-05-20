@@ -163,14 +163,16 @@ class HomeViewModel(
         clearFilesToDelete()
     }
 
-    suspend fun onIpAddressSelected(networkInfo: NetworkInfo?) {
-        if (networkInfo == null) {
-            settingsRepository.setServerIp("0.0.0.0")
-            settingsRepository.setIsServerIpv6(false)
-            return
+    fun onIpAddressSelected(networkInfo: NetworkInfo?) {
+        viewModelScope.launch {
+            if (networkInfo == null) {
+                settingsRepository.setServerIp("0.0.0.0")
+                settingsRepository.setIsServerIpv6(false)
+                return@launch
+            }
+            settingsRepository.setServerIp(networkInfo.address)
+            settingsRepository.setIsServerIpv6(networkInfo.isIpv6Addr)
         }
-        settingsRepository.setServerIp(networkInfo.address)
-        settingsRepository.setIsServerIpv6(networkInfo.isIpv6Addr)
     }
 
     fun collapseIpAddressSelector() {
@@ -204,12 +206,18 @@ class HomeViewModel(
         _uiState.update { it.copy(logMenuId = null) }
     }
 
-    suspend fun onTokenChange(token: String) {
-        settingsRepository.setToken(token)
+    fun onTokenChange(token: String) {
+        viewModelScope.launch {
+            if (token.all { it.isLetterOrDigit() }) {
+                settingsRepository.setToken(token)
+            }
+        }
     }
 
-    suspend fun onRandomTokenClick() {
-        settingsRepository.setToken(SecurityRepository.generateRandomToken())
+    fun onRandomTokenClick() {
+        viewModelScope.launch {
+            settingsRepository.setToken(SecurityRepository.generateRandomToken())
+        }
     }
 
     fun addToBlacklist(it: String) {
