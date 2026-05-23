@@ -49,5 +49,6 @@ data class HomeState(
 
     val serverUrlSelectorExpanded: Boolean = false,
 
-    val pendingRequests: List<String> = emptyList()
+    val pendingRequests: List<String> = emptyList(),
+    val pendingUploadPermissionRequests: List<String> = emptyList()
 )

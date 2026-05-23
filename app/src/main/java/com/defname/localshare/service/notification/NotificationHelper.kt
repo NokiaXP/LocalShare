@@ -105,4 +105,33 @@ class NotificationHelper(private val context: Context) {
         val manager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
         manager.notify(clientIp.hashCode(), notification)
     }
+
+    fun showUploadPermissionNotification(clientIp: String) {
+        val approveIntent = Intent(context, LocalShareService::class.java).apply {
+            action = LocalShareService.APPROVE_UPLOAD_PERMISSION
+            putExtra("ip", clientIp)
+        }
+        val approvePending = PendingIntent.getService(context, clientIp.hashCode(), approveIntent, PendingIntent.FLAG_IMMUTABLE)
+
+        val denyIntent = Intent(context, LocalShareService::class.java).apply {
+            action = LocalShareService.DENY_UPLOAD_PERMISSION
+            putExtra("ip", clientIp)
+        }
+        val denyPending = PendingIntent.getService(context, clientIp.hashCode(), denyIntent, PendingIntent.FLAG_IMMUTABLE)
+
+        val notification = NotificationCompat.Builder(context, APPROVAL_CHANNEL_ID)
+            .setContentTitle("Upload Permission Request")
+            .setContentText("$clientIp asks for permission to upload files.")
+            .setSmallIcon(android.R.drawable.ic_dialog_alert)
+            .setPriority(NotificationCompat.PRIORITY_HIGH)
+            .setCategory(NotificationCompat.CATEGORY_ALARM)
+            .setDefaults(Notification.DEFAULT_ALL) // Wichtig für Heads-up (Ton/Vibration)
+            .addAction(0, context.getString(R.string.connection_request_notification_accept), approvePending)
+            .addAction(0, context.getString(R.string.connection_request_notification_deny), denyPending)
+            .setAutoCancel(true)
+            .build()
+
+        val manager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+        manager.notify(clientIp.hashCode(), notification)
+    }
 }

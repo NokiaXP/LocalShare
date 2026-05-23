@@ -121,12 +121,21 @@ class ServerSecurityHandler(
         securityRepository.addToBlacklist(ip)
     }
 
+    fun grantUploadPermission(ip: String) {
+        securityRepository.grantUploadPermission(ip)
+    }
+
+    fun denyUploadPermission(ip: String) {
+        securityRepository.denyUploadPermission(ip)
+    }
+
     fun requestUploadPermission(ip: String) {
         val whiteListEntry = securityRepository.whitelist.value.find { it.ip == ip }
-        if (whiteListEntry != null) {
+        if (whiteListEntry == null) {
             return
         }
         securityRepository.requestUploadPermission(ip)
+        notificationHelper.showUploadPermissionNotification(ip)
     }
 
     fun hasUploadPermission(ip: String): Boolean {

@@ -20,6 +20,7 @@ import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.Download
 import androidx.compose.material.icons.filled.QrCode2
 import androidx.compose.material.icons.filled.Share
+import androidx.compose.material.icons.filled.Upload
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
@@ -47,6 +48,9 @@ fun SharingHeroSection(state: HomeState, viewModel: HomeViewModel, context: Cont
     val primaryUrl = remember(state.selectedServerUrl) { state.selectedServerUrl }
     val pendingRequests = remember(state.pendingRequests) { state.pendingRequests }
     val requestingIp = remember(pendingRequests) { pendingRequests.firstOrNull() }
+
+    val pendingUploadPermissionRequests = remember(state.pendingUploadPermissionRequests) { state.pendingUploadPermissionRequests }
+    val uploadPermissionRequestingIp = remember(pendingUploadPermissionRequests) { pendingUploadPermissionRequests.firstOrNull() }
 
     if (pendingRequests.isNotEmpty()) {
         Card(
@@ -95,7 +99,7 @@ fun SharingHeroSection(state: HomeState, viewModel: HomeViewModel, context: Cont
                     horizontalArrangement = Arrangement.spacedBy(12.dp)
                 ) {
                     Button(
-                        onClick = { requestingIp?.also { viewModel.onRejectRequest(context, it) } },
+                        onClick = { requestingIp?.also { viewModel.onDenyRequest(context, it) } },
                         modifier = Modifier.weight(1f),
                         contentPadding = PaddingValues(vertical = 12.dp),
                         colors = ButtonDefaults.buttonColors(
@@ -112,7 +116,88 @@ fun SharingHeroSection(state: HomeState, viewModel: HomeViewModel, context: Cont
                         Text("Reject")
                     }
                     Button(
-                        onClick = { requestingIp?.also { viewModel.onAcceptRequest(context, it) } },
+                        onClick = { requestingIp?.also { viewModel.onGrantRequest(context, it) } },
+                        modifier = Modifier.weight(1f),
+                        colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.tertiary),
+                        contentPadding = PaddingValues(vertical = 12.dp)
+                    ) {
+                        Icon(
+                            Icons.Default.Check,
+                            contentDescription = null,
+                            modifier = Modifier.size(18.dp)
+                        )
+                        Spacer(Modifier.width(8.dp))
+                        Text("Accept")
+                    }
+                }
+            }
+        }
+    }
+    else if (pendingUploadPermissionRequests.isNotEmpty()) {
+        Card(
+            modifier = Modifier.fillMaxWidth(),
+            colors = CardDefaults.cardColors(
+                containerColor = MaterialTheme.colorScheme.pendingContainer,
+                contentColor = MaterialTheme.colorScheme.onPendingContainer
+            ),
+            elevation = CardDefaults.cardElevation(
+                defaultElevation = 4.dp
+            ),
+            border = null
+        ) {
+            Column(
+                modifier = Modifier.padding(24.dp),
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                Icon(
+                    imageVector = Icons.Default.Upload,
+                    contentDescription = null,
+                    modifier = Modifier.size(48.dp),
+                    tint = MaterialTheme.colorScheme.onPendingContainer
+                )
+                Spacer(modifier = Modifier.height(16.dp))
+                Text(
+                    text = if (pendingRequests.size == 1) "Pending Request" else "Pending Requests (${pendingRequests.size})",
+                    style = MaterialTheme.typography.headlineSmall,
+                )
+                Spacer(modifier = Modifier.height(8.dp))
+                Text(
+                    text = requestingIp ?: "",
+                    style = MaterialTheme.typography.headlineMedium,
+                    fontWeight = FontWeight.Bold,
+                    textAlign = TextAlign.Center,
+                    modifier = Modifier.fillMaxWidth()
+                )
+                Spacer(modifier = Modifier.height(8.dp))
+                Text(
+                    text = "asks for permission to upload files.",
+                    style = MaterialTheme.typography.bodyMedium,
+                )
+
+                Spacer(modifier = Modifier.height(24.dp))
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.spacedBy(12.dp)
+                ) {
+                    Button(
+                        onClick = { uploadPermissionRequestingIp?.also { viewModel.onDenyUploadPermissionRequest(context, it) } },
+                        modifier = Modifier.weight(1f),
+                        contentPadding = PaddingValues(vertical = 12.dp),
+                        colors = ButtonDefaults.buttonColors(
+                            containerColor = MaterialTheme.colorScheme.errorContainer,
+                            contentColor = MaterialTheme.colorScheme.onErrorContainer
+                        ),
+                    ) {
+                        Icon(
+                            Icons.Default.Block,
+                            contentDescription = null,
+                            modifier = Modifier.size(18.dp)
+                        )
+                        Spacer(Modifier.width(8.dp))
+                        Text("Reject")
+                    }
+                    Button(
+                        onClick = { uploadPermissionRequestingIp?.also { viewModel.onGrantUploadPermissionRequest(context, it) } },
                         modifier = Modifier.weight(1f),
                         colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.tertiary),
                         contentPadding = PaddingValues(vertical = 12.dp)

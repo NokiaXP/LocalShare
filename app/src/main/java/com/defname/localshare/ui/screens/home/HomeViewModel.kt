@@ -84,6 +84,7 @@ class HomeViewModel(
         permissionRepository.hasNotificationPermission,
         serverUrlProvider.serverUrls,
         networkInfoProvider.localIpAddresses,
+        securityRepository.pendingUploadPermissionRequests
     ) { states ->
 
         val runtimeState = states[0] as RuntimeData
@@ -96,6 +97,7 @@ class HomeViewModel(
         val hasNotificationPermission = states[7] as Boolean
         val serverUrls = states[8] as ServerUrls
         val localIpAddresses = states[9] as List<NetworkInfo>
+        val pendingUploadPermissionRequests = states[10] as List<String>
 
 
         val selectedIpAddressIsValid = (localIpAddresses + allNetworksNetworkInfo).any { it.address == settings.serverIp }
@@ -128,7 +130,8 @@ class HomeViewModel(
             qrCodeDialogVisible = uiState.qrCodeDialogVisible,
             qrCodeUrl = uiState.qrCodeUrl,
             qrCodeBitmap = uiState.qrCodeBitmap,
-            pendingRequests = pendingRequests
+            pendingRequests = pendingRequests,
+            pendingUploadPermissionRequests = pendingUploadPermissionRequests
         )
     }.stateIn(
         scope = viewModelScope,
@@ -275,14 +278,15 @@ class HomeViewModel(
         }
     }
 
-    fun onAcceptRequest(context: android.content.Context, ip: String) {val intent = android.content.Intent(context, com.defname.localshare.service.LocalShareService::class.java).apply {
-        action = com.defname.localshare.service.LocalShareService.APPROVE_IP
-        putExtra("ip", ip)
-    }
+    fun onGrantRequest(context: android.content.Context, ip: String) {
+        val intent = android.content.Intent(context, com.defname.localshare.service.LocalShareService::class.java).apply {
+            action = com.defname.localshare.service.LocalShareService.APPROVE_IP
+            putExtra("ip", ip)
+        }
         context.startService(intent)
     }
 
-    fun onRejectRequest(context: android.content.Context, ip: String) {
+    fun onDenyRequest(context: android.content.Context, ip: String) {
         val intent = android.content.Intent(context, com.defname.localshare.service.LocalShareService::class.java).apply {
             action = com.defname.localshare.service.LocalShareService.DENY_IP
             putExtra("ip", ip)
@@ -298,4 +302,19 @@ class HomeViewModel(
         _uiState.update { it.copy(selectedServerUrl = url) }
     }
 
+    fun onGrantUploadPermissionRequest(context: android.content.Context, ip: String) {
+        val intent = android.content.Intent(context, com.defname.localshare.service.LocalShareService::class.java).apply {
+            action = com.defname.localshare.service.LocalShareService.APPROVE_UPLOAD_PERMISSION
+            putExtra("ip", ip)
+        }
+        context.startService(intent)
+    }
+
+    fun onDenyUploadPermissionRequest(context: android.content.Context, ip: String) {
+        val intent = android.content.Intent(context, com.defname.localshare.service.LocalShareService::class.java).apply {
+            action = com.defname.localshare.service.LocalShareService.DENY_UPLOAD_PERMISSION
+            putExtra("ip", ip)
+        }
+        context.startService(intent)
+    }
 }

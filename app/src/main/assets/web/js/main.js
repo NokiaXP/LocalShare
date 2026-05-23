@@ -21,7 +21,7 @@ document.addEventListener('alpine:init', () => {
         init() {
             sse.addEventListener('uploadPermission', (e) => {
                 if (e.data === 'granted' || e.data === 'denied') {
-                    uploadStatus = e.date
+                    this.uploadStatus = e.data
                 }
             });
         },

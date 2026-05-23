@@ -49,6 +49,8 @@ class LocalShareService : Service() {
         const val APPROVE_IP = "com.defname.localshare.APPROVE_IP"
         const val DENY_IP = "com.defname.localshare.DENY_IP"
         const val ACTION_GRANT_PERMISSION = "com.defname.localshare.GRANT_PERMISSION"
+        const val APPROVE_UPLOAD_PERMISSION = "com.defname.localshare.APPROVE_UPLOAD_PERMISSION"
+        const val DENY_UPLOAD_PERMISSION = "com.defname.localshare.DENY_UPLOAD_PERMISSION"
     }
 
     private val activeUriPermissions = mutableSetOf<Uri>()
@@ -84,6 +86,14 @@ class LocalShareService : Service() {
             }
             DENY_IP -> {
                 securityHandler.blockIp(ip)
+                cancelNotification(ip)
+            }
+            APPROVE_UPLOAD_PERMISSION -> {
+                securityHandler.grantUploadPermission(ip)
+                cancelNotification(ip)
+            }
+            DENY_UPLOAD_PERMISSION -> {
+                securityHandler.denyUploadPermission(ip)
                 cancelNotification(ip)
             }
         }
