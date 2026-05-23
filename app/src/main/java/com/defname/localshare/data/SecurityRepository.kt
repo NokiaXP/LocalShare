@@ -37,6 +37,9 @@ class SecurityRepository(
     private val _pendingRequests = MutableStateFlow(emptyList<String>())
     val pendingRequests = _pendingRequests.asStateFlow()
 
+    private val _pendingUploadPermissionRequests = MutableStateFlow(emptyList<String>())
+    val pendingUploadPermissionRequests = _pendingUploadPermissionRequests.asStateFlow()
+
     init {
         initializeToken()
         startCleaningJob()
@@ -95,6 +98,32 @@ class SecurityRepository(
 
     fun removePendingRequest(ip: String) {
         _pendingRequests.update { it - ip }
+    }
+
+    fun requestUploadPermission(ip: String) {
+        _pendingUploadPermissionRequests.update {
+            if (!it.contains(ip)) {
+                it + ip
+            } else {
+                it
+            }
+        }
+    }
+
+    fun grantUploadPermission(ip: String) {
+        _pendingUploadPermissionRequests.update { it - ip }
+        _whitelist.update {
+            val entry: WhiteListEntry = it.find { entry -> entry.ip == ip } ?: return@update it
+            it.filter { entry -> entry.ip != ip } + entry.copy(mayUpload = true)
+        }
+    }
+
+    fun denyUploadPermission(ip: String) {
+        _pendingUploadPermissionRequests.update { it - ip }
+        _whitelist.update {
+            val entry: WhiteListEntry = it.find { entry -> entry.ip == ip } ?: return@update it
+            it.filter { entry -> entry.ip != ip } + entry.copy(mayUpload = false)
+        }
     }
 
     companion object {

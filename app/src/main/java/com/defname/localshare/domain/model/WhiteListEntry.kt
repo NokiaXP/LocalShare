@@ -6,7 +6,8 @@ package com.defname.localshare.domain.model
 
 data class WhiteListEntry(
     val ip: String,
-    val timestamp: Long = System.currentTimeMillis()
+    val timestamp: Long = System.currentTimeMillis(),
+    val mayUpload: Boolean? = null
 )
 
 fun WhiteListEntry.isStillValid(ttlSeconds: Int = 60 * 60, now: Long = System.currentTimeMillis()): Boolean {

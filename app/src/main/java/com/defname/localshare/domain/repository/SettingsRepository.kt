@@ -22,4 +22,5 @@ interface SettingsRepository {
     suspend fun setHeartbeatPeriodSeconds(heartbeatPeriod: Int)
     suspend fun setShowWelcomeMessage(showWelcomeMessage: Boolean)
     suspend fun setRegenerateTokenAtAppStart(regenerateTokenAtAppStart: Boolean)
+    suspend fun setUploadFeatureActive(uploadFeatureActive: Boolean)
 }

@@ -17,4 +17,5 @@ data class Settings(
     val sseHeartbeatPeriodSeconds: Int = 1,
     val showWelcomeMessage: Boolean = true,
     val regenerateTokenAtAppStart: Boolean = true,
+    val uploadFeatureActive: Boolean = true
 )
