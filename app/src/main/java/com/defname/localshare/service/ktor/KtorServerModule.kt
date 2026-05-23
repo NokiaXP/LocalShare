@@ -94,7 +94,7 @@ fun Application.configureServerModule(
 
         getLanding(securityHandler, serviceRepository, settingsRepository, context)
 
-        upload(securityHandler)
+        upload(securityHandler, context)
 
         get("{...}") {
             call.respondText("No Access\n", status = HttpStatusCode.Forbidden)
