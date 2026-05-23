@@ -35,7 +35,7 @@
   }
 
   .ls-btn-toolbar {
-    @apply p-2 bg-gray-100 dark:bg-slate-800 rounded-lg hover:bg-gray-200 dark:hover:bg-slate-700 transition;
+    @apply p-2 bg-gray-100 dark:bg-slate-800 rounded-lg hover:bg-gray-200 dark:hover:bg-slate-700 transition cursor-pointer;
   }
 
   .ls-btn-view-switcher {
@@ -49,7 +49,7 @@
   }
 
   .ls-btn-primary {
-    @apply bg-blue-600 text-white px-4 py-2 rounded-xl text-sm font-semibold hover:bg-blue-700 transition shadow-lg shadow-blue-500/20;
+    @apply bg-blue-600 text-white px-4 py-2 rounded-xl text-sm font-semibold hover:bg-blue-700 transition shadow-lg shadow-blue-500/20 cursor-pointer;
   }
 
   .ls-btn-secondary {
@@ -120,7 +120,7 @@
     @apply p-6 bg-gray-50 dark:bg-slate-900/50 border-t border-gray-100 dark:border-slate-800 flex flex-wrap justify-center gap-4;
   }
   .ls-slideshow-btn-action {
-    @apply px-6 py-2 rounded-xl font-bold transition;
+    @apply px-6 py-2 rounded-xl font-bold transition cursor-pointer;
   }
   .ls-slideshow-btn-action.secondary {
     @apply bg-white dark:bg-slate-800 text-gray-700 dark:text-white border border-gray-200 dark:border-slate-700 hover:bg-gray-100 dark:hover:bg-slate-700;
@@ -140,7 +140,7 @@
     @apply bg-gray-50 dark:bg-slate-800/50 p-4 rounded-xl border border-gray-100 dark:border-slate-700;
   }
   .ls-sidebar-btn-copy {
-    @apply flex-shrink-0 p-2 bg-white dark:bg-slate-700 shadow-sm border border-gray-100 dark:border-slate-600 rounded-lg hover:bg-gray-100 dark:hover:bg-slate-600 transition;
+    @apply flex-shrink-0 p-2 bg-white dark:bg-slate-700 shadow-sm border border-gray-100 dark:border-slate-600 rounded-lg hover:bg-gray-100 dark:hover:bg-slate-600 transition cursor-pointer;
   }
   .ls-sidebar-backdrop {
     @apply absolute inset-0 bg-black/50 backdrop-blur-sm transition-opacity;

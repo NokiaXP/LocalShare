@@ -199,7 +199,6 @@
         <span>
             <template x-if="$store.app.uploadStatus === 'none'">
                 <a @click="$store.app.requestUploadPermission()"
-                    style="cursor: pointer;"
                     class="ls-btn-primary">Upload</a>
             </template>
             <template x-if="$store.app.uploadStatus === 'pending'">
