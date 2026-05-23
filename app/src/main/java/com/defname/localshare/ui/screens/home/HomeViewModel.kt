@@ -79,6 +79,7 @@ class HomeViewModel(
         settingsState,
         securityRepository.blacklist,
         securityRepository.whitelist,
+        securityRepository.pendingRequests,
         _uiState,
         permissionRepository.hasNotificationPermission,
         serverUrlProvider.serverUrls,
@@ -90,10 +91,11 @@ class HomeViewModel(
         val settings = states[2] as Settings
         val blacklist = states[3] as Set<String>
         val whitelist = states[4] as List<WhiteListEntry>
-        val uiState = states[5] as InternalUiState
-        val hasNotificationPermission = states[6] as Boolean
-        val serverUrls = states[7] as ServerUrls
-        val localIpAddresses = states[8] as List<NetworkInfo>
+        val pendingRequests = states[5] as List<String>
+        val uiState = states[6] as InternalUiState
+        val hasNotificationPermission = states[7] as Boolean
+        val serverUrls = states[8] as ServerUrls
+        val localIpAddresses = states[9] as List<NetworkInfo>
 
 
         val selectedIpAddressIsValid = (localIpAddresses + allNetworksNetworkInfo).any { it.address == settings.serverIp }
@@ -126,6 +128,7 @@ class HomeViewModel(
             qrCodeDialogVisible = uiState.qrCodeDialogVisible,
             qrCodeUrl = uiState.qrCodeUrl,
             qrCodeBitmap = uiState.qrCodeBitmap,
+            pendingRequests = pendingRequests
         )
     }.stateIn(
         scope = viewModelScope,
@@ -270,6 +273,21 @@ class HomeViewModel(
                 _uiState.update { it.copy(qrCodeBitmap = bitmap) }
             }
         }
+    }
+
+    fun onAcceptRequest(context: android.content.Context, ip: String) {val intent = android.content.Intent(context, com.defname.localshare.service.LocalShareService::class.java).apply {
+        action = com.defname.localshare.service.LocalShareService.APPROVE_IP
+        putExtra("ip", ip)
+    }
+        context.startService(intent)
+    }
+
+    fun onRejectRequest(context: android.content.Context, ip: String) {
+        val intent = android.content.Intent(context, com.defname.localshare.service.LocalShareService::class.java).apply {
+            action = com.defname.localshare.service.LocalShareService.DENY_IP
+            putExtra("ip", ip)
+        }
+        context.startService(intent)
     }
 
     fun onServerUrlSelectorExpandedChange() {

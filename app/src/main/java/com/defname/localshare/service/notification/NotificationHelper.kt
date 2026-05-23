@@ -70,6 +70,7 @@ class NotificationHelper(private val context: Context) {
             .setContentText(context.getString(R.string.server_notification_text, serverIp, port))
             .setSmallIcon(R.drawable.ic_launcher_foreground)
             .setOngoing(true)
+            .setDeleteIntent(stopPendingIntent)
             .setContentIntent(pendingIntent)
             .addAction(0, context.getString(R.string.service_notification_stop_server), stopPendingIntent)
             .build()

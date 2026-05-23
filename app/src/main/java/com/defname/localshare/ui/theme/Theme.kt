@@ -65,3 +65,12 @@ fun LocalShareTheme(
         content = content
     )
 }
+
+// Eigene Erweiterungen für spezielle Status-Farben
+val androidx.compose.material3.ColorScheme.pendingContainer: Color
+    @Composable
+    get() = if (androidx.compose.foundation.isSystemInDarkTheme()) AmberContainerDark else AmberContainerLight
+
+val androidx.compose.material3.ColorScheme.onPendingContainer: Color
+    @Composable
+    get() = if (androidx.compose.foundation.isSystemInDarkTheme()) OnAmberContainerDark else OnAmberContainerLight

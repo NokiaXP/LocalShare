@@ -1,1 +1,2 @@
 - UI improvements
+- Make sure the service is only running while the notification is visible

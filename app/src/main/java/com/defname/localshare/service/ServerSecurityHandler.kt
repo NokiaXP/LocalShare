@@ -8,9 +8,9 @@ import com.defname.localshare.data.SecurityRepository
 import com.defname.localshare.service.notification.NotificationHelper
 import io.ktor.server.request.ApplicationRequest
 import io.ktor.server.routing.RoutingCall
-import io.ktor.util.collections.ConcurrentSet
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.TimeoutCancellationException
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.withContext
 import kotlinx.coroutines.withTimeout
@@ -21,8 +21,6 @@ class ServerSecurityHandler(
     private val securityRepository: SecurityRepository,
     private val notificationHelper: NotificationHelper
 ) {
-    private val pendingVerificationRequests = ConcurrentSet<String>()
-
     /**
      * Checks if the request comes from the same device.
      * To prevent spoofing, we verify that if the remote address claims to be a loopback,
@@ -75,23 +73,28 @@ class ServerSecurityHandler(
         }
 
         var ipAddedByThisCall = false
-        if (pendingVerificationRequests.add(remoteHost)) {
+        if (securityRepository.addPendingRequest(remoteHost)) {
             notificationHelper.showApprovalNotification(remoteHost)
             ipAddedByThisCall = true
         }
 
         return try {
             withTimeout(30_000L) {
-                securityRepository.whitelist.first { list ->
-                    list.any { it.ip == remoteHost }
-                }
-                true
+                 combine(securityRepository.whitelist, securityRepository.blacklist) { wl, bl ->
+                    if (bl.contains(remoteHost)) {
+                        false
+                    } else if (wl.any { it.ip == remoteHost }) {
+                        true
+                    } else {
+                        null
+                    }
+                }.first { it != null } ?: false
             }
         } catch (e: TimeoutCancellationException) {
             false
         } finally {
             if (ipAddedByThisCall) {
-                pendingVerificationRequests.remove(remoteHost)
+                securityRepository.removePendingRequest(remoteHost)
             }
         }
     }

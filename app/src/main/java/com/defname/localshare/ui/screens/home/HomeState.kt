@@ -47,5 +47,7 @@ data class HomeState(
     val primaryServerUrl: String = "",
     val selectedServerUrl: String = "",
 
-    val serverUrlSelectorExpanded: Boolean = false
-    )
+    val serverUrlSelectorExpanded: Boolean = false,
+
+    val pendingRequests: List<String> = emptyList()
+)

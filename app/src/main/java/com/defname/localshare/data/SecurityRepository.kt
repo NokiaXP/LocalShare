@@ -34,6 +34,9 @@ class SecurityRepository(
     private val _whitelist = MutableStateFlow(listOf<WhiteListEntry>())
     val whitelist = _whitelist.asStateFlow()
 
+    private val _pendingRequests = MutableStateFlow(emptyList<String>())
+    val pendingRequests = _pendingRequests.asStateFlow()
+
     init {
         initializeToken()
         startCleaningJob()
@@ -76,7 +79,24 @@ class SecurityRepository(
     fun addToWhitelist(ip: String) { _whitelist.update { it + WhiteListEntry(ip, System.currentTimeMillis()) } }
     fun removeFromWhitelist(ip: String) { _whitelist.update { it.filter { entry -> entry.ip != ip } } }
     fun isWhitelisted(ip: String): Boolean { return _whitelist.value.any { it.ip == ip && it.isStillValid(settings.value.whitelistEntryTTLSeconds)  } }
-    
+
+    fun addPendingRequest(ip: String): Boolean {
+        var added = false
+        _pendingRequests.update {
+            if (!it.contains(ip)) {
+                added = true
+                it + ip
+            } else {
+                it
+            }
+        }
+        return added
+    }
+
+    fun removePendingRequest(ip: String) {
+        _pendingRequests.update { it - ip }
+    }
+
     companion object {
         fun generateRandomToken(): String {
             return UUID.randomUUID().toString().take(6)
