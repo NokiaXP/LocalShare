@@ -120,4 +120,17 @@ class ServerSecurityHandler(
     fun blockIp(ip: String) {
         securityRepository.addToBlacklist(ip)
     }
+
+    fun requestUploadPermission(ip: String) {
+        val whiteListEntry = securityRepository.whitelist.value.find { it.ip == ip }
+        if (whiteListEntry != null) {
+            return
+        }
+        securityRepository.requestUploadPermission(ip)
+    }
+
+    fun hasUploadPermission(ip: String): Boolean {
+        val whiteListEntry = securityRepository.whitelist.value.find { it.ip == ip }
+        return whiteListEntry?.mayUpload ?: false
+    }
 }

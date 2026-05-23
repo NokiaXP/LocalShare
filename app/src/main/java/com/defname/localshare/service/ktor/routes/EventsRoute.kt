@@ -8,6 +8,7 @@ import android.content.Context
 import android.util.Log
 import com.defname.localshare.data.CallAttributes
 import com.defname.localshare.data.ConnectionLogsRepository
+import com.defname.localshare.data.SecurityRepository
 import com.defname.localshare.data.ServiceRepository
 import com.defname.localshare.domain.model.DisconnectReason
 import com.defname.localshare.domain.model.FileInfo
@@ -29,6 +30,7 @@ import kotlinx.coroutines.cancel
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map
@@ -78,6 +80,7 @@ fun Route.getEvents(
     serviceRepository: ServiceRepository,
     settingsRepository: SettingsRepository,
     connectionLogsRepository: ConnectionLogsRepository,
+    securityRepository: SecurityRepository,
     context: Context
 ) {
     get ("/{token}/events") {
@@ -161,7 +164,23 @@ fun Route.getEvents(
                             }
                     }
 
-                    // ❤️ Heartbeat Loop (prüft regelmäßig und hält Verbindung offen)
+                    launch {
+                        securityRepository.whitelist
+                            .map { list ->
+                                val entry = list.find { it.ip == call.request.local.remoteHost }
+                                when (entry?.mayUpload) {
+                                    true -> "granted"
+                                    false -> "denied"
+                                    null -> if (entry != null) "pending" else "unknownss"
+                                }
+                            }
+                            .distinctUntilChanged()
+                            .collect { mayUpload ->
+                                writer.writeEvent("uploadPermission", mayUpload)
+                            }
+                    }
+
+                    // Heartbeat Loop (prüft regelmäßig und hält Verbindung offen)
                     launch {
                         while (true) {
                             delay(settingsRepository.settingsFlow.first().sseHeartbeatPeriodSeconds * 1000L)

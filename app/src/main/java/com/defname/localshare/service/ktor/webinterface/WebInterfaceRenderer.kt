@@ -13,7 +13,7 @@ class WebInterfaceRenderer(
     private val context: Context,
     private val templateFile: String = "web/template.html"
 ){
-    fun render(token: String, files: List<FileInfo> = emptyList()): String {
+    fun render(token: String, uploadFeatureActive: Boolean = false, files: List<FileInfo> = emptyList()): String {
 
         // 1. Template aus Assets laden
         val template = context.assets.open(templateFile).bufferedReader().use { it.readText() }
@@ -28,6 +28,7 @@ class WebInterfaceRenderer(
             .replace("{{appname}}", context.applicationInfo.loadLabel(context.packageManager).toString())
             .replace("{{appurl}}", context.getString(R.string.app_url))
             .replace("{{filelist}}", "[" + jsonFileList.joinToString(",\n") + "]")
+            .replace("{{upload_enabled}}", if (uploadFeatureActive) "true" else "false")
 
         return finalHtml
     }

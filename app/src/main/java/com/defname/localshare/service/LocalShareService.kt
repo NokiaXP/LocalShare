@@ -13,6 +13,7 @@ import android.widget.Toast
 import com.defname.localshare.R
 import com.defname.localshare.data.ConnectionLogsRepository
 import com.defname.localshare.data.FileInfoProvider
+import com.defname.localshare.data.SecurityRepository
 import com.defname.localshare.data.ServiceRepository
 import com.defname.localshare.domain.repository.SettingsRepository
 import com.defname.localshare.service.ktor.configureServerModule
@@ -37,6 +38,7 @@ class LocalShareService : Service() {
     private val securityHandler: ServerSecurityHandler by inject()
     private val idleManager: ServerIdleManager by inject()
     private val fileInfoProvider: FileInfoProvider by inject()
+    private val securityRepository: SecurityRepository by inject()
 
     private val serviceScope = CoroutineScope(SupervisorJob() + Dispatchers.Main)
     private var server: EmbeddedServer<*, *>? = null
@@ -126,6 +128,7 @@ class LocalShareService : Service() {
                                 connectionLogsRepository = logsRepository,
                                 settingsRepository = settingsRepository,
                                 securityHandler = securityHandler,
+                                securityRepository = securityRepository,
                                 fileInfoProvider = fileInfoProvider,
                                 context = this@LocalShareService.applicationContext
                             )

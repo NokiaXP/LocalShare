@@ -6,6 +6,7 @@ package com.defname.localshare.service.ktor.routes
 
 import android.content.Context
 import com.defname.localshare.data.ServiceRepository
+import com.defname.localshare.domain.repository.SettingsRepository
 import com.defname.localshare.service.ServerSecurityHandler
 import com.defname.localshare.service.ktor.responses.sendFileListing
 import com.defname.localshare.service.ktor.responses.sendZip
@@ -18,6 +19,7 @@ import kotlinx.coroutines.flow.first
 fun Route.getLanding(
     securityHandler: ServerSecurityHandler,
     serviceRepository: ServiceRepository,
+    settingsRepository: SettingsRepository,
     context: Context
 ) {
     get("/{token}/") {
@@ -44,6 +46,7 @@ fun Route.getLanding(
             return@get call.sendFileListing(
                 files = fileList,
                 token = token,
+                uploadFeatureActive = settingsRepository.settingsFlow.first().uploadFeatureActive,
                 context = context
             )
         }

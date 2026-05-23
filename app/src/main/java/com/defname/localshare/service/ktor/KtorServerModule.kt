@@ -8,6 +8,7 @@ import android.content.Context
 import com.defname.localshare.data.CallAttributes
 import com.defname.localshare.data.ConnectionLogsRepository
 import com.defname.localshare.data.FileInfoProvider
+import com.defname.localshare.data.SecurityRepository
 import com.defname.localshare.data.ServiceRepository
 import com.defname.localshare.domain.model.DisconnectReason
 import com.defname.localshare.domain.repository.SettingsRepository
@@ -19,6 +20,7 @@ import com.defname.localshare.service.ktor.routes.getFile
 import com.defname.localshare.service.ktor.routes.getFileIcon
 import com.defname.localshare.service.ktor.routes.getLanding
 import com.defname.localshare.service.ktor.routes.getThumbnail
+import com.defname.localshare.service.ktor.routes.upload
 import io.ktor.http.HttpHeaders
 import io.ktor.http.HttpStatusCode
 import io.ktor.server.application.Application
@@ -40,6 +42,7 @@ fun Application.configureServerModule(
     connectionLogsRepository: ConnectionLogsRepository,
     settingsRepository: SettingsRepository,
     securityHandler: ServerSecurityHandler,
+    securityRepository: SecurityRepository,
     fileInfoProvider: FileInfoProvider,
     context: Context
 ) {
@@ -85,11 +88,13 @@ fun Application.configureServerModule(
 
         getAssets(securityHandler, context)
 
-        getEvents(securityHandler, serviceRepository, settingsRepository, connectionLogsRepository, context)
+        getEvents(securityHandler, serviceRepository, settingsRepository, connectionLogsRepository, securityRepository, context)
 
         getFile(securityHandler, serviceRepository, context)
 
-        getLanding(securityHandler, serviceRepository, context)
+        getLanding(securityHandler, serviceRepository, settingsRepository, context)
+
+        upload(securityHandler)
 
         get("{...}") {
             call.respondText("No Access\n", status = HttpStatusCode.Forbidden)

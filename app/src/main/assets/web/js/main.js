@@ -9,91 +9,118 @@ function humanFileSize(size) {
 }
 
 document.addEventListener('alpine:init', () => {
-    Alpine.data('fileManager', (initialFiles, token) => ({
+    // Central SSE instance (used by everyone)
+    const sse = new EventSource('/' + window.token + '/events');
+
+    // --- GLOBAL APP STORE (Status & Permissions) ---
+    Alpine.store('app', {
+        uploadStatus: 'none', // none, pending, granted, denied
+        showUploadModal: false,
+        uploadEnabled: window.uploadEnabled,
+
+        init() {
+            sse.addEventListener('uploadPermission', (e) => {
+                if (e.data === 'granted' || e.data === 'denied') {
+                    uploadStatus = e.date
+                }
+            });
+        },
+
+        requestUploadPermission() {
+            fetch(`/${window.token}/upload/request`, { method: 'POST' })
+                .then(() => {
+                    this.uploadStatus = 'pending';
+                })
+                .catch(err => console.error("Request failed", err));
+        }
+    });
+
+    // --- SIDEBAR STORE (Shared Content & Notifications) ---
+    Alpine.store('sidebar', {
+        items: [],
+        isOpen: false,
+        hasNew: false,
+
+        init() {
+            sse.addEventListener('addSharedContent', (event) => {
+                this.items.push(JSON.parse(event.data));
+                if (!this.isOpen) this.hasNew = true;
+            });
+
+            sse.addEventListener('removeSharedContent', (event) => {
+                const id = event.data;
+                this.items = this.items.filter(item => item.id != id);
+            });
+        },
+
+        toggle() {
+            this.isOpen = !this.isOpen;
+            if (this.isOpen) this.hasNew = false;
+        },
+
+        copy(text) {
+            navigator.clipboard.writeText(text);
+        }
+    });
+
+    // --- FILE MANAGER (File list & View only) ---
+    Alpine.data('fileManager', (initialFiles) => ({
         view: 'grid',
         slideshow: false,
         files: initialFiles,
-        sharedContent: [],
-        sidebarOpen: false,
-        hasNewSharedContent: false,
         sortKey: 'filename',
         sortAsc: true,
         copiedId: null,
         currentIndex: 0,
 
-        get currentFile() {
-            return this.sortedFiles[this.currentIndex];
+        init() {
+            sse.addEventListener('add', (event) => {
+                const newFile = JSON.parse(event.data);
+                if (!this.files.find(f => f.fileId === newFile.fileId)) {
+                    this.files.push(newFile);
+                }
+            });
+
+            sse.addEventListener('remove', (event) => {
+                const id = event.data;
+                this.files = this.files.filter(f => f.fileId !== id);
+                if (this.currentIndex >= this.files.length) {
+                    this.currentIndex = Math.max(0, this.files.length - 1);
+                }
+            });
+
+            sse.addEventListener('init', () => {
+                this.files = [];
+            });
         },
 
-        get isGrid() {
-            return !this.slideshow && this.view === 'grid';
-        },
+        get currentFile() { return this.sortedFiles[this.currentIndex]; },
+        get isGrid() { return !this.slideshow && this.view === 'grid'; },
+        get isList() { return !this.slideshow && this.view === 'list'; },
+        get isSlideshow() { return this.slideshow; },
 
-        get isList() {
-            return !this.slideshow && this.view === 'list';
-        },
-
-        get isSlideshow() {
-            return this.slideshow;
-        },
-
-        toggleSlideshow() {
-            this.slideshow = !this.slideshow;
-        },
-
-        showList() {
-            this.slideshow = false;
-            this.view = 'list';
-        },
-
-        showGrid() {
-            this.slideshow = false;
-            this.view = 'grid';
-        },
-
-        toggleSidebar() {
-            this.sidebarOpen = !this.sidebarOpen;
-            if (this.sidebarOpen) {
-                this.hasNewSharedContent = false;
-            }
-        },
-
-        nextSlide() {
-            this.currentIndex = (this.currentIndex + 1) % this.sortedFiles.length;
-        },
-
-        prevSlide() {
-            this.currentIndex = (this.currentIndex - 1 + this.sortedFiles.length) % this.sortedFiles.length;
-        },
+        toggleSlideshow() { this.slideshow = !this.slideshow; },
+        showList() { this.slideshow = false; this.view = 'list'; },
+        showGrid() { this.slideshow = false; this.view = 'grid'; },
+        nextSlide() { this.currentIndex = (this.currentIndex + 1) % this.sortedFiles.length; },
+        prevSlide() { this.currentIndex = (this.currentIndex - 1 + this.sortedFiles.length) % this.sortedFiles.length; },
 
         loadPreview(el, file) {
             if (!file) return;
-            // console.log("Checking preview for:", file.filename, "hasThumbnail:", file.hasThumbnail);
-
-            // Reset to icon state if it's the slideshow (since the element is reused)
             if (el.dataset.isSlideshow) {
-                el.src = `/${token}/icon/${file.icon}`;
+                el.src = `/${window.token}/icon/${file.icon}`;
                 el.classList.remove('max-w-full', 'max-h-[60vh]', 'shadow-2xl', 'rounded-lg');
                 el.classList.add('object-contain', 'w-48', 'h-48', 'md:w-64', 'md:h-64');
             }
-
-            // Fallback for older JSON or missing property
-            const canHaveThumbnail = file.hasThumbnail ||
-                                   (file.mimeType && (file.mimeType.startsWith('image/') || file.mimeType.startsWith('video/')));
-
+            const canHaveThumbnail = file.hasThumbnail || (file.mimeType?.startsWith('image/') || file.mimeType?.startsWith('video/'));
             if (!canHaveThumbnail) return;
 
-            const thumbUrl = `/${token}/thumbnail/${file.fileId}`;
+            const thumbUrl = `/${window.token}/thumbnail/${file.fileId}`;
             const img = new Image();
             img.onload = () => {
-                // IMPORTANT: Check if the file for this element is still the same
-                // (prevents async race conditions when scrolling/navigating)
                 if (file.fileId !== (el.dataset.isSlideshow ? this.currentFile?.fileId : file.fileId)) return;
-
                 el.src = thumbUrl;
-                // Remove icon-specific classes and add thumbnail-specific classes
                 el.classList.remove('p-2', 'w-20', 'h-20', 'w-8', 'h-8', 'w-48', 'h-48', 'md:w-64', 'md:h-64');
-
                 if (el.dataset.isSlideshow) {
                      el.classList.add('max-w-full', 'max-h-[60vh]', 'object-contain', 'shadow-2xl', 'rounded-lg');
                 } else {
@@ -105,12 +132,8 @@ document.addEventListener('alpine:init', () => {
 
         get sortedFiles() {
             return [...this.files].sort((a, b) => {
-                let valA = a[this.sortKey];
-                let valB = b[this.sortKey];
-                if (typeof valA === 'string') {
-                    valA = valA.toLowerCase();
-                    valB = valB.toLowerCase();
-                }
+                let valA = a[this.sortKey]; let valB = b[this.sortKey];
+                if (typeof valA === 'string') { valA = valA.toLowerCase(); valB = valB.toLowerCase(); }
                 if (valA < valB) return this.sortAsc ? -1 : 1;
                 if (valA > valB) return this.sortAsc ? 1 : -1;
                 return 0;
@@ -118,99 +141,66 @@ document.addEventListener('alpine:init', () => {
         },
 
         copyLink(fileId) {
-            const link = window.location.origin + '/' + token + '/file/' + fileId;
-
-            const handleSuccess = () => {
+            const link = window.location.origin + '/' + window.token + '/file/' + fileId;
+            navigator.clipboard.writeText(link).then(() => {
                 this.copiedId = fileId;
                 setTimeout(() => { if(this.copiedId === fileId) this.copiedId = null; }, 2000);
-            };
-
-            if (navigator.clipboard && navigator.clipboard.writeText) {
-                navigator.clipboard.writeText(link).then(handleSuccess);
-            } else {
-                const textArea = document.createElement('textarea');
-                textArea.value = link;
-                textArea.style.position = 'fixed';
-                textArea.style.left = '-999999px';
-                textArea.style.top = '-999999px';
-                document.body.appendChild(textArea);
-                textArea.focus();
-                textArea.select();
-                try {
-                    document.execCommand('copy');
-                    handleSuccess();
-                } catch (err) {
-                    console.error('Fallback copy failed', err);
-                }
-                document.body.removeChild(textArea);
-            }
-        },
-
-        copyToClipboard(text) {
-            if (navigator.clipboard && navigator.clipboard.writeText) {
-                navigator.clipboard.writeText(text);
-            } else {
-                const textArea = document.createElement('textarea');
-                textArea.value = text;
-                textArea.style.position = 'fixed';
-                textArea.style.left = '-999999px';
-                textArea.style.top = '-999999px';
-                document.body.appendChild(textArea);
-                textArea.focus();
-                textArea.select();
-                try {
-                    document.execCommand('copy');
-                } catch (err) {
-                    console.error('Fallback copy failed', err);
-                }
-                document.body.removeChild(textArea);
-            }
-        },
-
-        initSSE() {
-            const eventSource = new EventSource('/' + token + '/events');
-
-            eventSource.addEventListener('add', (event) => {
-                const newFile = JSON.parse(event.data);
-                if (!this.files.find(f => f.fileId === newFile.fileId)) {
-                    this.files.push(newFile);
-                }
             });
-
-            eventSource.addEventListener('remove', (event) => {
-                const fileIdToRemove = event.data;
-                this.files = this.files.filter(f => f.fileId !== fileIdToRemove);
-                if (this.currentIndex >= this.files.length) {
-                    this.currentIndex = this.files.length > 0 ? this.files.length - 1 : 0;
-                }
-                if (this.files.length === 0) {
-                    this.currentIndex = 0;
-                    this.slideshow = false;
-                }
-            });
-
-            eventSource.addEventListener('addSharedContent', (event) => {
-                const newContent = JSON.parse(event.data);
-                this.sharedContent.push(newContent);
-                console.log(this.sharedContent)
-                if (!this.sidebarOpen) {
-                    this.hasNewSharedContent = true;
-                }
-            });
-
-            eventSource.addEventListener('removeSharedContent', (event) => {
-                const contentIdToRemove = event.data;
-                this.sharedContent = this.sharedContent.filter(f => f.id !== contentIdToRemove);
-            });
-
-            eventSource.addEventListener('init', (event) => {
-                this.files = [];
-                console.log("Filelist cleared");
-            })
-
-            eventSource.onerror = (err) => {
-                console.error('SSE failed, reconnecting...', err);
-            };
         }
+    }));
+
+    // --- DROPZONE (Upload Logic) ---
+    Alpine.data("dropzone", () => ({
+        files: [],
+        dragActive: false,
+        isUploading: false,
+        updateFileInput() {
+            const dt = new DataTransfer();
+            this.files.forEach(f => dt.items.add(f));
+            this.$refs.fileInput.files = dt.files;
+        },
+        dropFile(e) {
+            this.dragActive = false;
+            this.files = [...this.files, ...e.dataTransfer.files];
+            this.updateFileInput();
+        },
+        handleFiles(list) {
+            this.files = Array.from(list);
+            this.updateFileInput();
+        },
+        removeFile(i) {
+            this.files.splice(i, 1);
+            this.updateFileInput();
+        },
+        async submit() {
+            if (this.files.length === 0) return;
+            this.isUploading = true;
+
+            const formData = new FormData();
+            this.files.forEach(file => formData.append('files', file));
+
+            try {
+                const response = await fetch(`/${window.token}/upload`, {
+                    method: 'POST',
+                    body: formData
+                });
+
+                if (response.ok) {
+                    this.files = [];
+                    this.updateFileInput();
+                    Alpine.store('app').showUploadModal = false;
+                } else {
+                    const text = await response.text();
+                    alert('Upload failed: ' + text);
+                }
+            } catch (err) {
+                console.error('Upload error:', err);
+                alert('Upload failed. See console for details.');
+            } finally {
+                this.isUploading = false;
+            }
+        },
+        dragOver() { this.dragActive = true; },
+        dragLeave() { this.dragActive = false; }
     }));
 });

@@ -17,11 +17,12 @@ import io.ktor.server.response.respondText
 suspend fun ApplicationCall.sendFileListing(
     files: List<FileInfo>,
     token: String,
+    uploadFeatureActive: Boolean,
     context: Context
 ) {
     try {
         val renderer = WebInterfaceRenderer(context)
-        val finalHtml = renderer.render(token, files)
+        val finalHtml = renderer.render(token, uploadFeatureActive, files)
         respondText(finalHtml, ContentType.Text.Html)
 
     } catch (e: Exception) {
