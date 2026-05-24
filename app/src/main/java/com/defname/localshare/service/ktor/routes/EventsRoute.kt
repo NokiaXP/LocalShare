@@ -88,9 +88,7 @@ fun Route.getEvents(
                                 jsonElement["correlationId"]?.let { put("correlationId", it) }
 
                                 eventObject.forEach { (key, value) ->
-                                    if (key != "type") {
-                                        put(key, value)
-                                    }
+                                    put(key, value)
                                 }
                             }
 

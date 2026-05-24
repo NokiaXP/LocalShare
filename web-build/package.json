@@ -1,7 +1,11 @@
 {
   "scripts": {
-    "build": "tailwindcss -i ../app/src/main/assets/web/css/main.css -o ../app/build/generated/assets/main/web/css/tailwind.css --minify",
-    "watch": "tailwindcss -i ../app/src/main/assets/web/css/main.css -o ../app/build/generated/assets/main/web/css/tailwind.css --watch"
+    "build:css": "tailwindcss -i ../app/src/main/assets/web/css/main.css -o ../app/build/generated/assets/main/web/css/tailwind.css --minify",
+    "build:js": "esbuild src/main.ts --bundle --minify --outfile=../app/build/generated/assets/main/web/js/main.js",
+    "build": "npm run build:css && npm run build:js",
+    "watch:css": "tailwindcss -i ../app/src/main/assets/web/css/main.css -o ../app/build/generated/assets/main/web/css/tailwind.css --watch",
+    "watch:js": "esbuild src/main.ts --bundle --outfile=../app/build/generated/assets/main/web/js/main.js --watch",
+    "watch": "npm run watch:css & npm run watch:js"
   },
   "name": "web-build",
   "version": "1.0.0",
@@ -12,9 +16,13 @@
   "license": "ISC",
   "type": "commonjs",
   "devDependencies": {
+    "@types/alpinejs": "^3.13.10",
+    "alpinejs": "^3.14.8",
     "autoprefixer": "^10.5.0",
+    "esbuild": "^0.25.0",
     "postcss": "^8.5.10",
     "postcss-import": "^16.1.1",
-    "tailwindcss": "^3.4.19"
+    "tailwindcss": "^3.4.19",
+    "typescript": "^5.7.3"
   }
 }

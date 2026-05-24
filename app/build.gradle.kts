@@ -144,20 +144,22 @@ val generateIconMapping = tasks.register<Exec>("generateIconMapping") {
 
 val webBuild = tasks.register<com.github.gradle.node.npm.task.NpmTask>("web-build") {
     group = "web-build"
-    description = "Generate tailwind css classes."
+    description = "Generate tailwind css and bundle typescript."
 
     args.set(listOf("run", "build"))
 
-    val assetsDir = layout.buildDirectory.dir("generated/assets/main/web/css")
-    outputs.dir(assetsDir)
+    val cssDir = layout.buildDirectory.dir("generated/assets/main/web/css")
+    val jsDir = layout.buildDirectory.dir("generated/assets/main/web/js")
+    outputs.dir(cssDir)
+    outputs.dir(jsDir)
     outputs.upToDateWhen { false }
 
     dependsOn("npmInstall")
 
     doFirst {
-        val dir = assetsDir.get().asFile
-        println("Generating tailwindcss to: $dir")
-        dir.mkdirs()
+        cssDir.get().asFile.mkdirs()
+        jsDir.get().asFile.mkdirs()
+        println("Generating assets to: ${cssDir.get().asFile} and ${jsDir.get().asFile}")
     }
 }
 

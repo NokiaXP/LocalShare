@@ -8,36 +8,17 @@ import com.defname.localshare.domain.model.UploadPermissionStatus
 import com.defname.localshare.domain.model.WebAction
 import com.defname.localshare.domain.model.WebEvent
 import com.defname.localshare.domain.repository.SettingsRepository
+import com.defname.localshare.util.FlowDelta
+import com.defname.localshare.util.asDeltaEvents
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.merge
 import kotlinx.coroutines.flow.onStart
 import java.util.concurrent.ConcurrentHashMap
 
-
-sealed class FlowDelta<T>(val obj: T) {
-    class Added<T>(obj: T) : FlowDelta<T>(obj)
-    class Removed<T>(obj: T) : FlowDelta<T>(obj)
-}
-
-fun <T, K>Flow<List<T>>.asDeltaEvents(key: (T) -> K): Flow<FlowDelta<T>> = flow {
-    var oldList = emptyList<T>()
-    this@asDeltaEvents.collect { newList ->
-        // 1. Was ist neu? (In newList, aber nicht in oldList)
-        val added = newList.filter { newItem -> oldList.none { key(it) == key(newItem) } }
-        added.forEach { emit(FlowDelta.Added(it)) }
-
-        // 2. Was wurde gelöscht? (In oldList, aber nicht in newList)
-        val removed = oldList.filter { oldItem -> newList.none { key(it) == key(oldItem) } }
-        removed.forEach { emit(FlowDelta.Removed(it)) }
-
-        oldList = newList
-    }
-}
 
 @JvmName("asFileInfoDeltaEvents")
 fun Flow<List<FileInfo>>.asDeltaEvents() = asDeltaEvents { it.id }

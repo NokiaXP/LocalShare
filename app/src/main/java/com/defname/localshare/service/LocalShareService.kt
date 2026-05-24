@@ -19,6 +19,8 @@ import com.defname.localshare.data.ServiceRepository
 import com.defname.localshare.domain.repository.SettingsRepository
 import com.defname.localshare.service.ktor.configureServerModule
 import com.defname.localshare.service.notification.NotificationHelper
+import com.defname.localshare.util.FlowDelta
+import com.defname.localshare.util.asDeltaEvents
 import io.ktor.server.engine.EmbeddedServer
 import io.ktor.server.engine.embeddedServer
 import io.ktor.server.netty.Netty
@@ -65,6 +67,8 @@ class LocalShareService : Service() {
         idleManager.startMonitoring {
             stopSelf(getString(R.string.service_stopped_timeout))
         }
+
+        observePermissionRequests()
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
@@ -103,6 +107,32 @@ class LocalShareService : Service() {
             }
         }
         return START_NOT_STICKY
+    }
+
+    private fun observePermissionRequests() {
+        // Observe Connection Requests
+        serviceScope.launch {
+            securityRepository.pendingRequests
+                .asDeltaEvents { it }
+                .collect { delta ->
+                    when (delta) {
+                        is FlowDelta.Added -> notificationHelper.showApprovalNotification(delta.obj)
+                        is FlowDelta.Removed -> cancelNotification(delta.obj)
+                    }
+                }
+        }
+
+        // Observe Upload Permission Requests
+        serviceScope.launch {
+            securityRepository.pendingUploadPermissionRequests
+                .asDeltaEvents { it }
+                .collect { delta ->
+                    when (delta) {
+                        is FlowDelta.Added -> notificationHelper.showUploadPermissionNotification(delta.obj)
+                        is FlowDelta.Removed -> cancelNotification(delta.obj)
+                    }
+                }
+        }
     }
 
     private fun cancelNotification(ip: String) {

@@ -19,8 +19,7 @@
         window.token = '{{token}}';
         window.uploadEnabled = {{upload_enabled}};
     </script>
-    <script defer src="/{{token}}/static/js/alpine.min.js"></script>
-    <script src="/{{token}}/static/js/main.js"></script>
+    <script defer src="/{{token}}/static/js/main.js"></script>
 </head>
 <body x-data="fileManager(window.initialFiles)"
       @keydown.window.left="isSlideshow && prevSlide()"

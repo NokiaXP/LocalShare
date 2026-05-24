@@ -75,7 +75,6 @@ class ServerSecurityHandler(
 
         var ipAddedByThisCall = false
         if (securityRepository.addPendingRequest(remoteHost)) {
-            notificationHelper.showApprovalNotification(remoteHost)
             ipAddedByThisCall = true
         }
 
