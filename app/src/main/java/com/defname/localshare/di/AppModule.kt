@@ -12,6 +12,7 @@ import com.defname.localshare.data.FileInfoProvider
 import com.defname.localshare.data.NetworkInfoProvider
 import com.defname.localshare.data.PermissionRepository
 import com.defname.localshare.data.QrCodeProvider
+import com.defname.localshare.data.RemoteCommunicationRepository
 import com.defname.localshare.data.SecurityRepository
 import com.defname.localshare.data.ServerUrlProvider
 import com.defname.localshare.data.ServiceRepository
@@ -31,13 +32,21 @@ import com.defname.localshare.ui.screens.sharedcontent.SharedContentViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
+import kotlinx.serialization.json.Json
 import org.koin.android.ext.koin.androidContext
+import org.koin.core.module.dsl.singleOf
 import org.koin.core.module.dsl.viewModel
 import org.koin.dsl.module
 
 val Context.dataStore by preferencesDataStore(name = "settings")
 
 val appModule = module {
+    single {
+        Json {
+            ignoreUnknownKeys = true
+            encodeDefaults = false
+        }
+    }
     single { ConnectionLogsRepository() }
 
     single { CoroutineScope(SupervisorJob() + Dispatchers.Default) }
@@ -52,6 +61,8 @@ val appModule = module {
     single { PermissionRepository(androidContext()) }
     single { ServiceRepository(get()) }
     single<SettingsRepository> { DataStoreSettingsRepository(get()) }
+
+    singleOf(::RemoteCommunicationRepository)
 
     single { NotificationHelper(androidContext()) }
 

@@ -14,20 +14,28 @@ document.addEventListener('alpine:init', () => {
 
     // --- GLOBAL APP STORE (Status & Permissions) ---
     Alpine.store('app', {
-        uploadStatus: 'none', // none, pending, granted, denied
+        uploadPermissionStatus: 'not_requested',
         showUploadModal: false,
         uploadEnabled: window.uploadEnabled,
 
         init() {
-            sse.addEventListener('uploadPermission', (e) => {
-                if (e.data === 'granted' || e.data === 'denied') {
-                    this.uploadStatus = e.data
-                }
+            sse.addEventListener('upload_permission_change', (e) => {
+                this.uploadPermissionStatus = JSON.parse(e.data).status
             });
         },
 
         requestUploadPermission() {
-            fetch(`/${window.token}/upload/request`, { method: 'POST' })
+            fetch(`/${window.token}/api/action`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    action: {
+                        type: 'request_upload_permission'
+                    }
+                })
+            })
                 .then(() => {
                     this.uploadStatus = 'pending';
                 })
@@ -42,12 +50,12 @@ document.addEventListener('alpine:init', () => {
         hasNew: false,
 
         init() {
-            sse.addEventListener('addSharedContent', (event) => {
+            sse.addEventListener('add_text', (event) => {
                 this.items.push(JSON.parse(event.data));
                 if (!this.isOpen) this.hasNew = true;
             });
 
-            sse.addEventListener('removeSharedContent', (event) => {
+            sse.addEventListener('remove_text', (event) => {
                 const id = event.data;
                 this.items = this.items.filter(item => item.id != id);
             });
@@ -74,14 +82,14 @@ document.addEventListener('alpine:init', () => {
         currentIndex: 0,
 
         init() {
-            sse.addEventListener('add', (event) => {
+            sse.addEventListener('add_file', (event) => {
                 const newFile = JSON.parse(event.data);
                 if (!this.files.find(f => f.fileId === newFile.fileId)) {
                     this.files.push(newFile);
                 }
             });
 
-            sse.addEventListener('remove', (event) => {
+            sse.addEventListener('remove_file', (event) => {
                 const id = event.data;
                 this.files = this.files.filter(f => f.fileId !== id);
                 if (this.currentIndex >= this.files.length) {

@@ -5,6 +5,7 @@
 package com.defname.localshare.service
 
 import com.defname.localshare.data.SecurityRepository
+import com.defname.localshare.domain.model.UploadPermissionStatus
 import com.defname.localshare.service.notification.NotificationHelper
 import io.ktor.server.request.ApplicationRequest
 import io.ktor.server.routing.RoutingCall
@@ -139,7 +140,7 @@ class ServerSecurityHandler(
     }
 
     fun hasUploadPermission(ip: String): Boolean {
-        val whiteListEntry = securityRepository.whitelist.value.find { it.ip == ip }
-        return whiteListEntry?.mayUpload ?: false
+        val whiteListEntry = securityRepository.whitelist.value.find { it.ip == ip } ?: return false
+        return whiteListEntry.uploadPermission == UploadPermissionStatus.GRANTED
     }
 }

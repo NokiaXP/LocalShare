@@ -5,6 +5,7 @@
 package com.defname.localshare.data
 
 import com.defname.localshare.domain.model.Settings
+import com.defname.localshare.domain.model.UploadPermissionStatus
 import com.defname.localshare.domain.model.WhiteListEntry
 import com.defname.localshare.domain.model.isStillValid
 import com.defname.localshare.domain.repository.SettingsRepository
@@ -114,7 +115,7 @@ class SecurityRepository(
         _pendingUploadPermissionRequests.update { it - ip }
         _whitelist.update {
             val entry: WhiteListEntry = it.find { entry -> entry.ip == ip } ?: return@update it
-            it.filter { entry -> entry.ip != ip } + entry.copy(mayUpload = true)
+            it.filter { entry -> entry.ip != ip } + entry.copy(uploadPermission = UploadPermissionStatus.GRANTED)
         }
     }
 
@@ -122,7 +123,7 @@ class SecurityRepository(
         _pendingUploadPermissionRequests.update { it - ip }
         _whitelist.update {
             val entry: WhiteListEntry = it.find { entry -> entry.ip == ip } ?: return@update it
-            it.filter { entry -> entry.ip != ip } + entry.copy(mayUpload = false)
+            it.filter { entry -> entry.ip != ip } + entry.copy(uploadPermission = UploadPermissionStatus.DENIED)
         }
     }
 

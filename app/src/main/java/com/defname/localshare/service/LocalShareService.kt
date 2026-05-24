@@ -13,6 +13,7 @@ import android.widget.Toast
 import com.defname.localshare.R
 import com.defname.localshare.data.ConnectionLogsRepository
 import com.defname.localshare.data.FileInfoProvider
+import com.defname.localshare.data.RemoteCommunicationRepository
 import com.defname.localshare.data.SecurityRepository
 import com.defname.localshare.data.ServiceRepository
 import com.defname.localshare.domain.repository.SettingsRepository
@@ -28,6 +29,7 @@ import kotlinx.coroutines.cancel
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import kotlinx.serialization.json.Json
 import org.koin.android.ext.android.inject
 
 class LocalShareService : Service() {
@@ -39,6 +41,9 @@ class LocalShareService : Service() {
     private val idleManager: ServerIdleManager by inject()
     private val fileInfoProvider: FileInfoProvider by inject()
     private val securityRepository: SecurityRepository by inject()
+    private val remoteCommunicationRepository: RemoteCommunicationRepository by inject()
+    private val json: Json by inject()
+
 
     private val serviceScope = CoroutineScope(SupervisorJob() + Dispatchers.Main)
     private var server: EmbeddedServer<*, *>? = null
@@ -135,11 +140,13 @@ class LocalShareService : Service() {
                         ) {
                             configureServerModule(
                                 serviceRepository = serviceRepository,
+                                remoteCommunicationRepository =  remoteCommunicationRepository,
                                 connectionLogsRepository = logsRepository,
                                 settingsRepository = settingsRepository,
                                 securityHandler = securityHandler,
                                 securityRepository = securityRepository,
                                 fileInfoProvider = fileInfoProvider,
+                                json = Json,
                                 context = this@LocalShareService.applicationContext
                             )
                         }
