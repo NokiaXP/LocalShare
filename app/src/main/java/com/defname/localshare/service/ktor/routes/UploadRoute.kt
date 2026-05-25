@@ -14,20 +14,11 @@ import io.ktor.server.response.respondText
 import io.ktor.server.routing.Route
 import io.ktor.server.routing.post
 import io.ktor.utils.io.jvm.javaio.copyTo
-import java.io.OutputStream
 
 fun Route.upload(
     securityHandler: ServerSecurityHandler,
     context: Context
 ) {
-    post("/{token}/upload/request") {
-        if (!securityHandler.verifyAccess(call)) {
-            return@post call.respondText("No Access.", status = HttpStatusCode.Forbidden)
-        }
-        securityHandler.requestUploadPermission(call.request.local.remoteHost)
-        return@post call.respondText("Permission requested.", status = HttpStatusCode.OK)
-    }
-
     post("/{token}/upload") {
         val remoteHost = call.request.local.remoteHost
         if (!securityHandler.verifyAccess(call) || !securityHandler.hasUploadPermission(remoteHost)) {

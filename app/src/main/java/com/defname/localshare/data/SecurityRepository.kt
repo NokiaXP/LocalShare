@@ -109,6 +109,10 @@ class SecurityRepository(
                 it
             }
         }
+        _whitelist.update {
+            val entry: WhiteListEntry = it.find { entry -> entry.ip == ip } ?: return@update it
+            it.filter { entry -> entry.ip != ip } + entry.copy(uploadPermission = UploadPermissionStatus.PENDING)
+        }
     }
 
     fun grantUploadPermission(ip: String) {

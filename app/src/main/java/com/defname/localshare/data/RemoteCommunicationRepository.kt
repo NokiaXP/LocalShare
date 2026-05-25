@@ -4,12 +4,15 @@ import com.defname.localshare.domain.model.ActionEnvelop
 import com.defname.localshare.domain.model.EventEnvelop
 import com.defname.localshare.domain.model.FileInfo
 import com.defname.localshare.domain.model.SharedContent
+import com.defname.localshare.domain.model.UploadFile
+import com.defname.localshare.domain.model.UploadFileState
 import com.defname.localshare.domain.model.UploadPermissionStatus
 import com.defname.localshare.domain.model.WebAction
 import com.defname.localshare.domain.model.WebEvent
 import com.defname.localshare.domain.repository.SettingsRepository
 import com.defname.localshare.util.FlowDelta
 import com.defname.localshare.util.asDeltaEvents
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.distinctUntilChanged
@@ -17,6 +20,7 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.merge
 import kotlinx.coroutines.flow.onStart
+import kotlinx.coroutines.launch
 import java.util.concurrent.ConcurrentHashMap
 
 
@@ -29,9 +33,19 @@ fun Flow<List<SharedContent>>.asDeltaEvents() = asDeltaEvents { it.id }
 class RemoteCommunicationRepository(
     private val settingsRepository: SettingsRepository,
     private val serviceRepository: ServiceRepository,
-    private val securityRepository: SecurityRepository
+    private val securityRepository: SecurityRepository,
+    private val uploadManager: UploadManager,
+    private val repositoryScope: CoroutineScope
 ) {
     private val _clientEventFlows = ConcurrentHashMap<String, MutableSharedFlow<EventEnvelop>>()
+
+    init {
+        repositoryScope.launch {
+            uploadManager.uploadEvents.collect { (event, clientIp) ->
+                sendEvent(event to clientIp)
+            }
+        }
+    }
 
     fun getStreamForClient(remoteIp: String): Flow<EventEnvelop> {
         val personalFlow = _clientEventFlows.getOrPut(remoteIp, {
@@ -49,13 +63,32 @@ class RemoteCommunicationRepository(
         val clientIp = eventTo.second
         val event = eventTo.first
 
-        _clientEventFlows[clientIp]?.emit(event)
+        _clientEventFlows.getOrPut(clientIp) {
+            MutableSharedFlow(extraBufferCapacity = 64)
+        }.emit(event)
     }
 
-    fun handleAction(event: ActionEnvelop, remoteIp: String) {
-        when (event.action) {
+    fun handleAction(envelope: ActionEnvelop, remoteIp: String) {
+        when (val action = envelope.action) {
             is WebAction.RequestUploadPermission -> {
                 securityRepository.requestUploadPermission(remoteIp)
+            }
+            is WebAction.InitializeFileUpload -> {
+                val files = action.files.map { info ->
+                    UploadFile(
+                        checksum = info.checksum,
+                        name = info.name,
+                        mimeType = info.mimeType,
+                        size = info.size,
+                        state = UploadFileState.Pending
+                    )
+                }
+                uploadManager.onNewUploadRequest(remoteIp, action.draftId, files)
+            }
+            is WebAction.AbortFileUpload -> {
+                repositoryScope.launch {
+                    uploadManager.onUploadCanceledByClient(remoteIp, action.id)
+                }
             }
         }
     }

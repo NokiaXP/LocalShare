@@ -13,8 +13,33 @@ export interface FileInfo {
 
 export type UploadPermissionStatus = 'not_requested' | 'pending' | 'granted' | 'denied' | 'unknown';
 
+export interface BaseWebAction {
+    type: string
+}
+
+export interface WebActionRequestUploadPermission extends BaseWebAction {
+    type: 'request_upload_permission';
+}
+
+export interface FileUploadInfo {
+    checksum: String,
+    name: string,
+    mimeType: string,
+    size: number
+}
+
+export interface WebActionInitializeFileUpload extends BaseWebAction {
+    type: 'initialize_file_upload';
+    draftId: number;
+    files: FileUploadInfo[]
+}
+
+
 export type WebAction = 
-    | { type: 'request_upload_permission' };
+    | WebActionRequestUploadPermission
+    | WebActionInitializeFileUpload
+
+
 
 export interface ActionEnvelop {
     id?: number;
@@ -63,13 +88,36 @@ export interface WebEventUploadPermissionChange extends BaseWebEvent {
     status: UploadPermissionStatus;
 }
 
+
+export interface WebEventUploadAccepted extends BaseWebEvent {
+    type: 'upload_accepted';
+    draftId: number;
+    id: string;
+}
+
+export interface WebEventUploadDenied extends BaseWebEvent {
+    type: 'upload_denied';
+    draftId: number
+}
+
+export interface WebEventUploadUpdated extends BaseWebEvent {
+    type: 'upload_updated';
+    id: string;
+    fileChecksum: string;
+    status: 'pending' | 'uploading' | 'finished' | 'error' | 'canceled';
+    progress: number;
+}
+
 export type WebEvent =
     | WebEventInit
     | WebEventAddFile
     | WebEventRemoveFile
     | WebEventAddText
     | WebEventRemoveText
-    | WebEventUploadPermissionChange;
+    | WebEventUploadPermissionChange
+    | WebEventUploadAccepted
+    | WebEventUploadDenied
+    | WebEventUploadUpdated;
 
 export interface SidebarItem {
     id: number;
@@ -79,6 +127,25 @@ export interface SidebarItem {
     text?: string; // For display in template
     data?: string; // For display in template
 }
+
+export enum UploadFileState {
+    PENDING,
+    UPLOADING,
+    FINISHED,
+    ERROR,
+    CANCELED
+}
+
+export interface UploadFile {
+    checksum: String,
+    file: File,
+    name: string,
+    mimeType: string,
+    size: number,
+    state: UploadFileState,
+    progress?: number
+}
+
 
 declare global {
     interface Window {

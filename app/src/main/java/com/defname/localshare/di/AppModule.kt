@@ -16,6 +16,8 @@ import com.defname.localshare.data.RemoteCommunicationRepository
 import com.defname.localshare.data.SecurityRepository
 import com.defname.localshare.data.ServerUrlProvider
 import com.defname.localshare.data.ServiceRepository
+import com.defname.localshare.data.UploadManager
+import com.defname.localshare.data.UploadRepository
 import com.defname.localshare.domain.repository.SettingsRepository
 import com.defname.localshare.domain.usecase.AddFilesUseCase
 import com.defname.localshare.domain.usecase.AddSharedContentUseCase
@@ -62,6 +64,8 @@ val appModule = module {
     single { ServiceRepository(get()) }
     single<SettingsRepository> { DataStoreSettingsRepository(get()) }
 
+    singleOf(::UploadRepository)
+    singleOf(::UploadManager)
     singleOf(::RemoteCommunicationRepository)
 
     single { NotificationHelper(androidContext()) }

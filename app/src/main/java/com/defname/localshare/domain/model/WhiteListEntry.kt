@@ -13,6 +13,8 @@ enum class UploadPermissionStatus {
     GRANTED,
     @SerialName("denied")
     DENIED,
+    @SerialName("pending")
+    PENDING,
     @SerialName("not_requested")
     NOT_REQUESTED,
     @SerialName("unknown")
