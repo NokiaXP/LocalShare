@@ -101,7 +101,7 @@ sealed class WebEvent {
         val id: String,
         val fileChecksum: String,
         val status: UploadStatus =  UploadStatus.PENDING,
-        val progress: Int = 0,
+        val progress: Long = 0,
         val message: String? = null
     ) : WebEvent()
 }

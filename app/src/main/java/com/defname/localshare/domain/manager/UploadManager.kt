@@ -102,6 +102,10 @@ class UploadManager(
         val file = batch.files.find { it.checksum == fileHash } ?: return
         val uri = file.uri ?: return
 
+        if (file.state is UploadFileState.Uploading || file.state is UploadFileState.Finished) {
+            return
+        }
+
         val outputStream = fileStorageProvider.openOutputStream(uri)
         if (outputStream == null) {
             emitFileError(clientIp, batchId, fileHash, "File can not be written.")
@@ -114,11 +118,27 @@ class UploadManager(
             val digest = MessageDigest.getInstance("SHA-256")
             val buffer = ByteArray(8192)
             var bytesRead: Int
+            var totalBytesRead = 0L
+            var iterations = 0
             
             outputStream.use { out ->
                 while (inputStream.read(buffer).also { bytesRead = it } != -1) {
                     digest.update(buffer, 0, bytesRead)
                     out.write(buffer, 0, bytesRead)
+                    totalBytesRead += bytesRead
+                    uploadRepository.updateFileState(batchId, fileHash, UploadFileState.Uploading(totalBytesRead))
+                    iterations += 1
+                    if (iterations % 100 == 0) {
+                        val event = EventEnvelop(
+                            event = WebEvent.UploadUpdated(
+                                id = batchId,
+                                fileChecksum = fileHash,
+                                status = UploadStatus.UPLOADING,
+                                progress = totalBytesRead
+                            )
+                        )
+                        _uploadEvents.emit(event to clientIp)
+                    }
                 }
             }
 

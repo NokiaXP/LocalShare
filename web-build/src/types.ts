@@ -133,6 +133,7 @@ export enum UploadFileState {
     PENDING,
     UPLOADING,
     FINISHED,
+    CONFIRMED,
     ERROR,
     CANCELED
 }

@@ -8,12 +8,14 @@ import { UploadBatch, UploadBatchState } from '../models/UploadBatch';
 export const Dropzone = () => ({
     activeBatch: null as UploadBatch | null,
     dragActive: false,
+    trigger: 0,
 
     get isUploading(): boolean {
         return this.activeBatch?.state === UploadBatchState.UPLOADING;
     },
 
     get files() {
+        this.trigger
         return this.activeBatch?.files || [];
     },
 

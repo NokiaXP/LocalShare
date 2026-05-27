@@ -2,6 +2,8 @@
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
+
+import Alpine from 'alpinejs';
 import { sha256 } from 'js-sha256';
 import { 
     UploadFile, 
@@ -37,12 +39,18 @@ export class UploadBatch {
     private abortController?: AbortController;
 
     private handlers = {
-        accepted: (e: MessageEvent) => this.onUploadAccepted(parseJSON<WebEventUploadAccepted>(e.data)),
-        denied: (e: MessageEvent) => this.onUploadDenied(parseJSON<WebEventUploadDenied>(e.data)),
-        updated: (e: MessageEvent) => this.onUploadUpdated(parseJSON<WebEventUploadUpdated>(e.data))
+        accepted: (e: MessageEvent) => {
+            Alpine.reactive(this).onUploadAccepted(parseJSON<WebEventUploadAccepted>(e.data))
+        },
+        denied: (e: MessageEvent) => {
+            Alpine.reactive(this).onUploadDenied(parseJSON<WebEventUploadDenied>(e.data))
+        },
+        updated: (e: MessageEvent) => {
+            Alpine.reactive(this).onUploadUpdated(parseJSON<WebEventUploadUpdated>(e.data))
+        }
     };
 
-    constructor(sse: EventSource) {
+    constructor(sse: EventSource){
         this.sse = sse;
         this.draftId = nextDraftId++;
         this.addSSEEventListeners();
@@ -54,6 +62,7 @@ export class UploadBatch {
     }
 
     private addSSEEventListeners() {
+
         this.sse.addEventListener('upload_accepted', this.handlers.accepted);
         this.sse.addEventListener('upload_denied', this.handlers.denied);
         this.sse.addEventListener('upload_updated', this.handlers.updated);
@@ -138,7 +147,7 @@ export class UploadBatch {
 
             if (!response.ok) throw new Error(await response.text());
             file.state = UploadFileState.FINISHED;
-            file.progress = 100;
+            file.progress = file.size;
         } catch (err: any) {
             if (err.name === 'AbortError') {
                 file.state = UploadFileState.CANCELED;
@@ -176,6 +185,13 @@ export class UploadBatch {
         if (!file) return;
 
         file.progress = event.progress;
+        this.files = [...this.files];
+
+        console.log(event.status)
+        console.log(file.size)
+        console.log(file.progress)
+        console.log(file)
+        console.log(this.files)
         if (event.message) {
             file.errorMessage = event.message;
         }
@@ -183,7 +199,7 @@ export class UploadBatch {
         switch (event.status) {
             case 'pending': file.state = UploadFileState.PENDING; break;
             case 'uploading': file.state = UploadFileState.UPLOADING; break;
-            case 'finished': file.state = UploadFileState.FINISHED; break;
+            case 'finished': file.state = UploadFileState.CONFIRMED; break;
             case 'error': file.state = UploadFileState.ERROR; break;
             case 'canceled': file.state = UploadFileState.CANCELED; break;
         }

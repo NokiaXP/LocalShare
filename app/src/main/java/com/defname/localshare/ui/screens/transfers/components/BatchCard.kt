@@ -36,6 +36,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.ProgressIndicatorDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -196,11 +197,11 @@ fun ActiveBatchCard(
                 val progress = if (batch.files.isEmpty()) 0f else {
                     batch.files.sumOf { 
                         when (val s = it.state) {
-                            is UploadFileState.Finished -> 100
+                            is UploadFileState.Finished -> it.size
                             is UploadFileState.Uploading -> s.progress
                             else -> 0
                         }
-                    }.toFloat() / (batch.files.size * 100)
+                    }.toFloat() / (batch.files.sumOf { it.size }.toFloat())
                 }
                 
                 Box(contentAlignment = Alignment.Center) {
@@ -285,12 +286,14 @@ private fun FileProgressRow(file: UploadFile) {
         
         if (file.state is UploadFileState.Uploading) {
             LinearProgressIndicator(
-                progress = (file.state as UploadFileState.Uploading).progress / 100f,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(top = 4.dp)
-                    .height(2.dp),
-                color = MaterialTheme.colorScheme.secondary
+            progress = { file.state.progress.toFloat() / file.size.toFloat() },
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(top = 4.dp)
+                .height(2.dp),
+            color = MaterialTheme.colorScheme.secondary,
+            trackColor = ProgressIndicatorDefaults.linearTrackColor,
+            strokeCap = ProgressIndicatorDefaults.LinearStrokeCap,
             )
         }
     }

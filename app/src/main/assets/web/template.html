@@ -102,7 +102,7 @@
                         <template x-for="(file, index) in files" :key="index">
                             <div class="relative w-16 h-16 bg-white dark:bg-slate-700 rounded shadow p-1">
                                 <span class="text-[8px] truncate block" x-text="file.name"></span>
-                                <div class="absolute bottom-0 left-0 h-1 bg-blue-500 transition-all" :style="'width: ' + (file.progress || 0) + '%'"></div>
+                                <!-- <div class="absolute bottom-0 left-0 h-1 bg-blue-500 transition-all" :style="'width: ' + ((file.progress / file.size) || 0) + '%'"></div> -->
                                 <button @click.stop="removeFile(index)" class="absolute -top-1 -right-1 bg-red-500 text-white rounded-full w-4 h-4 text-[10px]">×</button>
                             </div>
                         </template>
@@ -133,12 +133,12 @@
                                   :class="file.state === 3 ? 'text-red-500' : ''"
                                   x-text="file.name"></span>
                             <span class="text-xs font-mono text-gray-500 ml-2" 
-                                  x-text="file.state === 3 ? 'Error' : (file.progress || 0) + '%'"></span>
+                                  x-text="file.state === 3 ? 'Error' : ((file.progress / file.size * 100)|0) + '%'"></span>
                         </div>
                         <div class="w-full bg-gray-100 dark:bg-slate-700 rounded-full h-1.5 overflow-hidden">
                             <div class="h-full transition-all duration-300" 
                                  :class="file.state === 3 ? 'bg-red-500' : 'bg-blue-500'"
-                                 :style="'width: ' + (file.state === 3 ? 100 : (file.progress || 0)) + '%'"></div>
+                                 :style="'width: ' + (file.state === 3 ? 100 : ((file.progress / file.size * 100)|0)) + '%'"></div>
                         </div>
                         <template x-if="file.state === 3">
                              <p class="text-[10px] text-red-400 mt-1" x-text="file.errorMessage || 'Upload failed'"></p>

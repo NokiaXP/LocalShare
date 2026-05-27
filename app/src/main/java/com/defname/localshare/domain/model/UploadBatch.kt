@@ -29,5 +29,5 @@ sealed class UploadFileState {
     object Finished : UploadFileState()
     object Error : UploadFileState()
     object Canceled: UploadFileState()
-    class Uploading(val progress: Int) : UploadFileState()
+    class Uploading(val progress: Long) : UploadFileState()
 }

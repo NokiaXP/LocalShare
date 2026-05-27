@@ -33,7 +33,8 @@ export const AppStore = {
     createBatch(): UploadBatch {
         const sse = Alpine.store('sse') as EventSource;
         const batch = new UploadBatch(sse);
-        this.uploadBatches.push(batch);
-        return batch;
+        const reactiveBatch = Alpine.reactive(batch);
+        this.uploadBatches.push(reactiveBatch);
+        return reactiveBatch;
     }
 };
