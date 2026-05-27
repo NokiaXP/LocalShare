@@ -1,5 +1,7 @@
 package com.defname.localshare.domain.model
 
+import android.net.Uri
+
 
 data class DraftUploadBatch(
     val draftId: Int,
@@ -18,7 +20,8 @@ data class UploadFile(
     val name: String,
     val mimeType: String,
     val size: Long,
-    val state: UploadFileState
+    val state: UploadFileState,
+    val uri: Uri?
 )
 
 sealed class UploadFileState {

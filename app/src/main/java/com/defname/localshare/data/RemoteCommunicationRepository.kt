@@ -1,5 +1,6 @@
 package com.defname.localshare.data
 
+import com.defname.localshare.domain.manager.UploadManager
 import com.defname.localshare.domain.model.ActionEnvelop
 import com.defname.localshare.domain.model.EventEnvelop
 import com.defname.localshare.domain.model.FileInfo

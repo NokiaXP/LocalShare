@@ -16,7 +16,7 @@ import com.defname.localshare.data.RemoteCommunicationRepository
 import com.defname.localshare.data.SecurityRepository
 import com.defname.localshare.data.ServerUrlProvider
 import com.defname.localshare.data.ServiceRepository
-import com.defname.localshare.data.UploadManager
+import com.defname.localshare.domain.manager.UploadManager
 import com.defname.localshare.data.UploadRepository
 import com.defname.localshare.domain.repository.SettingsRepository
 import com.defname.localshare.domain.usecase.AddFilesUseCase

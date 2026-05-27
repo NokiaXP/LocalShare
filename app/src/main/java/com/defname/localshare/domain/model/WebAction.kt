@@ -93,11 +93,15 @@ sealed class WebEvent {
     @Serializable @SerialName("upload_denied")
     data class UploadDenied(val draftId: Int) : WebEvent()
 
+    @Serializable @SerialName("upload_error")
+    data class UploadError(val id: String, val message: String? = null) : WebEvent()
+
     @Serializable @SerialName("upload_updated")
     data class UploadUpdated(
         val id: String,
         val fileChecksum: String,
         val status: UploadStatus =  UploadStatus.PENDING,
-        val progress: Int = 0
+        val progress: Int = 0,
+        val message: String? = null
     ) : WebEvent()
 }
