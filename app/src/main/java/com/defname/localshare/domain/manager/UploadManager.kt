@@ -14,6 +14,7 @@ import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import java.io.InputStream
+import java.security.MessageDigest
 
 class UploadManager(
     private val uploadRepository: UploadRepository,
@@ -110,7 +111,7 @@ class UploadManager(
         try {
             uploadRepository.updateFileState(batchId, fileHash, UploadFileState.Uploading(0))
             
-            val digest = java.security.MessageDigest.getInstance("SHA-256")
+            val digest = MessageDigest.getInstance("SHA-256")
             val buffer = ByteArray(8192)
             var bytesRead: Int
             
