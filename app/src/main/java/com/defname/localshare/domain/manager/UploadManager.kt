@@ -107,25 +107,43 @@ class UploadManager(
             return
         }
 
-        outputStream.also {
+        try {
             uploadRepository.updateFileState(batchId, fileHash, UploadFileState.Uploading(0))
             
-            // Note: For real progress we'd need a custom copyTo with a callback
-            inputStream.copyTo(it)
+            val digest = java.security.MessageDigest.getInstance("SHA-256")
+            val buffer = ByteArray(8192)
+            var bytesRead: Int
             
-            fileStorageProvider.finalizeFile(uri)
-            it.close()
+            outputStream.use { out ->
+                while (inputStream.read(buffer).also { bytesRead = it } != -1) {
+                    digest.update(buffer, 0, bytesRead)
+                    out.write(buffer, 0, bytesRead)
+                }
+            }
 
-            uploadRepository.updateFileState(batchId, fileHash, UploadFileState.Finished)
+            val actualHash = digest.digest().joinToString("") { "%02x".format(it) }
+            
+            if (actualHash.equals(fileHash, ignoreCase = true)) {
+                fileStorageProvider.finalizeFile(uri)
+                uploadRepository.updateFileState(batchId, fileHash, UploadFileState.Finished)
 
-            val event = EventEnvelop(
-                event = WebEvent.UploadUpdated(
-                    id = batchId,
-                    fileChecksum = fileHash,
-                    status = UploadStatus.FINISHED
+                val event = EventEnvelop(
+                    event = WebEvent.UploadUpdated(
+                        id = batchId,
+                        fileChecksum = fileHash,
+                        status = UploadStatus.FINISHED
+                    )
                 )
-            )
-            _uploadEvents.emit(event to clientIp)
+                _uploadEvents.emit(event to clientIp)
+            } else {
+                fileStorageProvider.deleteFile(uri)
+                uploadRepository.updateFileState(batchId, fileHash, UploadFileState.Error)
+                emitFileError(clientIp, batchId, fileHash, "Checksum mismatch! File corrupted.")
+            }
+        } catch (e: Exception) {
+            fileStorageProvider.deleteFile(uri)
+            uploadRepository.updateFileState(batchId, fileHash, UploadFileState.Error)
+            emitFileError(clientIp, batchId, fileHash, "Upload failed: ${e.message}")
         }
     }
 

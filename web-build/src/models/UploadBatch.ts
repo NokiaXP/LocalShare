@@ -176,6 +176,10 @@ export class UploadBatch {
         if (!file) return;
 
         file.progress = event.progress;
+        if (event.message) {
+            file.errorMessage = event.message;
+        }
+
         switch (event.status) {
             case 'pending': file.state = UploadFileState.PENDING; break;
             case 'uploading': file.state = UploadFileState.UPLOADING; break;

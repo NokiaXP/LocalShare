@@ -122,19 +122,27 @@
 
 <div class="max-w-6xl mx-auto p-4">
     <!-- Active Uploads Progress -->
-    <div x-show="$store.app.uploadBatches.some(b => b.state >= 4 && b.state < 6)" class="mb-6 space-y-2" x-cloak>
+    <div x-show="$store.app.uploadBatches.some(b => b.state >= 4 && b.state < 8)" class="mb-6 space-y-2" x-cloak>
         <h3 class="text-sm font-bold text-gray-500 uppercase tracking-wider">Active Uploads</h3>
         <template x-for="batch in $store.app.uploadBatches" :key="batch.draftId">
-            <div x-show="batch.state >= 4 && batch.state < 6" class="space-y-2">
+            <div x-show="batch.state >= 4 && batch.state < 8" class="space-y-2">
                 <template x-for="file in batch.files" :key="file.checksum">
                     <div class="bg-white dark:bg-slate-800 rounded-lg shadow-sm p-3 border border-gray-100 dark:border-slate-700">
                         <div class="flex items-center justify-between mb-1">
-                            <span class="text-sm font-medium truncate flex-1" x-text="file.name"></span>
-                            <span class="text-xs font-mono text-gray-500 ml-2" x-text="(file.progress || 0) + '%'"></span>
+                            <span class="text-sm font-medium truncate flex-1" 
+                                  :class="file.state === 3 ? 'text-red-500' : ''"
+                                  x-text="file.name"></span>
+                            <span class="text-xs font-mono text-gray-500 ml-2" 
+                                  x-text="file.state === 3 ? 'Error' : (file.progress || 0) + '%'"></span>
                         </div>
                         <div class="w-full bg-gray-100 dark:bg-slate-700 rounded-full h-1.5 overflow-hidden">
-                            <div class="bg-blue-500 h-full transition-all duration-300" :style="'width: ' + (file.progress || 0) + '%'"></div>
+                            <div class="h-full transition-all duration-300" 
+                                 :class="file.state === 3 ? 'bg-red-500' : 'bg-blue-500'"
+                                 :style="'width: ' + (file.state === 3 ? 100 : (file.progress || 0)) + '%'"></div>
                         </div>
+                        <template x-if="file.state === 3">
+                             <p class="text-[10px] text-red-400 mt-1" x-text="file.errorMessage || 'Upload failed'"></p>
+                        </template>
                     </div>
                 </template>
             </div>

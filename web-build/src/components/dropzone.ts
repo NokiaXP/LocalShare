@@ -69,8 +69,8 @@ export const Dropzone = () => ({
                     // Reset for next time
                     this.createNewBatch();
                 } else if (this.activeBatch?.state === UploadBatchState.REJECTED) {
-                    alert('Upload was denied by the host.');
-                    this.activeBatch.state = UploadBatchState.DRAFT; // Reset state so user can try again
+                    // No alert anymore, UI handles showing rejected state
+                    this.activeBatch.state = UploadBatchState.DRAFT; 
                 } else if (this.activeBatch?.state === UploadBatchState.REQUESTED) {
                     setTimeout(checkState, 500);
                 }

@@ -106,6 +106,7 @@ export interface WebEventUploadUpdated extends BaseWebEvent {
     fileChecksum: string;
     status: 'pending' | 'uploading' | 'finished' | 'error' | 'canceled';
     progress: number;
+    message?: string;
 }
 
 export type WebEvent =
@@ -143,7 +144,8 @@ export interface UploadFile {
     mimeType: string,
     size: number,
     state: UploadFileState,
-    progress?: number
+    progress?: number,
+    errorMessage?: string
 }
 
 
