@@ -11,6 +11,7 @@ import androidx.compose.material.icons.filled.List
 import androidx.compose.material.icons.filled.ListAlt
 import androidx.compose.material.icons.filled.Send
 import androidx.compose.material.icons.filled.Settings
+import androidx.compose.material.icons.filled.Upload
 import androidx.compose.ui.graphics.vector.ImageVector
 import com.defname.localshare.data.RuntimeState
 
@@ -20,6 +21,7 @@ data class MainState(
         Screen.Main,
         Screen.Files,
         Screen.SharedContent,
+        Screen.Transfers,
         Screen.Logs,
         Screen.Settings,
         Screen.Info
@@ -42,6 +44,7 @@ sealed class Screen(val route: String, val label: String, val icon: ImageVector)
     object Main : Screen("main", "Overview", Icons.Default.Send)
     object Files : Screen("files", "Shared Files", Icons.Default.ListAlt)
     object SharedContent : Screen("sharedcontent", "Shared Text", Icons.Default.ContentPaste)
+    object Transfers : Screen("transfers", "Transfers", Icons.Default.Upload)
     object Logs : Screen("logs", "Logs", Icons.Default.List)
     object Settings : Screen("settings", "Settings", Icons.Default.Settings)
     object Info : Screen("info", "Info", Icons.Default.Info)

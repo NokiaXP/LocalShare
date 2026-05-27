@@ -2,6 +2,7 @@
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
+import { sha256 } from 'js-sha256';
 import { 
     UploadFile, 
     UploadFileState, 
@@ -32,7 +33,7 @@ export class UploadBatch {
     files: UploadFile[] = [];
     state: UploadBatchState = UploadBatchState.DRAFT;
     draftId: number;
-    id?: number;
+    id?: string;
     private abortController?: AbortController;
 
     private handlers = {
@@ -66,9 +67,7 @@ export class UploadBatch {
 
     async calculateChecksum(file: File): Promise<string> {
         const arrayBuffer = await file.arrayBuffer();
-        const hashBuffer = await crypto.subtle.digest('SHA-256', arrayBuffer);
-        const hashArray = Array.from(new Uint8Array(hashBuffer));
-        return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+        return sha256(arrayBuffer);
     }
 
     async addFile(file: File) {
@@ -78,8 +77,8 @@ export class UploadBatch {
         if (this.files.some(f => f.checksum === checksum)) return;
 
         this.files.push({
-            checksum,
-            file,
+            checksum: checksum,
+            file: file,
             name: file.name,
             mimeType: file.type || 'application/octet-stream',
             size: file.size,

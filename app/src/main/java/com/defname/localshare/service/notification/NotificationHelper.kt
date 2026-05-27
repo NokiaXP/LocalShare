@@ -20,6 +20,7 @@ class NotificationHelper(private val context: Context) {
         const val CHANNEL_ID = "local_share_server_channel"
         const val APPROVAL_CHANNEL_ID = "local_share_approval_channel"
         const val NOTIFICATION_ID = 1
+        const val DEEP_LINK_URI = "localshare://transfers"
     }
 
     init {
@@ -133,5 +134,33 @@ class NotificationHelper(private val context: Context) {
 
         val manager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
         manager.notify(clientIp.hashCode(), notification)
+    }
+
+    fun showUploadRequestNotification(clientIp: String, fileCount: Int) {
+        val deepLinkIntent = Intent(
+            Intent.ACTION_VIEW,
+            android.net.Uri.parse(DEEP_LINK_URI),
+            context,
+            MainActivity::class.java
+        )
+        val deepLinkPendingIntent = PendingIntent.getActivity(
+            context,
+            "upload_request_$clientIp".hashCode(),
+            deepLinkIntent,
+            PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
+        )
+
+        val notification = NotificationCompat.Builder(context, APPROVAL_CHANNEL_ID)
+            .setContentTitle("Incoming Upload Request")
+            .setContentText("$clientIp wants to send $fileCount file(s).")
+            .setSmallIcon(R.drawable.ic_launcher_foreground)
+            .setPriority(NotificationCompat.PRIORITY_HIGH)
+            .setCategory(NotificationCompat.CATEGORY_EVENT)
+            .setAutoCancel(true)
+            .setContentIntent(deepLinkPendingIntent)
+            .build()
+
+        val manager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+        manager.notify("upload_request_$clientIp".hashCode(), notification)
     }
 }

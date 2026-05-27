@@ -81,7 +81,8 @@ class RemoteCommunicationRepository(
                         name = info.name,
                         mimeType = info.mimeType,
                         size = info.size,
-                        state = UploadFileState.Pending
+                        state = UploadFileState.Pending,
+                        uri = null
                     )
                 }
                 uploadManager.onNewUploadRequest(remoteIp, action.draftId, files)

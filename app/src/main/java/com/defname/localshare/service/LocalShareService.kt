@@ -136,6 +136,24 @@ class LocalShareService : Service() {
                     }
                 }
         }
+
+        // Observe Incoming Upload Requests (Batches)
+        serviceScope.launch {
+            uploadManager.openUploadRequests
+                .asDeltaEvents { "upload_request_${it.clientIp}" }
+                .collect { delta ->
+                    when (delta) {
+                        is FlowDelta.Added -> notificationHelper.showUploadRequestNotification(
+                            delta.obj.clientIp,
+                            delta.obj.files.size
+                        )
+                        is FlowDelta.Removed -> {
+                            val manager = getSystemService(NOTIFICATION_SERVICE) as NotificationManager
+                            manager.cancel(delta.obj.hashCode())
+                        }
+                    }
+                }
+        }
     }
 
     private fun cancelNotification(ip: String) {
@@ -180,6 +198,7 @@ class LocalShareService : Service() {
                                 securityRepository = securityRepository,
                                 fileInfoProvider = fileInfoProvider,
                                 json = Json,
+                                uploadManager = uploadManager,
                                 context = this@LocalShareService.applicationContext
                             )
                         }

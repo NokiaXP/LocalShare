@@ -64,8 +64,13 @@ export const Dropzone = () => ({
             const checkState = () => {
                 if (this.activeBatch?.state === UploadBatchState.ACCEPTED) {
                     this.activeBatch.start();
+                    // Close the modal when accepted
+                    (Alpine.store('app') as any).showUploadModal = false;
+                    // Reset for next time
+                    this.createNewBatch();
                 } else if (this.activeBatch?.state === UploadBatchState.REJECTED) {
                     alert('Upload was denied by the host.');
+                    this.activeBatch.state = UploadBatchState.DRAFT; // Reset state so user can try again
                 } else if (this.activeBatch?.state === UploadBatchState.REQUESTED) {
                     setTimeout(checkState, 500);
                 }

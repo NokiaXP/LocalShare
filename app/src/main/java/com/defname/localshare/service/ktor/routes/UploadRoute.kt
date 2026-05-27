@@ -33,5 +33,6 @@ fun Route.upload(
             uploadManager.onFileUpload(clientIp, batchId, fileHash, it)
             it.close()
         }
+        call.respondText("OK", status = HttpStatusCode.OK)
     }
 }

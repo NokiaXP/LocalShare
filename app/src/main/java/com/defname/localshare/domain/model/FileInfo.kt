@@ -5,6 +5,7 @@
 package com.defname.localshare.domain.model
 
 import android.net.Uri
+import com.defname.localshare.util.sizeAsString
 
 data class FileInfo(
     val id: String,
@@ -16,12 +17,5 @@ data class FileInfo(
 )
 
 fun FileInfo.sizeAsString(): String {
-    var sizeDouble = this.size.toDouble()
-    val units = listOf("Byte", "KB", "MB", "GB", "TB")
-    var unitIndex = 0
-    while (sizeDouble >= 1024 && unitIndex < units.size - 1) {
-        sizeDouble /= 1024
-        unitIndex++
-    }
-    return "%.2f %s".format(sizeDouble, units[unitIndex])
+    return this.size.sizeAsString()
 }

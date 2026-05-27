@@ -17,6 +17,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Block
 import androidx.compose.material.icons.filled.Cancel
 import androidx.compose.material.icons.filled.Check
+import androidx.compose.material.icons.filled.CloudUpload
 import androidx.compose.material.icons.filled.Download
 import androidx.compose.material.icons.filled.QrCode2
 import androidx.compose.material.icons.filled.Share
@@ -43,7 +44,12 @@ import com.defname.localshare.ui.theme.pendingContainer
 
 
 @Composable
-fun SharingHeroSection(state: HomeState, viewModel: HomeViewModel, context: Context) {
+fun SharingHeroSection(
+    state: HomeState,
+    viewModel: HomeViewModel,
+    context: Context,
+    onNavigateToTransfers: () -> Unit
+) {
     val isRunning = remember(state.isRunning) { state.isRunning }
     val primaryUrl = remember(state.selectedServerUrl) { state.selectedServerUrl }
     val pendingRequests = remember(state.pendingRequests) { state.pendingRequests }
@@ -51,6 +57,9 @@ fun SharingHeroSection(state: HomeState, viewModel: HomeViewModel, context: Cont
 
     val pendingUploadPermissionRequests = remember(state.pendingUploadPermissionRequests) { state.pendingUploadPermissionRequests }
     val uploadPermissionRequestingIp = remember(pendingUploadPermissionRequests) { pendingUploadPermissionRequests.firstOrNull() }
+
+    val pendingUploadRequests = remember(state.pendingUploadRequests) { state.pendingUploadRequests }
+    val uploadRequestingBatch = remember(pendingUploadRequests) { pendingUploadRequests.firstOrNull() }
 
     if (pendingRequests.isNotEmpty()) {
         Card(
@@ -133,6 +142,65 @@ fun SharingHeroSection(state: HomeState, viewModel: HomeViewModel, context: Cont
             }
         }
     }
+    else if (pendingUploadRequests.isNotEmpty()) {
+        Card(
+            modifier = Modifier.fillMaxWidth(),
+            colors = CardDefaults.cardColors(
+                containerColor = MaterialTheme.colorScheme.pendingContainer,
+                contentColor = MaterialTheme.colorScheme.onPendingContainer
+            ),
+            elevation = CardDefaults.cardElevation(
+                defaultElevation = 4.dp
+            ),
+            border = null
+        ) {
+            Column(
+                modifier = Modifier.padding(24.dp),
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                Icon(
+                    imageVector = Icons.Default.CloudUpload,
+                    contentDescription = null,
+                    modifier = Modifier.size(48.dp),
+                    tint = MaterialTheme.colorScheme.onPendingContainer
+                )
+                Spacer(modifier = Modifier.height(16.dp))
+                Text(
+                    text = if (pendingUploadRequests.size == 1) "Incoming Transfer" else "Incoming Transfers (${pendingUploadRequests.size})",
+                    style = MaterialTheme.typography.headlineSmall,
+                )
+                Spacer(modifier = Modifier.height(8.dp))
+                Text(
+                    text = uploadRequestingBatch?.clientIp ?: "",
+                    style = MaterialTheme.typography.headlineMedium,
+                    fontWeight = FontWeight.Bold,
+                    textAlign = TextAlign.Center,
+                    modifier = Modifier.fillMaxWidth()
+                )
+                Spacer(modifier = Modifier.height(8.dp))
+                Text(
+                    text = "wants to send ${uploadRequestingBatch?.files?.size ?: 0} file(s).",
+                    style = MaterialTheme.typography.bodyMedium,
+                )
+
+                Spacer(modifier = Modifier.height(24.dp))
+                Button(
+                    onClick = onNavigateToTransfers,
+                    modifier = Modifier.fillMaxWidth(),
+                    colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.tertiary),
+                    contentPadding = PaddingValues(vertical = 12.dp)
+                ) {
+                    Icon(
+                        Icons.Default.Upload,
+                        contentDescription = null,
+                        modifier = Modifier.size(18.dp)
+                    )
+                    Spacer(Modifier.width(8.dp))
+                    Text("View Transfers")
+                }
+            }
+        }
+    }
     else if (pendingUploadPermissionRequests.isNotEmpty()) {
         Card(
             modifier = Modifier.fillMaxWidth(),
@@ -157,12 +225,12 @@ fun SharingHeroSection(state: HomeState, viewModel: HomeViewModel, context: Cont
                 )
                 Spacer(modifier = Modifier.height(16.dp))
                 Text(
-                    text = if (pendingRequests.size == 1) "Pending Request" else "Pending Requests (${pendingRequests.size})",
+                    text = if (pendingUploadPermissionRequests.size == 1) "Upload Permission" else "Upload Permissions (${pendingUploadPermissionRequests.size})",
                     style = MaterialTheme.typography.headlineSmall,
                 )
                 Spacer(modifier = Modifier.height(8.dp))
                 Text(
-                    text = requestingIp ?: "",
+                    text = uploadPermissionRequestingIp ?: "",
                     style = MaterialTheme.typography.headlineMedium,
                     fontWeight = FontWeight.Bold,
                     textAlign = TextAlign.Center,

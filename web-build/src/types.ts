@@ -22,7 +22,7 @@ export interface WebActionRequestUploadPermission extends BaseWebAction {
 }
 
 export interface FileUploadInfo {
-    checksum: String,
+    checksum: string,
     name: string,
     mimeType: string,
     size: number
@@ -137,7 +137,7 @@ export enum UploadFileState {
 }
 
 export interface UploadFile {
-    checksum: String,
+    checksum: string,
     file: File,
     name: string,
     mimeType: string,

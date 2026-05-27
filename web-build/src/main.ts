@@ -24,19 +24,18 @@ document.addEventListener('alpine:init', () => {
     // 3. Global Binds (Extracted from template.html)
     Alpine.bind('ThemeToggle', () => ({
         '@click'() {
-            this.darkMode = !this.darkMode;
-            localStorage.setItem('dark', String(this.darkMode));
+            (this as any).darkMode = !(this as any).darkMode;
+            localStorage.setItem('dark', String((this as any).darkMode));
         },
         'class': 'ls-btn-icon'
     }));
 
     Alpine.bind('UploadButton', () => ({
         '@click'() {
-            // Expliziter Zugriff über das globale Alpine-Objekt
-            (window as any).Alpine.store('app').showUploadModal = true;
+            (Alpine.store('app') as any).showUploadModal = true;
         },
         'x-show'() {
-            return (window as any).Alpine.store('app').uploadEnabled;
+            return (Alpine.store('app') as any).uploadEnabled;
         },
         'class': 'ls-btn-icon'
     }));

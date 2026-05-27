@@ -79,7 +79,8 @@ fun shareText(context: Context, text: String) {
 fun HomeScreen(
     viewModel: HomeViewModel = koinViewModel(),
     onOpenDrawer: () -> Unit,
-    onNavigateToLogs: () -> Unit
+    onNavigateToLogs: () -> Unit,
+    onNavigateToTransfers: () -> Unit
 ) {
     val state by viewModel.state.collectAsState()
     val context = LocalContext.current
@@ -143,7 +144,7 @@ fun HomeScreen(
             Spacer(modifier = Modifier.height(16.dp))
 
             // --- Hero Section ---
-            SharingHeroSection(state, viewModel, context)
+            SharingHeroSection(state, viewModel, context, onNavigateToTransfers)
 
             Spacer(modifier = Modifier.height(24.dp))
 
@@ -320,7 +321,8 @@ fun HomeScreenPreview() {
     LocalShareTheme {
         HomeScreen(
             onOpenDrawer = {},
-            onNavigateToLogs = {}
+            onNavigateToLogs = {},
+            onNavigateToTransfers = {}
         )
     }
 }

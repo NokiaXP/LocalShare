@@ -7,6 +7,7 @@ package com.defname.localshare.ui.screens.home
 import android.graphics.Bitmap
 import android.net.Uri
 import com.defname.localshare.data.RuntimeState
+import com.defname.localshare.domain.model.DraftUploadBatch
 import com.defname.localshare.domain.model.FileInfo
 import com.defname.localshare.domain.model.NetworkInfo
 import com.defname.localshare.domain.model.WhiteListEntry
@@ -50,5 +51,6 @@ data class HomeState(
     val serverUrlSelectorExpanded: Boolean = false,
 
     val pendingRequests: List<String> = emptyList(),
-    val pendingUploadPermissionRequests: List<String> = emptyList()
+    val pendingUploadPermissionRequests: List<String> = emptyList(),
+    val pendingUploadRequests: List<DraftUploadBatch> = emptyList()
 )

@@ -18,6 +18,7 @@ import com.defname.localshare.data.SecurityRepository
 import com.defname.localshare.data.ServerUrlProvider
 import com.defname.localshare.data.ServerUrls
 import com.defname.localshare.data.ServiceRepository
+import com.defname.localshare.domain.manager.UploadManager
 import com.defname.localshare.domain.model.ConnectionLogEntry
 import com.defname.localshare.domain.model.NetworkInfo
 import com.defname.localshare.domain.model.Settings
@@ -58,7 +59,8 @@ class HomeViewModel(
     private val permissionRepository: PermissionRepository,
     private val manageServiceUseCase: ManageServiceUseCase,
     private val serverUrlProvider: ServerUrlProvider,
-    private val qrCodeProvider: QrCodeProvider
+    private val qrCodeProvider: QrCodeProvider,
+    private val uploadManager: UploadManager
 ) : ViewModel() {
     /**
      * StateFlow for the log entry for which the context menu should be shown.
@@ -84,7 +86,8 @@ class HomeViewModel(
         permissionRepository.hasNotificationPermission,
         serverUrlProvider.serverUrls,
         networkInfoProvider.localIpAddresses,
-        securityRepository.pendingUploadPermissionRequests
+        securityRepository.pendingUploadPermissionRequests,
+        uploadManager.openUploadRequests
     ) { states ->
 
         val runtimeState = states[0] as RuntimeData
@@ -98,6 +101,7 @@ class HomeViewModel(
         val serverUrls = states[8] as ServerUrls
         val localIpAddresses = states[9] as List<NetworkInfo>
         val pendingUploadPermissionRequests = states[10] as List<String>
+        val pendingUploadRequests = states[11] as List<com.defname.localshare.domain.model.DraftUploadBatch>
 
 
         val selectedIpAddressIsValid = (localIpAddresses + allNetworksNetworkInfo).any { it.address == settings.serverIp }
@@ -131,7 +135,8 @@ class HomeViewModel(
             qrCodeUrl = uiState.qrCodeUrl,
             qrCodeBitmap = uiState.qrCodeBitmap,
             pendingRequests = pendingRequests,
-            pendingUploadPermissionRequests = pendingUploadPermissionRequests
+            pendingUploadPermissionRequests = pendingUploadPermissionRequests,
+            pendingUploadRequests = pendingUploadRequests
         )
     }.stateIn(
         scope = viewModelScope,

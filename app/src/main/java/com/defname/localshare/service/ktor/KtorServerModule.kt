@@ -11,6 +11,7 @@ import com.defname.localshare.data.FileInfoProvider
 import com.defname.localshare.data.RemoteCommunicationRepository
 import com.defname.localshare.data.SecurityRepository
 import com.defname.localshare.data.ServiceRepository
+import com.defname.localshare.domain.manager.UploadManager
 import com.defname.localshare.domain.model.DisconnectReason
 import com.defname.localshare.domain.repository.SettingsRepository
 import com.defname.localshare.service.ServerSecurityHandler
@@ -50,6 +51,7 @@ fun Application.configureServerModule(
     securityHandler: ServerSecurityHandler,
     securityRepository: SecurityRepository,
     fileInfoProvider: FileInfoProvider,
+    uploadManager: UploadManager,
     json: Json,
     context: Context
 ) {
@@ -106,7 +108,7 @@ fun Application.configureServerModule(
 
         apiAction(securityHandler, remoteCommunicationRepository)
 
-        upload(securityHandler, context)
+        upload(securityHandler, uploadManager)
 
         get("{...}") {
             call.respondText("No Access\n", status = HttpStatusCode.Forbidden)

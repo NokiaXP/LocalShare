@@ -9,6 +9,8 @@ import androidx.datastore.preferences.preferencesDataStore
 import com.defname.localshare.data.ConnectionLogsRepository
 import com.defname.localshare.data.DataStoreSettingsRepository
 import com.defname.localshare.data.FileInfoProvider
+import com.defname.localshare.data.FileStorageProvider
+import com.defname.localshare.data.MediaStoreStorageProvider
 import com.defname.localshare.data.NetworkInfoProvider
 import com.defname.localshare.data.PermissionRepository
 import com.defname.localshare.data.QrCodeProvider
@@ -16,8 +18,8 @@ import com.defname.localshare.data.RemoteCommunicationRepository
 import com.defname.localshare.data.SecurityRepository
 import com.defname.localshare.data.ServerUrlProvider
 import com.defname.localshare.data.ServiceRepository
-import com.defname.localshare.domain.manager.UploadManager
 import com.defname.localshare.data.UploadRepository
+import com.defname.localshare.domain.manager.UploadManager
 import com.defname.localshare.domain.repository.SettingsRepository
 import com.defname.localshare.domain.usecase.AddFilesUseCase
 import com.defname.localshare.domain.usecase.AddSharedContentUseCase
@@ -31,6 +33,7 @@ import com.defname.localshare.ui.screens.logs.LogsViewModel
 import com.defname.localshare.ui.screens.main.MainViewModel
 import com.defname.localshare.ui.screens.settings.SettingsViewModel
 import com.defname.localshare.ui.screens.sharedcontent.SharedContentViewModel
+import com.defname.localshare.ui.screens.transfers.TransfersViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
@@ -38,6 +41,8 @@ import kotlinx.serialization.json.Json
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.module.dsl.singleOf
 import org.koin.core.module.dsl.viewModel
+import org.koin.core.module.dsl.viewModelOf
+import org.koin.dsl.bind
 import org.koin.dsl.module
 
 val Context.dataStore by preferencesDataStore(name = "settings")
@@ -65,6 +70,7 @@ val appModule = module {
     single<SettingsRepository> { DataStoreSettingsRepository(get()) }
 
     singleOf(::UploadRepository)
+    singleOf(::MediaStoreStorageProvider) bind FileStorageProvider::class
     singleOf(::UploadManager)
     singleOf(::RemoteCommunicationRepository)
 
@@ -80,8 +86,9 @@ val appModule = module {
 
     viewModel { MainViewModel(get(), get(), get()) }
     viewModel { FilesViewModel(get(), get()) }
-    viewModel { HomeViewModel(get(), get(), get(), get(), get(), get(), get(), get(), get(), get()) }
+    viewModel { HomeViewModel(get(), get(), get(), get(), get(), get(), get(), get(), get(), get(), get()) }
     viewModel { LogsViewModel(get(), get(), get()) }
     viewModel { SettingsViewModel(get(), get()) }
-    viewModel { SharedContentViewModel(get(), get()) }
+    viewModelOf(::SharedContentViewModel)
+    viewModelOf(::TransfersViewModel)
 }

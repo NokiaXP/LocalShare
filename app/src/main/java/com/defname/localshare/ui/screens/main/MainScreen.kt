@@ -28,6 +28,7 @@ import com.defname.localshare.ui.screens.main.components.MainMenu
 import com.defname.localshare.ui.screens.main.components.WelcomeOnboarding
 import com.defname.localshare.ui.screens.settings.SettingsScreen
 import com.defname.localshare.ui.screens.sharedcontent.SharedContentScreen
+import com.defname.localshare.ui.screens.transfers.TransfersScreen
 import kotlinx.coroutines.launch
 import org.koin.androidx.compose.koinViewModel
 
@@ -106,6 +107,13 @@ fun MainScreen(
                         }
                         launchSingleTop = true
                         restoreState = true
+                    } },
+                    onNavigateToTransfers = { navController.navigate(Screen.Transfers.route) {
+                        popUpTo(navController.graph.startDestinationId) {
+                            saveState = true
+                        }
+                        launchSingleTop = true
+                        restoreState = true
                     } }
                 )
             }
@@ -114,6 +122,14 @@ fun MainScreen(
             }
             composable(Screen.SharedContent.route) {
                 SharedContentScreen(onOpenDrawer = onOpenDrawer)
+            }
+            composable(
+                route = Screen.Transfers.route,
+                deepLinks = listOf(
+                    androidx.navigation.navDeepLink { uriPattern = com.defname.localshare.service.notification.NotificationHelper.DEEP_LINK_URI }
+                )
+            ) {
+                TransfersScreen(onOpenDrawer = onOpenDrawer)
             }
             composable(Screen.Settings.route) {
                 SettingsScreen(

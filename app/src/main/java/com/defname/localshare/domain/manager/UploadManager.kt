@@ -5,6 +5,7 @@ import com.defname.localshare.data.UploadRepository
 import com.defname.localshare.domain.model.DraftUploadBatch
 import com.defname.localshare.domain.model.EventEnvelop
 import com.defname.localshare.domain.model.UploadFile
+import com.defname.localshare.domain.model.UploadFileState
 import com.defname.localshare.domain.model.UploadStatus
 import com.defname.localshare.domain.model.WebEvent
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -43,7 +44,7 @@ class UploadManager(
     }
 
     suspend fun onRequestAccepted(clientIp: String, draftId: Int) {
-        val draft = findRequest(clientIp, draftId) ?: return
+        val draft = removeRequest(clientIp, draftId) ?: return
         val fileErrors = mutableListOf<String>()
         val fileUris = draft.files.map { file ->
             val uri = fileStorageProvider.createOutputFile(file.name, file.mimeType)
@@ -102,8 +103,15 @@ class UploadManager(
         }
 
         outputStream.also {
+            uploadRepository.updateFileState(batchId, fileHash, UploadFileState.Uploading(0))
+            
+            // Note: For real progress we'd need a custom copyTo with a callback
             inputStream.copyTo(it)
+            
+            fileStorageProvider.finalizeFile(uri)
             it.close()
+
+            uploadRepository.updateFileState(batchId, fileHash, UploadFileState.Finished)
 
             val event = EventEnvelop(
                 event = WebEvent.UploadUpdated(
