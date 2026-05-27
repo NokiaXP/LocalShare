@@ -38,6 +38,7 @@ class MainActivity : ComponentActivity() {
     private val addFilesUseCase: AddFilesUseCase by inject()
     private val addSharedContentUseCase: AddSharedContentUseCase by inject()
     private val permissionRepository: PermissionRepository by inject()
+    private val mainViewModel: com.defname.localshare.ui.screens.main.MainViewModel by inject()
     private val scope = CoroutineScope(Dispatchers.Main + SupervisorJob())
 
     private val requestPermissionLauncher = registerForActivityResult(
@@ -69,12 +70,15 @@ class MainActivity : ComponentActivity() {
             }
         }
 
-        intent?.let { handleSendIntent(it) }
+        intent?.let { 
+            handleSendIntent(it)
+            handleNavigationIntent(it)
+        }
 
         enableEdgeToEdge()
         setContent {
             LocalShareTheme {
-                MainScreen()
+                MainScreen(mainViewModel)
             }
         }
     }
@@ -83,6 +87,13 @@ class MainActivity : ComponentActivity() {
         super.onNewIntent(intent)
         setIntent(intent)
         handleSendIntent(intent)
+        handleNavigationIntent(intent)
+    }
+
+    private fun handleNavigationIntent(intent: Intent) {
+        if (intent.action == com.defname.localshare.service.notification.NotificationHelper.ACTION_SHOW_TRANSFERS) {
+            mainViewModel.navigateToTransfers()
+        }
     }
 
     private fun handleSendIntent(intent: Intent) {

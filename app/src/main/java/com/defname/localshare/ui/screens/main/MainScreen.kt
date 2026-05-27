@@ -10,6 +10,7 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ModalNavigationDrawer
 import androidx.compose.material3.rememberDrawerState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
@@ -32,7 +33,6 @@ import com.defname.localshare.ui.screens.transfers.TransfersScreen
 import kotlinx.coroutines.launch
 import org.koin.androidx.compose.koinViewModel
 
-
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MainScreen(
@@ -40,6 +40,19 @@ fun MainScreen(
 ) {
     val state by viewModel.state.collectAsState()
     val navController = rememberNavController()
+
+    LaunchedEffect(Unit) {
+        viewModel.navigationEvents.collect { route ->
+            navController.navigate(route) {
+                popUpTo(navController.graph.startDestinationId) {
+                    saveState = true
+                }
+                launchSingleTop = true
+                restoreState = true
+            }
+        }
+    }
+
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val scope = rememberCoroutineScope()
     val context = LocalContext.current

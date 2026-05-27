@@ -12,24 +12,26 @@ import androidx.lifecycle.viewModelScope
 import com.defname.localshare.data.ServerUrlProvider
 import com.defname.localshare.data.ServiceRepository
 import com.defname.localshare.domain.repository.SettingsRepository
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
-private data class QrState(
-    val showQrDialog: Boolean,
-    val qrForStream: Boolean
-)
-
 class MainViewModel(
     private val settingsRepository: SettingsRepository,
     private val serverUrlProvider: ServerUrlProvider,
     private val serviceRepository: ServiceRepository
 ) : ViewModel() {
+
+    private val _navigationEvents = MutableSharedFlow<String>(extraBufferCapacity = 1)
+    val navigationEvents = _navigationEvents.asSharedFlow()
+
+    private val _welcomeMessageVisible = MutableStateFlow(false)
 
     init {
         viewModelScope.launch {
@@ -48,7 +50,12 @@ class MainViewModel(
         _welcomeMessageVisible.update { false }
         settingsRepository.setShowWelcomeMessage(showNextTime)
     }
-    private val _welcomeMessageVisible = MutableStateFlow(false)
+
+    fun navigateToTransfers() {
+        viewModelScope.launch {
+            _navigationEvents.emit(Screen.Transfers.route)
+        }
+    }
 
     val state = combine(
         serverUrlProvider.serverUrls,

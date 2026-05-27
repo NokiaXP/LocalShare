@@ -11,7 +11,7 @@ import kotlinx.coroutines.withContext
 import java.io.OutputStream
 
 interface FileStorageProvider {
-    suspend fun createOutputFile(fileName: String, mimeType: String): Uri?
+    suspend fun createOutputFile(fileName: String, mimeType: String, subFolder: String? = null): Uri?
     fun openOutputStream(uri: Uri): OutputStream?
     suspend fun deleteFile(uri: Uri)
     suspend fun finalizeFile(uri: Uri)
@@ -26,7 +26,8 @@ class MediaStoreStorageProvider(
 
     override suspend fun createOutputFile(
         fileName: String,
-        mimeType: String
+        mimeType: String,
+        subFolder: String?
     ): Uri? = withContext(Dispatchers.IO) {
 
         val collection = MediaStore.Downloads.EXTERNAL_CONTENT_URI
@@ -35,11 +36,15 @@ class MediaStoreStorageProvider(
             put(MediaStore.MediaColumns.DISPLAY_NAME, fileName)
             put(MediaStore.MediaColumns.MIME_TYPE, mimeType)
 
-            // Datei landet in /Download/LocalShare
-            put(
-                MediaStore.MediaColumns.RELATIVE_PATH,
-                Environment.DIRECTORY_DOWNLOADS + "/LocalShare"
-            )
+            // Basis-Pfad: /Download/LocalShare
+            var relativePath = Environment.DIRECTORY_DOWNLOADS + "/LocalShare"
+            
+            // Falls ein Unterordner angegeben wurde, hängen wir ihn an
+            if (!subFolder.isNullOrBlank()) {
+                relativePath += "/$subFolder"
+            }
+
+            put(MediaStore.MediaColumns.RELATIVE_PATH, relativePath)
 
             // Android markiert Datei während des Schreibens als "in Bearbeitung"
             put(MediaStore.MediaColumns.IS_PENDING, 1)

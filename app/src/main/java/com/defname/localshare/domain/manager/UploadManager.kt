@@ -45,9 +45,14 @@ class UploadManager(
 
     suspend fun onRequestAccepted(clientIp: String, draftId: Int) {
         val draft = removeRequest(clientIp, draftId) ?: return
+        
+        val batchId = java.util.UUID.randomUUID().toString().take(6)
+        val timestamp = java.text.SimpleDateFormat("yyyyMMdd_HHmmss", java.util.Locale.getDefault()).format(java.util.Date())
+        val subFolder = "Upload_${timestamp}_$batchId"
+
         val fileErrors = mutableListOf<String>()
         val fileUris = draft.files.map { file ->
-            val uri = fileStorageProvider.createOutputFile(file.name, file.mimeType)
+            val uri = fileStorageProvider.createOutputFile(file.name, file.mimeType, subFolder)
             if (uri == null) {
                 fileErrors += file.checksum
                 return@map null
@@ -60,14 +65,14 @@ class UploadManager(
             return
         }
 
-        val requestId = uploadRepository.initNewUploadBatch(draft, fileUris)
+        uploadRepository.initNewUploadBatch(batchId, draft, fileUris)
 
-        val event = EventEnvelop(event = WebEvent.UploadAccepted(draftId, requestId))
+        val event = EventEnvelop(event = WebEvent.UploadAccepted(draftId, batchId))
         _uploadEvents.emit(event to clientIp)
 
         // emit file creation errors
         for (fileHash in fileErrors) {
-            emitFileError(clientIp, requestId, fileHash, "File cannot be created.")
+            emitFileError(clientIp, batchId, fileHash, "File cannot be created.")
         }
     }
 
