@@ -173,7 +173,10 @@
         <template x-for="(file, index) in sortedFiles" :key="file.fileId">
             <li :class="isGrid ? 'ls-card-grid' : 'ls-card-list'">
                 <div :class="isGrid ? 'contents' : 'flex items-center gap-4 w-full'">
-                    <div @click="currentIndex = index; toggleSlideshow()" class="cursor-pointer">
+                    <div @click="currentIndex = index; toggleSlideshow()"
+                        class="cursor-pointer"
+                        :class="isGrid ? 'ls-preview-box-grid' : 'ls-preview-box-list'"
+                    >
                         <img x-init="loadPreview($el, file)" class="w-full h-full object-contain" />
                     </div>
                     <div class="flex-1 min-w-0">
