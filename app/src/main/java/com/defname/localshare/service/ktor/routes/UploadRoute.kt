@@ -1,5 +1,6 @@
 package com.defname.localshare.service.ktor.routes
 
+import com.defname.localshare.domain.manager.FeatureFlagsProvider
 import com.defname.localshare.domain.manager.UploadManager
 import com.defname.localshare.service.ServerSecurityHandler
 import io.ktor.http.HttpStatusCode
@@ -11,8 +12,11 @@ import io.ktor.server.routing.post
 fun Route.upload(
     securityHandler: ServerSecurityHandler,
     uploadManager: UploadManager,
+    featureFlagsProvider: FeatureFlagsProvider
 ) {
     post("/{token}/upload/{batchId}/{fileHash}") {
+        if (!featureFlagsProvider.uploadFeature.value) return@post call.respondText("Uploads are disabled.", status = HttpStatusCode.Forbidden)
+
         val remoteHost = call.request.local.remoteHost
         if (!securityHandler.verifyAccess(call) || !securityHandler.hasUploadPermission(remoteHost)) {
             return@post call.respondText("No Access.", status = HttpStatusCode.Forbidden)

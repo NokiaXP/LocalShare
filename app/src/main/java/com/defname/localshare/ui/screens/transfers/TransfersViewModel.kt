@@ -3,6 +3,7 @@ package com.defname.localshare.ui.screens.transfers
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.defname.localshare.data.UploadRepository
+import com.defname.localshare.domain.manager.FeatureFlagsProvider
 import com.defname.localshare.domain.manager.UploadManager
 import com.defname.localshare.domain.model.DraftUploadBatch
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -12,14 +13,26 @@ import kotlinx.coroutines.launch
 
 class TransfersViewModel(
     private val uploadManager: UploadManager,
-    private val uploadRepository: UploadRepository
+    private val uploadRepository: UploadRepository,
+    private val featureFlagsProvider: FeatureFlagsProvider
 ) : ViewModel() {
     private val _state = MutableStateFlow(TransfersState())
     val state = _state.asStateFlow()
 
     init {
+        observeFeatureFlas()
         observeUploadRequests()
         observeActiveBatches()
+    }
+
+    private fun observeFeatureFlas() {
+        viewModelScope.launch {
+            featureFlagsProvider.uploadFeature.collect { active ->
+                _state.update {
+                    it.copy(uploadFeatureActive = active)
+                }
+            }
+        }
     }
 
     private fun observeUploadRequests() {

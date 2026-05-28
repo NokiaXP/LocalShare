@@ -1,3 +1,3 @@
-- New feature: File upload to the app
+- New experimental feature: File upload to the app (can be activated in the settings)
 - UI improvements
 - Service stops when the notification is closed

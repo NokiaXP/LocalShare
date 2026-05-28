@@ -111,7 +111,7 @@
     @apply flex-grow flex items-center justify-center relative p-4 md:p-12 min-h-[400px];
   }
   .ls-slideshow-btn-nav {
-    @apply absolute p-4 text-gray-300 hover:text-blue-600 transition cursor-pointer z-10;
+    @apply absolute top-1/2 -translate-y-1/2 p-4 text-gray-400 hover:text-blue-600 transition cursor-pointer z-10;
   }
   .ls-slideshow-img {
     @apply w-48 h-48 md:w-64 md:h-64 object-contain transition-all duration-500;

@@ -139,7 +139,7 @@
                         <div class="w-full bg-gray-100 dark:bg-slate-700 rounded-full h-1.5 overflow-hidden">
                             <div class="h-full transition-all duration-300" 
                                  :class="file.state === 4 ? 'bg-red-500' : 'bg-blue-500'"
-                                 :style="'width: ' + file.state === 4 ? '100%' : ((file.progress / file.size * 100)|0) + '%'"></div>
+                                 :style="'width: ' + (file.state === 4 || file.state === 3 ? '100%' : ((file.progress / file.size * 100)|0) + '%')"></div>
                         </div>
                         <template x-if="file.state === 4">
                              <p class="text-[10px] text-red-400 mt-1" x-text="file.errorMessage || 'Upload failed'"></p>
@@ -163,6 +163,12 @@
             <div class="h-6 w-px bg-gray-200 dark:bg-slate-700 mx-2"></div>
             <button @click="showGrid()" :class="isGrid ? 'active' : 'inactive'" class="ls-btn-view-switcher">Grid</button>
             <button @click="showList()" :class="isList ? 'active' : 'inactive'" class="ls-btn-view-switcher">List</button>
+            <div class="h-6 w-px bg-gray-200 dark:bg-slate-700 mx-2"></div>
+            <button @click="toggleSlideshow()" class="ls-btn-toolbar" title="Slideshow">
+                <svg class="w-5 h-5 text-gray-600 dark:text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 4v16l12-8z"></path>
+                </svg>
+            </button>
         </div>
         
         <a x-show="files.length > 0" :href="'/' + window.token + '/?download'" class="ls-btn-primary">Download All (ZIP)</a>
@@ -179,12 +185,22 @@
                     >
                         <img x-init="loadPreview($el, file)" class="w-full h-full object-contain" />
                     </div>
-                    <div class="flex-1 min-w-0">
-                        <p class="font-bold truncate" x-text="file.filename"></p>
-                        <p class="text-xs text-gray-500" x-text="humanFileSize(file.size)"></p>
+                    <div :class="isGrid ? 'ls-card-content-grid' : 'flex-1 min-w-0'">
+                        <p class="ls-file-name" :class="isGrid ? 'text-sm mb-1' : 'text-base'" x-text="file.filename"></p>
+                        <p class="ls-file-size" x-text="humanFileSize(file.size)"></p>
                     </div>
-                    <div class="flex gap-1">
-                        <a :href="'/' + window.token + '/file/' + file.fileId + '?download'" class="ls-btn-action-small get">Get</a>
+                    <div :class="isGrid ? 'p-4 pt-0 flex gap-2' : 'flex gap-2'">
+                        <a :href="'/' + window.token + '/file/' + file.fileId" 
+                           target="_blank"
+                           class="ls-btn-action-small open flex-1 flex items-center justify-center gap-1">
+                            <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path></svg>
+                            <span>Open</span>
+                        </a>
+                        <a :href="'/' + window.token + '/file/' + file.fileId + '?download'" 
+                           class="ls-btn-action-small get flex-1 flex items-center justify-center gap-1">
+                            <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a2 2 0 002 2h12a2 2 0 002-2v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
+                            <span>Get</span>
+                        </a>
                     </div>
                 </div>
             </li>
@@ -192,16 +208,34 @@
     </ul>
 
     <!-- Slideshow -->
-    <div x-show="isSlideshow" class="ls-slideshow-container">
-        <!-- ... Slideshow logic ... -->
+    <div x-show="isSlideshow" class="ls-slideshow-container" x-cloak>
         <div class="ls-slideshow-header">
-             <span x-text="currentFile?.filename"></span>
-             <button @click="toggleSlideshow()">Close</button>
+             <span class="font-bold truncate max-w-md" x-text="currentFile?.filename"></span>
+             <button @click="toggleSlideshow()" class="ls-btn-secondary text-xs uppercase tracking-widest font-bold px-4">Close</button>
         </div>
         <div class="ls-slideshow-main">
-            <button @click="prevSlide()">Prev</button>
-            <img x-init="loadPreview($el, currentFile); $watch('currentFile', (val) => loadPreview($el, val))" data-is-slideshow="true" />
-            <button @click="nextSlide()">Next</button>
+            <button @click="prevSlide()" class="ls-slideshow-btn-nav left-4">
+                <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
+            </button>
+            <img x-init="loadPreview($el, currentFile); $watch('currentFile', (val) => loadPreview($el, val))" 
+                 data-is-slideshow="true"
+                 class="ls-slideshow-img" />
+            <button @click="nextSlide()" class="ls-slideshow-btn-nav right-4">
+                <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+            </button>
+        </div>
+        <div class="ls-slideshow-footer">
+            <a :href="'/' + window.token + '/file/' + currentFile?.fileId" 
+               target="_blank"
+               class="ls-slideshow-btn-action secondary flex items-center gap-2">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path></svg>
+                <span>Open File</span>
+            </a>
+            <a :href="'/' + window.token + '/file/' + currentFile?.fileId + '?download'" 
+               class="ls-slideshow-btn-action primary flex items-center gap-2">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a2 2 0 002 2h12a2 2 0 002-2v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
+                <span>Download File</span>
+            </a>
         </div>
     </div>
 </div>

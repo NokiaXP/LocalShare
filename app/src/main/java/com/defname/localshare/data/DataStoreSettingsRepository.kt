@@ -49,7 +49,7 @@ class DataStoreSettingsRepository(
                 sseHeartbeatPeriodSeconds = it[Keys.SSE_HEARTBEAT_PERIOD_SECONDS] ?: 1,
                 showWelcomeMessage = it[Keys.SHOW_WELCOME_MESSAGE] ?: true,
                 regenerateTokenAtAppStart = it[Keys.REGENERATE_TOKEN_AT_APP_START] ?: true,
-                uploadFeatureActive = it[Keys.UPLOAD_FEATURE_ACTIVE] ?: true
+                uploadFeatureActive = it[Keys.UPLOAD_FEATURE_ACTIVE] ?: false
             )
         }
 

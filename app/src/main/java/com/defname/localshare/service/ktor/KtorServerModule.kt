@@ -110,9 +110,7 @@ fun Application.configureServerModule(
 
         apiAction(securityHandler, remoteCommunicationRepository)
 
-        if (featureFlagsProvider.uploadFeature.value) {
-            upload(securityHandler, uploadManager)
-        }
+        upload(securityHandler, uploadManager, featureFlagsProvider)
 
         get("{...}") {
             call.respondText("No Access\n", status = HttpStatusCode.Forbidden)
