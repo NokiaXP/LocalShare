@@ -4,7 +4,7 @@
 
 import Alpine from 'alpinejs';
 import { FileInfo, WebEventAddFile, WebEventRemoveFile } from '../types';
-import { humanFileSize, getThumbnailUrl, getFileIconUrl } from '../utils';
+import { humanFileSize, getThumbnailUrl, getFileIconUrl, copyTextToClipboard } from '../utils';
 
 export const FileManager = (initialFiles: FileInfo[]) => ({
     view: 'grid' as 'grid' | 'list',
@@ -104,11 +104,12 @@ export const FileManager = (initialFiles: FileInfo[]) => ({
         });
     },
 
-    copyLink(fileId: string) {
+    async copyLink(fileId: string) {
         const link = window.location.origin + '/' + window.token + '/file/' + fileId;
-        navigator.clipboard.writeText(link).then(() => {
+        const success = await copyTextToClipboard(link);
+        if (success) {
             this.copiedId = fileId;
             setTimeout(() => { if(this.copiedId === fileId) this.copiedId = null; }, 2000);
-        });
+        }
     }
 });

@@ -49,7 +49,7 @@
   }
 
   .ls-btn-primary {
-    @apply bg-blue-600 text-white px-4 py-2 rounded-xl text-sm font-semibold hover:bg-blue-700 transition shadow-lg shadow-blue-500/20 cursor-pointer;
+    @apply bg-blue-600 text-white px-4 py-2 rounded-xl text-sm font-semibold hover:bg-blue-700 transition shadow-lg shadow-blue-500/20 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed;
   }
 
   .ls-btn-secondary {
@@ -57,13 +57,30 @@
   }
 
   .ls-btn-action-small {
-    @apply text-[10px] uppercase tracking-wider px-3 py-1.5 rounded-lg font-bold transition;
+    @apply text-[10px] uppercase tracking-wider px-3 py-1.5 rounded-lg font-bold transition flex items-center justify-center gap-1;
   }
   .ls-btn-action-small.get {
     @apply bg-gray-100 dark:bg-slate-800 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-slate-700;
   }
   .ls-btn-action-small.open {
     @apply bg-blue-600 text-white hover:bg-blue-700 shadow-md shadow-blue-500/10;
+  }
+
+  /* Modals */
+  .ls-modal-overlay {
+    @apply fixed inset-0 bg-gray-900/60 backdrop-blur-sm;
+  }
+  .ls-modal-container {
+    @apply relative bg-white dark:bg-slate-800 w-full max-w-md rounded-2xl shadow-2xl p-6 overflow-hidden;
+  }
+  .ls-dropzone {
+    @apply border-2 border-dashed rounded-xl p-8 cursor-pointer bg-gray-50 dark:bg-slate-900/50 transition-colors;
+  }
+  .ls-dropzone.active {
+    @apply border-blue-500 bg-blue-50 dark:bg-blue-900/20;
+  }
+  .ls-dropzone.inactive {
+    @apply border-gray-300 dark:border-slate-600;
   }
 
   /* Form Elements */
@@ -76,7 +93,7 @@
     @apply bg-white dark:bg-slate-900 rounded-2xl shadow-sm border border-gray-100 dark:border-slate-800 overflow-hidden flex flex-col;
   }
   .ls-card-list {
-    @apply bg-white dark:bg-slate-900 p-3 rounded-xl border border-gray-100 dark:border-slate-800 flex items-center justify-between shadow-sm;
+    @apply bg-white dark:bg-slate-900 p-3 rounded-xl border border-gray-100 dark:border-slate-800 flex items-center justify-between shadow-sm gap-4;
   }
 
   .ls-preview-box-grid {
@@ -87,10 +104,13 @@
   }
 
   .ls-card-content-grid {
-    @apply p-4 flex flex-col flex-grow items-center text-center;
+    @apply p-4 flex flex-col flex-grow;
   }
-  .ls-card-content-list {
-    @apply flex-grow grid grid-cols-2 md:grid-cols-4 items-center px-2;
+  .ls-card-actions-grid {
+    @apply p-4 pt-0 flex gap-2;
+  }
+  .ls-card-actions-list {
+    @apply flex gap-2;
   }
 
   .ls-file-name {
@@ -98,6 +118,20 @@
   }
   .ls-file-size {
     @apply text-xs text-gray-500 dark:text-slate-400 font-mono;
+  }
+
+  /* Progress Bars */
+  .ls-progress-container {
+    @apply w-full bg-gray-100 dark:bg-slate-700 rounded-full h-1.5 overflow-hidden;
+  }
+  .ls-progress-bar {
+    @apply h-full transition-all duration-300;
+  }
+  .ls-progress-bar.success {
+    @apply bg-blue-500;
+  }
+  .ls-progress-bar.error {
+    @apply bg-red-500;
   }
 
   /* Slideshow */
@@ -120,7 +154,7 @@
     @apply p-6 bg-gray-50 dark:bg-slate-900/50 border-t border-gray-100 dark:border-slate-800 flex flex-wrap justify-center gap-4;
   }
   .ls-slideshow-btn-action {
-    @apply px-6 py-2 rounded-xl font-bold transition cursor-pointer;
+    @apply px-6 py-2 rounded-xl font-bold transition cursor-pointer flex items-center gap-2;
   }
   .ls-slideshow-btn-action.secondary {
     @apply bg-white dark:bg-slate-800 text-gray-700 dark:text-white border border-gray-200 dark:border-slate-700 hover:bg-gray-100 dark:hover:bg-slate-700;
@@ -137,7 +171,10 @@
     @apply p-6 border-b border-gray-100 dark:border-slate-800 flex items-center justify-between;
   }
   .ls-sidebar-content-item {
-    @apply bg-gray-50 dark:bg-slate-800/50 p-4 rounded-xl border border-gray-100 dark:border-slate-700;
+    @apply bg-gray-50 dark:bg-slate-800/50 p-4 rounded-xl border border-gray-100 dark:border-slate-700 flex items-start gap-3;
+  }
+  .ls-sidebar-text {
+    @apply text-sm text-gray-800 dark:text-gray-200 break-words whitespace-pre-wrap flex-1 min-w-0;
   }
   .ls-sidebar-btn-copy {
     @apply flex-shrink-0 p-2 bg-white dark:bg-slate-700 shadow-sm border border-gray-100 dark:border-slate-600 rounded-lg hover:bg-gray-100 dark:hover:bg-slate-600 transition cursor-pointer;

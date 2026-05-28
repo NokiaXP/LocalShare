@@ -67,9 +67,9 @@
 <div x-show="$store.app.showUploadModal"
      class="fixed inset-0 z-50 flex items-center justify-center p-4"
      x-cloak>
-    <div @click="$store.app.showUploadModal = false" class="fixed inset-0 bg-gray-900/60 backdrop-blur-sm"></div>
+    <div @click="$store.app.showUploadModal = false" class="ls-modal-overlay"></div>
 
-    <div class="relative bg-white dark:bg-slate-800 w-full max-w-md rounded-2xl shadow-2xl p-6 overflow-hidden">
+    <div class="ls-modal-container">
         <!-- Permission State -->
         <div x-show="$store.app.uploadPermissionStatus === 'not_requested' || $store.app.uploadPermissionStatus === 'denied'" class="text-center py-4">
             <h3 class="text-lg font-bold text-gray-900 dark:text-white mb-2">Upload Permission Required</h3>
@@ -85,8 +85,8 @@
         <!-- Dropzone / Upload State -->
         <div x-show="$store.app.uploadPermissionStatus === 'granted'" x-data="dropzone">
             <form @submit.prevent="submit" class="text-center">
-                <div class="border-2 border-dashed rounded-xl p-8 cursor-pointer bg-gray-50 dark:bg-slate-900/50"
-                     :class="dragActive ? 'border-blue-500 bg-blue-50' : 'border-gray-300 dark:border-slate-600'"
+                <div class="ls-dropzone"
+                     :class="dragActive ? 'active' : 'inactive'"
                      @click="$refs.fileInput.click()"
                      @drop.prevent="dropFile($event)"
                      @dragover.prevent="dragOver"
@@ -102,7 +102,6 @@
                         <template x-for="(file, index) in files" :key="index">
                             <div class="relative w-16 h-16 bg-white dark:bg-slate-700 rounded shadow p-1">
                                 <span class="text-[8px] truncate block" x-text="file.name"></span>
-                                <!-- <div class="absolute bottom-0 left-0 h-1 bg-blue-500 transition-all" :style="'width: ' + ((file.progress / file.size) || 0) + '%'"></div> -->
                                 <button @click.stop="removeFile(index)" class="absolute -top-1 -right-1 bg-red-500 text-white rounded-full w-4 h-4 text-[10px]">×</button>
                             </div>
                         </template>
@@ -136,9 +135,9 @@
                                   :class="file.state === 4 ? 'text-red-500' : file.state == 3 ? 'text-green-500' : 'text-gray-500'"
                                   x-text="file.state === 4 ? 'Error' : file.state === 3 ? '✔' : ((file.progress / file.size * 100)|0) + '%'"></span>
                         </div>
-                        <div class="w-full bg-gray-100 dark:bg-slate-700 rounded-full h-1.5 overflow-hidden">
-                            <div class="h-full transition-all duration-300" 
-                                 :class="file.state === 4 ? 'bg-red-500' : 'bg-blue-500'"
+                        <div class="ls-progress-container">
+                            <div class="ls-progress-bar" 
+                                 :class="file.state === 4 ? 'error' : 'success'"
                                  :style="'width: ' + (file.state === 4 || file.state === 3 ? '100%' : ((file.progress / file.size * 100)|0) + '%')"></div>
                         </div>
                         <template x-if="file.state === 4">
@@ -189,15 +188,15 @@
                         <p class="ls-file-name" :class="isGrid ? 'text-sm mb-1' : 'text-base'" x-text="file.filename"></p>
                         <p class="ls-file-size" x-text="humanFileSize(file.size)"></p>
                     </div>
-                    <div :class="isGrid ? 'p-4 pt-0 flex gap-2' : 'flex gap-2'">
+                    <div :class="isGrid ? 'ls-card-actions-grid' : 'ls-card-actions-list'">
                         <a :href="'/' + window.token + '/file/' + file.fileId" 
                            target="_blank"
-                           class="ls-btn-action-small open flex-1 flex items-center justify-center gap-1">
+                           class="ls-btn-action-small open flex-1">
                             <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path></svg>
                             <span>Open</span>
                         </a>
                         <a :href="'/' + window.token + '/file/' + file.fileId + '?download'" 
-                           class="ls-btn-action-small get flex-1 flex items-center justify-center gap-1">
+                           class="ls-btn-action-small get flex-1">
                             <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a2 2 0 002 2h12a2 2 0 002-2v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
                             <span>Get</span>
                         </a>
@@ -227,12 +226,12 @@
         <div class="ls-slideshow-footer">
             <a :href="'/' + window.token + '/file/' + currentFile?.fileId" 
                target="_blank"
-               class="ls-slideshow-btn-action secondary flex items-center gap-2">
+               class="ls-slideshow-btn-action secondary">
                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path></svg>
                 <span>Open File</span>
             </a>
             <a :href="'/' + window.token + '/file/' + currentFile?.fileId + '?download'" 
-               class="ls-slideshow-btn-action primary flex items-center gap-2">
+               class="ls-slideshow-btn-action primary">
                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a2 2 0 002 2h12a2 2 0 002-2v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
                 <span>Download File</span>
             </a>
@@ -242,7 +241,7 @@
 
 <!-- Sidebar -->
 <div x-show="$store.sidebar.isOpen" class="fixed inset-0 z-50" x-cloak>
-    <div @click="$store.sidebar.isOpen = false" class="absolute inset-0 bg-black/50"></div>
+    <div @click="$store.sidebar.isOpen = false" class="ls-sidebar-backdrop"></div>
     <div class="ls-sidebar-panel">
         <div class="ls-sidebar-header">
             <h2 class="text-xl font-bold">Shared Content</h2>
@@ -250,8 +249,21 @@
         <div class="p-4 space-y-4">
             <template x-for="item in $store.sidebar.items" :key="item.id">
                 <div class="ls-sidebar-content-item">
-                    <p x-text="item.text || item.data"></p>
-                    <button @click="$store.sidebar.copy(item.text || item.data)">Copy</button>
+                    <p class="ls-sidebar-text" x-text="item.text || item.data"></p>
+                    <button @click="$store.sidebar.copy(item)" 
+                            class="ls-sidebar-btn-copy"
+                            :class="$store.sidebar.copiedId === item.id ? 'text-green-600 border-green-300 bg-green-50' : 'text-gray-400 hover:text-gray-600'"
+                            title="Copy to Clipboard">
+                        <!-- Standard Copy Icon -->
+                        <svg x-show="$store.sidebar.copiedId !== item.id" class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                        </svg>
+                        <!-- Checkmark -->
+                        <svg x-show="$store.sidebar.copiedId === item.id" class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" x-cloak>
+                            <polyline points="20 6 9 17 4 12"></polyline>
+                        </svg>
+                    </button>
                 </div>
             </template>
         </div>

@@ -4,12 +4,13 @@
 
 import Alpine from 'alpinejs';
 import { SidebarItem, WebEventAddText, WebEventRemoveText } from '../types';
-import { parseJSON } from '../utils';
+import { parseJSON, copyTextToClipboard } from '../utils';
 
 export const SidebarStore = {
     items: [] as SidebarItem[],
     isOpen: false,
     hasNew: false,
+    copiedId: null as number | null,
 
     init() {
         const sse = Alpine.store('sse') as EventSource;
@@ -36,7 +37,15 @@ export const SidebarStore = {
         if (this.isOpen) this.hasNew = false;
     },
 
-    copy(text: string) {
-        navigator.clipboard.writeText(text);
+    async copy(item: SidebarItem) {
+        const text = item.text || item.data || '';
+        const store = (Alpine.store('sidebar') as any);
+        const success = await copyTextToClipboard(text);
+        if (success) {
+            store.copiedId = item.id;
+            setTimeout(() => {
+                if (store.copiedId === item.id) store.copiedId = null;
+            }, 2000);
+        }
     }
 };
