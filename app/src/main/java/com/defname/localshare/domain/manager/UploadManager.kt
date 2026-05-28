@@ -18,7 +18,8 @@ import java.security.MessageDigest
 
 class UploadManager(
     private val uploadRepository: UploadRepository,
-    private val fileStorageProvider: FileStorageProvider
+    private val fileStorageProvider: FileStorageProvider,
+    private val featureFlagsProvider: FeatureFlagsProvider
 ) {
     private val _openUploadRequests = MutableStateFlow(emptyList<DraftUploadBatch>())
     val openUploadRequests = _openUploadRequests.asStateFlow()
@@ -171,6 +172,9 @@ class UploadManager(
     private fun findRequest(clientIp: String, draftId: Int) = _openUploadRequests.value.find { it.draftId == draftId && it.clientIp == clientIp }
 
     private fun addRequest(clientIp: String, draftId: Int, files: List<UploadFile>) {
+        if (!featureFlagsProvider.uploadFeature.value) {
+            return
+        }
         _openUploadRequests.update { list ->
             list + DraftUploadBatch(draftId, clientIp, files)
         }

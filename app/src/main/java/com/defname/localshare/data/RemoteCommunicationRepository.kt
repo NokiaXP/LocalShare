@@ -1,5 +1,6 @@
 package com.defname.localshare.data
 
+import com.defname.localshare.domain.manager.FeatureFlagsProvider
 import com.defname.localshare.domain.manager.UploadManager
 import com.defname.localshare.domain.model.ActionEnvelop
 import com.defname.localshare.domain.model.EventEnvelop
@@ -36,6 +37,7 @@ class RemoteCommunicationRepository(
     private val serviceRepository: ServiceRepository,
     private val securityRepository: SecurityRepository,
     private val uploadManager: UploadManager,
+    private val featureFlagsProvider: FeatureFlagsProvider,
     private val repositoryScope: CoroutineScope
 ) {
     private val _clientEventFlows = ConcurrentHashMap<String, MutableSharedFlow<EventEnvelop>>()
@@ -72,9 +74,11 @@ class RemoteCommunicationRepository(
     fun handleAction(envelope: ActionEnvelop, remoteIp: String) {
         when (val action = envelope.action) {
             is WebAction.RequestUploadPermission -> {
+                if (!featureFlagsProvider.uploadFeature.value) return
                 securityRepository.requestUploadPermission(remoteIp)
             }
             is WebAction.InitializeFileUpload -> {
+                if (!featureFlagsProvider.uploadFeature.value) return
                 val files = action.files.map { info ->
                     UploadFile(
                         checksum = info.checksum,

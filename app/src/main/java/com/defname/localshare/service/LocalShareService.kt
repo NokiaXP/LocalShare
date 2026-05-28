@@ -16,6 +16,7 @@ import com.defname.localshare.data.FileInfoProvider
 import com.defname.localshare.data.RemoteCommunicationRepository
 import com.defname.localshare.data.SecurityRepository
 import com.defname.localshare.data.ServiceRepository
+import com.defname.localshare.domain.manager.FeatureFlagsProvider
 import com.defname.localshare.domain.manager.UploadManager
 import com.defname.localshare.domain.repository.SettingsRepository
 import com.defname.localshare.service.ktor.configureServerModule
@@ -46,6 +47,7 @@ class LocalShareService : Service() {
     private val securityRepository: SecurityRepository by inject()
     private val remoteCommunicationRepository: RemoteCommunicationRepository by inject()
     private val uploadManager: UploadManager by inject()
+    private val featureFlagsProvider: FeatureFlagsProvider by inject()
 
     private val json: Json by inject()
 
@@ -197,6 +199,7 @@ class LocalShareService : Service() {
                                 securityHandler = securityHandler,
                                 securityRepository = securityRepository,
                                 fileInfoProvider = fileInfoProvider,
+                                featureFlagsProvider = featureFlagsProvider,
                                 json = Json,
                                 uploadManager = uploadManager,
                                 context = this@LocalShareService.applicationContext

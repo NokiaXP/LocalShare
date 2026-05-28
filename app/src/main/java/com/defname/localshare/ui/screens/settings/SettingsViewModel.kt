@@ -66,4 +66,10 @@ class SettingsViewModel(
             settingsRepository.setRegenerateTokenAtAppStart(regenerateTokenAtAppStart)
         }
     }
+
+    fun setUploadFeatureActive(uploadFeatureActive: Boolean) {
+        viewModelScope.launch {
+            settingsRepository.setUploadFeatureActive(uploadFeatureActive)
+        }
+    }
 }

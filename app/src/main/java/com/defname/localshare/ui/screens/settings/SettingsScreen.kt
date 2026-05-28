@@ -185,6 +185,15 @@ fun SettingsScreen(
                     onCheckedChange = viewModel::setClearFilesListOnSendIntent
                 )
             }
+
+            SettingsGroup(title = "Experimental Features") {
+                SettingsSwitchRow(
+                    title = "Upload Feature",
+                    subtitle = "Send files from the web UI to the app.",
+                    checked = settings.uploadFeatureActive,
+                    onCheckedChange = viewModel::setUploadFeatureActive
+                )
+            }
         }
     }
 }
