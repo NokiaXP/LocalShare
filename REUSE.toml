@@ -8,8 +8,10 @@ path = [
     "app/src/main/**.kt",
     "app/src/main/assets/**.html",
     "app/src/main/assets/web/js/main.js",
+    "app/src/main/assets/web/css/main.css",
     "buildScripts/generate_icon_mapping.py",
-    "web-build/input.css"
+    "web-build/input.css",
+    "fastlane/metadata/android/**.jpeg"
 ]
 SPDX-License-Identifier = "GPL-3.0-or-later"
 SPDX-FileCopyrightText = "2026 defname (https://github.com/defname)"
@@ -27,7 +29,8 @@ path = [
     "app/src/main/AndroidManifest.xml",
     ".github/workflows/**",
     "gradle.properties",
-    "gradle/wrapper/gradle-wrapper.properties"
+    "gradle/wrapper/gradle-wrapper.properties",
+    "web-build/tsconfig.json"
 ]
 SPDX-License-Identifier = "GPL-3.0-or-later"
 SPDX-FileCopyrightText = "2026 defname (https://github.com/defname)"
@@ -38,6 +41,7 @@ SPDX-FileCopyrightText = "2026 defname (https://github.com/defname)"
 [[annotations]]
 path = [
     "README.md",
+    "docs/**.md",
     "TODO",
     ".gitignore",
     ".gitmodules",
