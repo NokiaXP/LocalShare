@@ -146,8 +146,8 @@ export class UploadBatch {
             });
 
             if (!response.ok) throw new Error(await response.text());
-            file.state = UploadFileState.FINISHED;
-            file.progress = file.size;
+            // file.state = UploadFileState.FINISHED;
+            // file.progress = file.size;
         } catch (err: any) {
             if (err.name === 'AbortError') {
                 file.state = UploadFileState.CANCELED;
@@ -185,13 +185,7 @@ export class UploadBatch {
         if (!file) return;
 
         file.progress = event.progress;
-        this.files = [...this.files];
 
-        console.log(event.status)
-        console.log(file.size)
-        console.log(file.progress)
-        console.log(file)
-        console.log(this.files)
         if (event.message) {
             file.errorMessage = event.message;
         }
@@ -203,5 +197,7 @@ export class UploadBatch {
             case 'error': file.state = UploadFileState.ERROR; break;
             case 'canceled': file.state = UploadFileState.CANCELED; break;
         }
+
+        this.files = [...this.files];
     }
 }
