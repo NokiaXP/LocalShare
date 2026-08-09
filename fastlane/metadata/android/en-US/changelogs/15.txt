@@ -1,0 +1,1 @@
+- JavaScript-free web interface for maximum compatibility
