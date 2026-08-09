@@ -10,9 +10,10 @@ import com.defname.localshare.domain.model.FileInfo
 import com.defname.localshare.service.ktor.json.toJsonString
 
 class WebInterfaceRenderer(
-    private val context: Context,
-    private val templateFile: String = "web/template.html"
+    private val context: Context
 ) : InterfaceRenderer {
+    private val templateFile: String = "web/template.html"
+
     override fun render(token: String, files: List<FileInfo>, uploadFeatureActive: Boolean): String {
 
         // 1. Template aus Assets laden

@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<!-- Part of LocalShare - https://github.com/PapirusDevelopmentTeam/LocalShare -->
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="generator" content="LocalShare">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{appname}} - Shared Files</title>
+    <link rel="icon" type="image/png" href="/{{token}}/favicon">
+    <link rel="stylesheet" href="/{{token}}/static/css/tailwind.css">
+    <meta http-equiv="refresh" content="20">
+</head>
+<body>
+    <header class="ls-header flex">
+        <div class="flex items-center gap-4">
+            <img src="/{{token}}/favicon/medium" alt="Logo" class="w-10 h-10" />
+            <h1 class="text-xl font-bold text-gray-800 dark:text-white">{{appname}}</h1>
+        </div>
+        <div class="flex-1">&nbsp;</div>
+        <a href="/{{token}}/?download" class="ls-btn-primary">Download All (ZIP)</a>
+    </header>
+
+    <div class="max-w-6xl mx-auto p-4">
+        <ul class="space-y-3 list-none">
+            {{filelist}}
+        </ul>
+    </div>
+
+    <footer>
+
+    </footer>
+
+</body>
+</html>

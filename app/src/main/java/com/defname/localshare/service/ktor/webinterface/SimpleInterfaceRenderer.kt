@@ -23,18 +23,22 @@ const val FILE_ENTRY_TEMPLATE = """<li>
 
 class SimpleInterfaceRenderer(
     private val context: Context,
-    private val templateFile: String = "web/simple_template.html"
 ) : InterfaceRenderer {
+    private val templateFile: String = "web/simple/template.html"
+    private val fileEntryTemplateFile: String = "web/simple/file_item_template.html"
+
     override fun render(token: String, files: List<FileInfo>, uploadFeatureActive: Boolean): String {
         // 1. Template aus Assets laden
         val template = context.assets.open(templateFile).bufferedReader().use { it.readText() }
+        val fileEntryTemplate = context.assets.open(fileEntryTemplateFile).bufferedReader().use { it.readText() }
 
         // 2. Den dynamischen Teil für die Dateien bauen (HTML-Schnipsel)
 
         val htmlFileList = files.map {
-            FILE_ENTRY_TEMPLATE.replace("{{token}}", token)
+            fileEntryTemplate.replace("{{token}}", token)
                 .replace("{{filename}}", it.name)
                 .replace("{{icon}}", it.iconFile)
+                .replace("{{mimetype}}", it.mimeType)
                 .replace("{{filesize}}", it.size.sizeAsString())
                 .replace("{{fileid}}", it.id)
         }
@@ -44,7 +48,7 @@ class SimpleInterfaceRenderer(
             .replace("{{token}}", token)
             .replace("{{appname}}", context.applicationInfo.loadLabel(context.packageManager).toString())
             .replace("{{appurl}}", context.getString(R.string.app_url))
-            .replace("{{filelist}}", htmlFileList.joinToString(",\n"))
+            .replace("{{filelist}}", htmlFileList.joinToString("\n"))
 
         return finalHtml
     }

@@ -45,7 +45,7 @@ fun Route.getLanding(
             )
         } else {
             val token = call.parameters["token"]!!
-            val renderer: InterfaceRenderer = if (noJS) SimpleInterfaceRenderer(context, "web/simple-template.html") else  WebInterfaceRenderer(context)
+            val renderer: InterfaceRenderer = if (noJS) SimpleInterfaceRenderer(context) else  WebInterfaceRenderer(context)
             return@get call.sendFileListing(
                 files = fileList,
                 token = token,
