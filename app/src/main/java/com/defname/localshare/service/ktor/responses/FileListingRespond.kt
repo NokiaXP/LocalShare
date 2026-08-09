@@ -7,6 +7,7 @@ package com.defname.localshare.service.ktor.responses
 import android.content.Context
 import android.util.Log
 import com.defname.localshare.domain.model.FileInfo
+import com.defname.localshare.service.ktor.webinterface.InterfaceRenderer
 import com.defname.localshare.service.ktor.webinterface.WebInterfaceRenderer
 import io.ktor.http.ContentType
 import io.ktor.http.HttpStatusCode
@@ -18,11 +19,11 @@ suspend fun ApplicationCall.sendFileListing(
     files: List<FileInfo>,
     token: String,
     uploadFeatureActive: Boolean,
-    context: Context
+    context: Context,
+    renderer: InterfaceRenderer = WebInterfaceRenderer(context)
 ) {
     try {
-        val renderer = WebInterfaceRenderer(context)
-        val finalHtml = renderer.render(token, uploadFeatureActive, files)
+        val finalHtml = renderer.render(token, files, uploadFeatureActive)
         respondText(finalHtml, ContentType.Text.Html)
 
     } catch (e: Exception) {

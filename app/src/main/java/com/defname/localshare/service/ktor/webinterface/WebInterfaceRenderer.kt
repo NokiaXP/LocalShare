@@ -12,8 +12,8 @@ import com.defname.localshare.service.ktor.json.toJsonString
 class WebInterfaceRenderer(
     private val context: Context,
     private val templateFile: String = "web/template.html"
-){
-    fun render(token: String, uploadFeatureActive: Boolean = false, files: List<FileInfo> = emptyList()): String {
+) : InterfaceRenderer {
+    override fun render(token: String, files: List<FileInfo>, uploadFeatureActive: Boolean): String {
 
         // 1. Template aus Assets laden
         val template = context.assets.open(templateFile).bufferedReader().use { it.readText() }

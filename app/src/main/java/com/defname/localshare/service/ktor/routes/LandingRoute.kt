@@ -10,6 +10,9 @@ import com.defname.localshare.domain.repository.SettingsRepository
 import com.defname.localshare.service.ServerSecurityHandler
 import com.defname.localshare.service.ktor.responses.sendFileListing
 import com.defname.localshare.service.ktor.responses.sendZip
+import com.defname.localshare.service.ktor.webinterface.InterfaceRenderer
+import com.defname.localshare.service.ktor.webinterface.SimpleInterfaceRenderer
+import com.defname.localshare.service.ktor.webinterface.WebInterfaceRenderer
 import io.ktor.http.HttpStatusCode
 import io.ktor.server.response.respondText
 import io.ktor.server.routing.Route
@@ -24,8 +27,7 @@ fun Route.getLanding(
 ) {
     get("/{token}/") {
         val download = (call.queryParameters["download"] != null)
-        val requestedFile = call.parameters["file"]
-        val clientIp = call.request.local.remoteHost
+        val noJS = (call.queryParameters["nojs"] != null)
 
         //  1. validate
         if (!securityHandler.verifyAccess(call)) {
@@ -34,7 +36,7 @@ fun Route.getLanding(
 
         val fileList = serviceRepository.fileList.first()
 
-        // 2.2 multiple files
+        // 2. download all or file listing
         if (download) {
             return@get call.sendZip(
                 files = fileList,
@@ -43,11 +45,13 @@ fun Route.getLanding(
             )
         } else {
             val token = call.parameters["token"]!!
+            val renderer: InterfaceRenderer = if (noJS) SimpleInterfaceRenderer(context, "web/simple-template.html") else  WebInterfaceRenderer(context)
             return@get call.sendFileListing(
                 files = fileList,
                 token = token,
                 uploadFeatureActive = settingsRepository.settingsFlow.first().uploadFeatureActive,
-                context = context
+                context = context,
+                renderer = renderer
             )
         }
     }
