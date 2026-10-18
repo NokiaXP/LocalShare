@@ -1,166 +1,120 @@
-# LocalShare - Documentation
+# LocalShare: documentación
 
-## General Usage
+## Uso general
 
-To share files from your Android phone with any other device in your local
-network you can select them inside the LocalShare app or share them directly
-from other apps via the Android share-sheet.
+Para compartir archivos desde tu teléfono Android con otro dispositivo de la misma red local, puedes seleccionarlos dentro de LocalShare o compartirlos directamente desde otras aplicaciones mediante el menú para compartir de Android.
 
-Shared files will appear on the [Home Screen](#home-screen) and on the
-[Shared Files Screen](#shared-files-screen).
+Los archivos compartidos aparecerán en la [pantalla principal](#pantalla-principal) y en la [pantalla de archivos compartidos](#pantalla-de-archivos-compartidos).
 
-Text snippets can also be shared. Use the Android share sheet from any other
-app and select LocalShare as the target or paste text from the clipboard
-to the [Shared Text Screen](#shared-text-screen).
+También puedes compartir fragmentos de texto. Usa el menú para compartir de cualquier aplicación y selecciona LocalShare, o pega texto del portapapeles en la [pantalla de texto compartido](#pantalla-de-texto-compartido).
 
-When you click the "Start Sharing" button your shared files and texts will
-be made available. Anyone who wants to access your shared content needs
-to know the URL displayed on the [Home Screen](#home-screen) while sharing.
+Al pulsar el botón «Iniciar uso compartido», los archivos y textos quedarán disponibles. Para acceder al contenido compartido, los demás dispositivos deben conocer la dirección URL que se muestra en la [pantalla principal](#pantalla-principal) mientras el uso compartido está activo.
 
-## Technical Details
+## Detalles técnicos
 
-LocalShare uses an integrated web server to make shared files available through
-a browser-based user interface. This allows any device in the same network to
-access the content without requiring additional software.
+LocalShare incorpora un servidor web que permite acceder a los archivos compartidos desde un navegador. Así, cualquier dispositivo de la misma red puede acceder al contenido sin instalar programas adicionales.
 
-To ensure that newly shared files appear instantly in the web interface, the
-application uses Server-Sent Events (SSE). This enables real-time updates
-without requiring the user to refresh the page.
+Para que los archivos nuevos aparezcan inmediatamente en la interfaz web, la aplicación utiliza **SSE** (*Server-Sent Events*, eventos enviados por el servidor), que permite actualizar la página en tiempo real sin tener que recargarla.
 
-Since LocalShare is primarily designed for use within local networks, it relies
-on plain HTTP instead of HTTPS. Using HTTPS in local environments is often
-impractical, as valid signed certificates are typically not available for local
-IP addresses.
+LocalShare está diseñada principalmente para redes locales y utiliza **HTTP** (*Hypertext Transfer Protocol*, protocolo de transferencia de hipertexto) sin cifrado, en lugar de **HTTPS** (*Hypertext Transfer Protocol Secure*, protocolo seguro de transferencia de hipertexto). En redes locales suele ser difícil utilizar HTTPS porque normalmente no se dispone de certificados firmados válidos para direcciones IP locales.
 
-The HTTP server can be bound to a specific IP address. This means that only
-connections made to that particular address are accepted. In general, anyone
-who can reach your device over the network can access the shared content,
-provided they know both the correct IP address and the associated secret token.
+El servidor HTTP puede vincularse a una dirección IP específica, de modo que solo acepte conexiones dirigidas a esa dirección. En general, cualquier persona que pueda acceder a tu dispositivo a través de la red podrá ver el contenido compartido si conoce la dirección IP correcta y el token secreto correspondiente.
 
-## Screens
+## Pantallas
 
-### Home Screen
+### Pantalla principal
 
-#### "Hero Card"
+#### Tarjeta principal
 
-At the top of the screen you see a section that indicates whether sharing is
-active or not. You can access the URL or the QR code with which your files
-are accessible.
+En la parte superior se muestra si el uso compartido está activo. Desde allí puedes acceder a la dirección URL o al código QR que permite llegar a tus archivos.
 
-#### Shared Files
+#### Archivos compartidos
 
-Here you see a list of all shared files. You can add files by pressing the "Add
-Files" button or remove them by long-pressing on a file icon and then on "Remove".
-The small "X" on the right clears the file list completely.
+Aquí aparece la lista de archivos compartidos. Puedes añadir archivos con el botón «Añadir archivos» o quitarlos manteniendo pulsado el icono de un archivo y seleccionando «Quitar». El pequeño botón «X» de la derecha vacía toda la lista.
 
-#### Technical Details
+#### Detalles técnicos
 
-You can set the security token manually (the default behavior is that the token
-is generated randomly when the app starts, you can disable it in the
-[Settings Screen](#settings-screen)). This might be useful when you want to
-access your device using the same URL every time.
+Puedes establecer manualmente el token de seguridad. De forma predeterminada, se genera uno aleatorio al iniciar la aplicación; puedes desactivar esta opción en la [pantalla de configuración](#pantalla-de-configuración). Esto puede resultar útil si quieres acceder al dispositivo mediante la misma dirección URL cada vez.
 
-The other option in this section is to select an IP address (or a network interface)
-to which the HTTP server should be bound. This might be useful if your phone is connected to multiple networks
-at the same time, and you want to limit the access to a specific network. In this
-case you can bind the server to an IP to only accept connections that try to connect
-to this specific IP address.
+También puedes seleccionar la dirección IP o la interfaz de red a la que se vinculará el servidor HTTP. Esto resulta útil si el teléfono está conectado a varias redes y quieres limitar el acceso a una de ellas. Al vincular el servidor a una IP específica, solo aceptará conexiones dirigidas a esa dirección.
 
-#### Recent Activities
+#### Actividad reciente
 
-Here you see the latest log entries. See the [Logs Screen](#logs-screen) for
-more details.
+Aquí aparecen las últimas entradas del registro. Consulta la [pantalla de registros](#pantalla-de-registros) para obtener más información.
 
-#### "Start/Stop Sharing"-Button
+#### Botón «Iniciar/Detener uso compartido»
 
-Press this button to start or stop sharing. While sharing is activated a notification is shown
-in the Android notification menu.
+Pulsa este botón para iniciar o detener el uso compartido. Mientras esté activo, aparecerá una notificación en Android.
 
-### Shared Files Screen
+### Pantalla de archivos compartidos
 
-On this screen you find a sortable list of all shared files. You can add files
-by pressing the "+" button or remove them by long-pressing on a file and
-then on "Remove".
+Muestra una lista ordenable de todos los archivos compartidos. Puedes añadir archivos con el botón «+» o quitar uno manteniéndolo pulsado y seleccionando «Quitar».
 
-### Shared Text Screen
+### Pantalla de texto compartido
 
-On this screen you find a list of all text snippets that are shared. You can 
-paste text from the clipboard by pressing on the paste button. Select snippets
-by long-pressing to remove them.
+Muestra los fragmentos de texto compartidos. Pulsa el botón para pegar texto desde el portapapeles. Mantén pulsado un fragmento para seleccionarlo y eliminarlo.
 
-### Logs Screen
+### Pantalla de registros
 
-Here you find a list of established connections to your device (or better to *Local Share*).
-Last and still open connections are at the top. If you open the web interface on another device
-to access your files, there will always be an active connection in the list (this is the SSE
-connection to the web interface that is responsible for live updates).
+Aquí se muestran las conexiones establecidas con el dispositivo. Las conexiones más recientes y las que siguen abiertas aparecen arriba. Cuando otro dispositivo abre la interfaz web para acceder a tus archivos, normalmente habrá una conexión activa correspondiente a SSE, que mantiene actualizada la interfaz.
 
-The list has three columns to show the status of the connection, the path that is accessed and
-the client who opened the connection.
+La lista tiene tres columnas: estado de la conexión, ruta a la que se accede y dispositivo que inició la conexión.
 
-The client's IP might be gray (in this case the connection waits for approval), green (the client
-got whitelisted) or red (the client got blacklisted).
+La dirección IP del cliente puede aparecer en gris si la conexión está pendiente de aprobación, en verde si el cliente está en la lista de permitidos o en rojo si está en la lista de bloqueados.
 
-By long-pressing an entry you can add a client to the blacklist or remove it from the whitelist
-or the blacklist. (You can not whitelist a client this way. A client that tries to connect will
-trigger a notification to ask for approval. Approval leads to whitelisting).
+Mantén pulsada una entrada para añadir un cliente a la lista de bloqueados o quitarlo de la lista de permitidos o de bloqueados. No puedes añadirlo a la lista de permitidos de esta manera: cuando un cliente intenta conectarse, aparece una notificación para solicitar aprobación. Si lo apruebas, se añade a la lista de permitidos.
 
-Whitelist and blacklist are reset on app start.
+Las listas de permitidos y bloqueados se restablecen al iniciar la aplicación.
 
-#### Status Codes and Symbols
+#### Códigos de estado y símbolos
 
-- **Spinning Wheel** The connection is still open.
-- **Green 200** OK: The content was served successfully.
-- **Green 204** No Content: It's used to prevent the browser to ask for a favicon for the web interface on the default location.
-- **Green 206** Partial Content: The server is delivering only part of the resource due to a range header sent by the client. This is used for video seeking and resuming downloads.
-- **Red 403** Forbidden: Access was denied (invalid token or path).
-- **Red 404** Not Found: A file that should exist was not found.
-- **Red 410** Gone: A file that was available earlier is not accessible anymore (this can happen if a file was shared via the Android share-sheet since the file URI might only be a temporary one and become invalid).
-- **Red 500** Internal Server Error: Something went wrong on the server side (e.g. template rendering). This should not happen and I would appreciate if you could file a reproducible issue.
+- **Indicador giratorio:** la conexión sigue abierta.
+- **200 en verde — Correcto:** el contenido se entregó correctamente.
+- **204 en verde — Sin contenido:** evita que el navegador solicite un icono de sitio en la ubicación predeterminada de la interfaz web.
+- **206 en verde — Contenido parcial:** el servidor entrega solo una parte del recurso debido a una solicitud de rango del cliente. Se utiliza para avanzar dentro de un vídeo y reanudar descargas.
+- **403 en rojo — Prohibido:** se denegó el acceso por un token o una ruta no válidos.
+- **404 en rojo — No encontrado:** no se encontró un archivo que debería existir.
+- **410 en rojo — Ya no disponible:** un archivo que antes estaba disponible dejó de estarlo. Esto puede ocurrir si se compartió mediante el menú de Android y su dirección temporal dejó de ser válida.
+- **500 en rojo — Error interno del servidor:** ocurrió un problema en el servidor, por ejemplo, al generar una plantilla. No debería suceder; si puedes reproducirlo, informa del problema.
 
-The following codes only appear to the SSE connection.
-- **Stop Symbol (Green)** Sharing was stopped and so the connection broke.
-- **Close Symbol (Green)** The client closed the connection (e.g. by closing the browser window with the web interface)
-- **Shield Symbol (Red)** The client was banned.
-- **Question Mark (Red)** Something unknown happened.
+Los siguientes códigos solo aparecen en la conexión SSE:
 
-### Settings Screen
+- **Símbolo de detener, en verde:** se detuvo el uso compartido y se interrumpió la conexión.
+- **Símbolo de cierre, en verde:** el cliente cerró la conexión, por ejemplo, al cerrar la ventana del navegador.
+- **Escudo, en rojo:** el cliente fue bloqueado.
+- **Signo de interrogación, en rojo:** ocurrió un problema desconocido.
 
-#### Server Configuration
+### Pantalla de configuración
 
-- **Port**: The TCP port on which the HTTP server should listen. 
-  This port will be part of the URL where the web interface is accessible.
-  Default is `8080` (also common is `8000`) which will work in most
-  local networks.
-- **Idle Timeout**: The time in seconds after which sharing stops if there are
-  no active connections. (As long as a client keeps the web interface open, there will be an active connection and the server will not shutdown automatically)
+#### Configuración del servidor
 
-#### Security
+- **Puerto:** puerto TCP (*Transmission Control Protocol*, protocolo de control de transmisión) en el que debe escuchar el servidor HTTP. Forma parte de la dirección URL de la interfaz web. El valor predeterminado es `8080`; `8000` también es habitual y suele funcionar en redes locales.
+- **Tiempo de inactividad:** cantidad de segundos sin conexiones activas antes de detener el uso compartido. Mientras un cliente mantenga abierta la interfaz web, habrá una conexión activa y el servidor no se detendrá automáticamente.
 
-- **Regenerate Token at App Start**: Generate a new security token every time the app starts.
-- **Require manual approval**: If activated every new client that tries to connect will trigger a notification to ask for approval (highly recommended in all networks that are not 100% trustworthy)
-- **Whitelist Entry TTL**: After how many seconds does a client needs to be approved again.
+#### Seguridad
 
-#### Webinterface
+- **Generar un nuevo token al iniciar la aplicación:** crea un token de seguridad nuevo cada vez que se inicia la aplicación.
+- **Solicitar aprobación manual:** si se activa, cada nuevo cliente que intente conectarse generará una notificación para solicitar aprobación. Es muy recomendable en redes que no sean completamente confiables.
+- **Duración de las entradas de la lista de permitidos:** cantidad de segundos tras la cual el cliente tendrá que volver a recibir aprobación.
 
-- **SSE Heartbeat Period**: To check if an SSE connection to a web interface is still active the server needs to send a "heartbeat" event. A longer period means it takes more time to detect closed connections (e.g. when a client closes the browser window with the web interface).
+#### Interfaz web
 
-#### Misc
+- **Intervalo de señal de actividad de SSE:** el servidor envía una señal periódica para comprobar si la conexión SSE con la interfaz web sigue activa. Si el intervalo es más largo, tardará más en detectar que una conexión se cerró, por ejemplo, cuando el cliente cierra el navegador.
 
-- **Clear File List on Share**: If activated the file list will be cleared every time new files are shared via the Android share-sheet.
+#### Otros ajustes
 
-### Info Screen
+- **Vaciar la lista de archivos al compartir:** si se activa, la lista se vacía cada vez que se comparten archivos nuevos mediante el menú para compartir de Android.
 
-Here you find the version and most important the link to the issues page on GitHub.
+### Pantalla de información
 
-## FAQ
+Aquí se muestra la versión de la aplicación y, especialmente, el enlace a la página de incidencias del proyecto en GitHub.
 
-### Why is there a spinning wheel in the top of the logs list?
+## Preguntas frecuentes
 
-There is an open connection. Most likely an SSE connection to a web interface.
+### ¿Por qué aparece un indicador giratorio al principio de la lista de registros?
 
-### Can I stream videos directly to a media player?
+Hay una conexión abierta, probablemente una conexión SSE con una interfaz web.
 
-Glad you asked - that’s actually the main reason this app exists. Just copy the link to the file from the web interface and open it in any video-player you like to enjoy full seeking support. (The video file format and the player still need to support streaming)
+### ¿Puedo reproducir vídeos directamente en un reproductor multimedia?
 
-
+Sí. Copia desde la interfaz web el enlace del archivo y ábrelo con el reproductor de vídeo que prefieras para poder avanzar y retroceder dentro del vídeo. Tanto el formato del vídeo como el reproductor deben ser compatibles con la reproducción en continuo.
