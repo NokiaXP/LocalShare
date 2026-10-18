@@ -85,7 +85,7 @@ fun SharingHeroSection(
                 )
                 Spacer(modifier = Modifier.height(16.dp))
                 Text(
-                    text = if (pendingRequests.size == 1) "Pending Request" else "Pending Requests (${pendingRequests.size})",
+                    text = if (pendingRequests.size == 1) "Solicitud pendiente" else "Solicitudes pendientes (${pendingRequests.size})",
                     style = MaterialTheme.typography.headlineSmall,
                 )
                 Spacer(modifier = Modifier.height(8.dp))
@@ -122,7 +122,7 @@ fun SharingHeroSection(
                             modifier = Modifier.size(18.dp)
                         )
                         Spacer(Modifier.width(8.dp))
-                        Text("Reject")
+                        Text("Rechazar")
                     }
                     Button(
                         onClick = { requestingIp?.also { viewModel.onGrantRequest(context, it) } },
@@ -166,7 +166,7 @@ fun SharingHeroSection(
                 )
                 Spacer(modifier = Modifier.height(16.dp))
                 Text(
-                    text = if (pendingUploadRequests.size == 1) "Incoming Transfer" else "Incoming Transfers (${pendingUploadRequests.size})",
+                    text = if (pendingUploadRequests.size == 1) "Transferencia entrante" else "Transferencias entrantes (${pendingUploadRequests.size})",
                     style = MaterialTheme.typography.headlineSmall,
                 )
                 Spacer(modifier = Modifier.height(8.dp))
@@ -225,7 +225,7 @@ fun SharingHeroSection(
                 )
                 Spacer(modifier = Modifier.height(16.dp))
                 Text(
-                    text = if (pendingUploadPermissionRequests.size == 1) "Upload Permission" else "Upload Permissions (${pendingUploadPermissionRequests.size})",
+                    text = if (pendingUploadPermissionRequests.size == 1) "Permiso para subir archivos" else "Permisos para subir archivos (${pendingUploadPermissionRequests.size})",
                     style = MaterialTheme.typography.headlineSmall,
                 )
                 Spacer(modifier = Modifier.height(8.dp))
@@ -262,7 +262,7 @@ fun SharingHeroSection(
                             modifier = Modifier.size(18.dp)
                         )
                         Spacer(Modifier.width(8.dp))
-                        Text("Reject")
+                        Text("Rechazar")
                     }
                     Button(
                         onClick = { uploadPermissionRequestingIp?.also { viewModel.onGrantUploadPermissionRequest(context, it) } },
@@ -320,7 +320,7 @@ fun SharingHeroSection(
                 if (isRunning && primaryUrl != null) {
                     Spacer(modifier = Modifier.height(8.dp))
                     Text(
-                        text = "Anyone on your Wi-Fi can access files at:",
+                        text = "Cualquier persona conectada a tu Wi-Fi puede acceder a los archivos en:",
                         style = MaterialTheme.typography.bodyMedium,
                         color = MaterialTheme.colorScheme.onPrimaryContainer.copy(alpha = 0.8f),
                         textAlign = TextAlign.Center
@@ -352,7 +352,7 @@ fun SharingHeroSection(
                                 modifier = Modifier.size(18.dp)
                             )
                             Spacer(Modifier.width(8.dp))
-                            Text("Share Link")
+                            Text("Compartir enlace")
                         }
                         Button(
                             onClick = { viewModel.onOpenQrCodeDialog(primaryUrl) },
@@ -371,7 +371,7 @@ fun SharingHeroSection(
                     }
                 } else if (!isRunning) {
                     Text(
-                        "Start sharing to make your files available to other devices on this network.",
+                        "Inicia el uso compartido para que otros dispositivos de esta red puedan acceder a tus archivos.",
                         style = MaterialTheme.typography.bodyMedium,
                         textAlign = TextAlign.Center,
                         color = MaterialTheme.colorScheme.onSurfaceVariant
