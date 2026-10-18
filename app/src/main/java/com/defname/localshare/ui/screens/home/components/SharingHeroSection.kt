@@ -179,7 +179,7 @@ fun SharingHeroSection(
                 )
                 Spacer(modifier = Modifier.height(8.dp))
                 Text(
-                    text = "wants to send ${uploadRequestingBatch?.files?.size ?: 0} file(s).",
+                    text = "quiere enviar ${uploadRequestingBatch?.files?.size ?: 0} archivo(s).",
                     style = MaterialTheme.typography.bodyMedium,
                 )
 
@@ -238,7 +238,7 @@ fun SharingHeroSection(
                 )
                 Spacer(modifier = Modifier.height(8.dp))
                 Text(
-                    text = "asks for permission to upload files.",
+                    text = "solicita permiso para subir archivos.",
                     style = MaterialTheme.typography.bodyMedium,
                 )
 
