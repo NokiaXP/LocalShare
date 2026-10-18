@@ -50,7 +50,7 @@ fun TransfersScreen(
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("Transfers") },
+                title = { Text("Transferencias") },
                 navigationIcon = {
                     IconButton(onClick = onOpenDrawer) {
                         Icon(Icons.Default.Menu, contentDescription = null)
@@ -117,7 +117,7 @@ fun TransfersScreen(
 
                 if (state.batches.isNotEmpty()) {
                     item {
-                        SectionHeader("Active Transfers")
+                        SectionHeader("Transferencias activas")
                     }
                     items(state.batches, key = { "active_${it.batchId}" }) { item ->
                         ActiveBatchCard(item)
