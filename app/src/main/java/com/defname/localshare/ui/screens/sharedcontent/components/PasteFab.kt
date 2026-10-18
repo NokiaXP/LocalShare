@@ -23,7 +23,7 @@ fun PasteFab(
     ) {
         Icon(
             imageVector = Icons.Default.ContentPaste,
-            contentDescription = "Paste from clipboard"
+            contentDescription = "Pegar desde el portapapeles"
         )
     }
 }
