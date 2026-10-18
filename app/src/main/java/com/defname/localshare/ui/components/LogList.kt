@@ -105,7 +105,7 @@ fun DisconnectReasonText(
                 )
                 DisconnectReason.Unexpected.AuthInvalid -> Icon(
                     imageVector = Icons.Default.Shield,
-                    contentDescription = "Auth invalid",
+                    contentDescription = "Autenticación no válida",
                     tint = colorRed
                 )
 
