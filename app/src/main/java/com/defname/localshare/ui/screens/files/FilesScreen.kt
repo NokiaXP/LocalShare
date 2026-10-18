@@ -62,7 +62,7 @@ fun FilesScreen(
                 navigationIcon = {
                     if (state.selectedFiles.isNotEmpty()) {
                         IconButton(onClick = { viewModel.onClearSelection() }) {
-                            Icon(Icons.Default.Close, contentDescription = "Cancel")
+                            Icon(Icons.Default.Close, contentDescription = "Cancelar")
                         }
                     } else {
                         IconButton(onClick = onOpenDrawer) {
@@ -73,10 +73,10 @@ fun FilesScreen(
                 actions = {
                     if (state.selectedFiles.isNotEmpty()) {
                         IconButton(onClick = { viewModel.selectAll() }) {
-                            Icon(Icons.Default.LibraryAddCheck, contentDescription = "Select All")
+                            Icon(Icons.Default.LibraryAddCheck, contentDescription = "Seleccionar todo")
                         }
                         IconButton(onClick = { viewModel.onDeleteSelected() }) {
-                            Icon(Icons.Default.Delete, contentDescription = "Remove", tint = MaterialTheme.colorScheme.error)
+                            Icon(Icons.Default.Delete, contentDescription = "Eliminar", tint = MaterialTheme.colorScheme.error)
                         }
                     } else {
                         SortingButton(
