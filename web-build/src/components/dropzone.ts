@@ -82,7 +82,7 @@ export const Dropzone = () => ({
 
         } catch (err) {
             console.error('Submit failed:', err);
-            alert('No se pudo iniciar la carga.');
+            alert(document.documentElement.lang === 'es' ? 'No se pudo iniciar la carga.' : 'Could not start the upload.');
         }
     },
 
