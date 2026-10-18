@@ -5,6 +5,7 @@
 package com.defname.localshare.service.ktor.webinterface
 
 import android.content.Context
+import com.defname.localshare.LocaleManager
 import com.defname.localshare.R
 import com.defname.localshare.domain.model.FileInfo
 import com.defname.localshare.util.sizeAsString
@@ -24,8 +25,10 @@ const val FILE_ENTRY_TEMPLATE = """<li>
 class SimpleInterfaceRenderer(
     private val context: Context,
 ) : InterfaceRenderer {
-    private val templateFile: String = "web/simple/template.html"
-    private val fileEntryTemplateFile: String = "web/simple/file_item_template.html"
+    private val templateFile: String
+        get() = if (LocaleManager.currentLanguage(context) == LocaleManager.SPANISH) "web/simple/template.html" else "web/simple/template_en.html"
+    private val fileEntryTemplateFile: String
+        get() = if (LocaleManager.currentLanguage(context) == LocaleManager.SPANISH) "web/simple/file_item_template.html" else "web/simple/file_item_template_en.html"
 
     override fun render(token: String, files: List<FileInfo>, uploadFeatureActive: Boolean): String {
         // 1. Template aus Assets laden
