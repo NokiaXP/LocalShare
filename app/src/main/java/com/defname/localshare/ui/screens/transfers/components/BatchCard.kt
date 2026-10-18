@@ -89,7 +89,7 @@ fun DraftBatchCard(
                 Spacer(Modifier.width(12.dp))
                 Column(Modifier.weight(1f)) {
                     Text(
-                        text = "Upload Request",
+                        text = "Solicitud de carga",
                         style = MaterialTheme.typography.titleMedium,
                         fontWeight = FontWeight.Bold
                     )
@@ -114,7 +114,7 @@ fun DraftBatchCard(
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Text(
-                    text = "Total Size: ${batch.files.sumOf { it.size }.sizeAsString()}",
+                    text = "Tamaño total: ${batch.files.sumOf { it.size }.sizeAsString()}",
                     style = MaterialTheme.typography.bodyMedium
                 )
                 Row {
@@ -125,7 +125,7 @@ fun DraftBatchCard(
                             contentColor = MaterialTheme.colorScheme.onErrorContainer
                         )
                     ) {
-                        Icon(Icons.Default.Close, contentDescription = "Deny")
+                        Icon(Icons.Default.Close, contentDescription = "Rechazar")
                     }
                     Spacer(Modifier.width(8.dp))
                     FilledIconButton(
@@ -184,7 +184,7 @@ fun ActiveBatchCard(
                 Spacer(Modifier.width(12.dp))
                 Column(Modifier.weight(1f)) {
                     Text(
-                        text = "Transfer: ${batch.batchId.take(8)}",
+                        text = "Transferencia: ${batch.batchId.take(8)}",
                         style = MaterialTheme.typography.titleMedium,
                         fontWeight = FontWeight.Bold
                     )
