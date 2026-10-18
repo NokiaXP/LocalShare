@@ -152,4 +152,11 @@
     <string name="action_next">Next</string>
     <string name="action_got_it">Got it!</string>
 
+
+    <string name="action_close">Close</string>
+    <string name="action_sort">Sort</string>
+    <string name="action_paste_clipboard">Paste from clipboard</string>
+    <string name="action_grant">Allow</string>
+    <string name="screen_transfers_title">Transfers</string>
+
 </resources>
