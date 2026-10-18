@@ -68,19 +68,19 @@ fun WelcomeOnboarding(
             color = MaterialTheme.colorScheme.primary
         ),
         OnboardingPage(
-            title = "1. Add Content",
+            title = "1. Añadir contenido",
             description = "Toca el botón «Añadir archivos» para elegir archivos o comparte archivos y texto directamente desde otras aplicaciones mediante el menú Compartir de Android.",
             icon = Icons.Default.AddCircle,
             color = MaterialTheme.colorScheme.primary
         ),
         OnboardingPage(
-            title = "2. Start Sharing",
+            title = "2. Empezar a compartir",
             description = "Toca «Empezar a compartir» para poner tu contenido a disposición de otros dispositivos. Si alguien intenta conectarse, se te pedirá confirmación.",
             icon = Icons.Default.Send,
             color = MaterialTheme.colorScheme.primary
         ),
         OnboardingPage(
-            title = "3. Connect & Share",
+            title = "3. Conectar y compartir",
             description = "Los otros dispositivos solo tienen que escanear el código QR o abrir el enlace en su navegador. ¡No necesitan instalar ninguna aplicación!",
             icon = Icons.Default.QrCodeScanner,
             color = MaterialTheme.colorScheme.primary
