@@ -129,4 +129,27 @@
     <string name="info_credits">Credits</string>
     <string name="action_clear_logs">Clear logs</string>
 
+
+    <string name="nav_overview">Overview</string>
+    <string name="nav_shared_files">Shared files</string>
+    <string name="nav_shared_text">Shared text</string>
+    <string name="nav_transfers">Transfers</string>
+    <string name="nav_logs">Logs</string>
+    <string name="nav_settings">Settings</string>
+    <string name="nav_info">Info</string>
+    <string name="toast_start_server_first">Start the server first.</string>
+    <string name="onboarding_welcome_title">Welcome to LocalShare!</string>
+    <string name="onboarding_welcome_description">Share files and text on your local network. No cloud or Internet connection is required.</string>
+    <string name="onboarding_add_title">1. Add content</string>
+    <string name="onboarding_add_description">Tap “Add files” to choose files, or share files and text directly from other apps using Android’s Share menu.</string>
+    <string name="onboarding_share_title">2. Start sharing</string>
+    <string name="onboarding_share_description">Tap “Start sharing” to make your content available to other devices. If someone tries to connect, you will be asked to approve it.</string>
+    <string name="onboarding_connect_title">3. Connect and share</string>
+    <string name="onboarding_connect_description">Other devices only need to scan the QR code or open the link in their browser. They do not need to install an app.</string>
+    <string name="onboarding_help_title">Need help?</string>
+    <string name="onboarding_help_description">If you have a problem, look for the (?) icon in the menu. Open the full guide (available only while the server is running).</string>
+    <string name="onboarding_dont_show_again">Don’t show again</string>
+    <string name="action_next">Next</string>
+    <string name="action_got_it">Got it!</string>
+
 </resources>
