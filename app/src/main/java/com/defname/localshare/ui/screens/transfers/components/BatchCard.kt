@@ -100,7 +100,7 @@ fun DraftBatchCard(
                     )
                 }
                 Text(
-                    text = "${batch.files.size} files",
+                    text = "${batch.files.size} archivos",
                     style = MaterialTheme.typography.labelLarge,
                     color = MaterialTheme.colorScheme.primary
                 )
