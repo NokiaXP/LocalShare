@@ -23,7 +23,7 @@ fun AddFilesFab(
     ) {
         Icon(
             imageVector = Icons.Default.Add,
-            contentDescription = "Add Files"
+            contentDescription = "Añadir archivos"
         )
     }
 }
