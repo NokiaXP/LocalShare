@@ -179,4 +179,17 @@
     <string name="home_no_files_hint">You haven’t added any files yet. Add files to start sharing.</string>
     <string name="home_no_recent_activity_hint">There is no recent activity yet.</string>
 
+
+    <string name="upload_request_title">Upload request</string>
+    <string name="batch_from_client">From: %1$s</string>
+    <string name="batch_files_one">%1$d file</string>
+    <string name="batch_files_many">%1$d files</string>
+    <string name="batch_total_size">Total size: %1$s</string>
+    <string name="batch_transfer_id">Transfer: %1$s</string>
+    <string name="batch_source">Source: %1$s</string>
+    <string name="log_server_stopped">Server stopped</string>
+    <string name="log_client_disconnected">Client disconnected</string>
+    <string name="log_authentication_invalid">Invalid authentication</string>
+    <string name="log_unknown">Unknown</string>
+
 </resources>
