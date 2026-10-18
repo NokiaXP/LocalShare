@@ -16,8 +16,8 @@ const val FILE_ENTRY_TEMPLATE = """<li>
         <span class="filename">{{filename}}</span>
         <span class="filesize">{{filesize}}</span>
         <span class="buttons">
-            <a href="{{token}}/file/{{fileid}}">Open</a>
-            <a href="{{token}}/file/{{fileid}}">Download</a>
+            <a href="{{token}}/file/{{fileid}}">Abrir</a>
+            <a href="{{token}}/file/{{fileid}}">Descargar</a>
         </span>
     </li>"""
 
