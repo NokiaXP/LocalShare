@@ -171,4 +171,12 @@
     <string name="sharing_wifi_access_hint">Cualquier persona conectada a tu Wi-Fi puede acceder a los archivos en:</string>
     <string name="sharing_start_hint">Inicia el uso compartido para que otros dispositivos de esta red puedan acceder a tus archivos.</string>
 
+
+    <string name="request_wants_to_connect">quiere conectarse.</string>
+    <string name="request_wants_to_send_one">quiere enviar 1 archivo.</string>
+    <string name="request_wants_to_send_many">quiere enviar %1$d archivos.</string>
+    <string name="request_upload_permission">solicita permiso para subir archivos.</string>
+    <string name="home_no_files_hint">Todavía no has añadido archivos. Añade archivos para empezar a compartir.</string>
+    <string name="home_no_recent_activity_hint">Todavía no hay actividad reciente.</string>
+
 </resources>
