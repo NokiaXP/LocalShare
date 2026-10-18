@@ -63,7 +63,7 @@ class UploadManager(
         }.filterNotNull().toMap()
 
         if (fileUris.isEmpty()) {
-            emitUploadError(clientIp, draft.draftId.toString(), "No files to upload.")
+            emitUploadError(clientIp, draft.draftId.toString(), "No hay archivos para subir.")
             return
         }
 
@@ -165,7 +165,7 @@ class UploadManager(
         } catch (e: Exception) {
             fileStorageProvider.deleteFile(uri)
             uploadRepository.updateFileState(batchId, fileHash, UploadFileState.Error)
-            emitFileError(clientIp, batchId, fileHash, "Upload failed: ${e.message}")
+            emitFileError(clientIp, batchId, fileHash, "Error al subir el archivo: ${e.message}")
         }
     }
 
