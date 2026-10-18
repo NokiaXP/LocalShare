@@ -33,6 +33,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.res.stringResource
+import com.defname.localshare.R
 import com.defname.localshare.ui.components.HintCard
 import com.defname.localshare.ui.screens.transfers.components.ActiveBatchCard
 import com.defname.localshare.ui.screens.transfers.components.DraftBatchCard
@@ -50,7 +52,7 @@ fun TransfersScreen(
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("Transferencias") },
+                title = { Text(stringResource(R.string.screen_transfers_title)) },
                 navigationIcon = {
                     IconButton(onClick = onOpenDrawer) {
                         Icon(Icons.Default.Menu, contentDescription = null)
