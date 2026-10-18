@@ -66,17 +66,17 @@ fun AdvancedSettingsSection(
             Column(modifier = Modifier.padding(top = 8.dp, bottom = 16.dp)) {
                 ConfirmedTextField(
                     value = state.token,
-                    label = { Text("Security Token") },
+                    label = { Text("Token de seguridad") },
                     singleLine = true,
                     onValueChange = viewModel::onTokenChange,
                     modifier = Modifier.fillMaxWidth(),
                     trailingIcon = {
                         IconButton(onClick = viewModel::onRandomTokenClick) {
-                            Icon(Icons.Default.Refresh, contentDescription = "Generate New")
+                            Icon(Icons.Default.Refresh, contentDescription = "Generar uno nuevo")
                         }
                     },
                     validator = { input -> input.all { it.isLetterOrDigit() } },
-                    errorHint = { Text("The token must only consist of letters and numbers.") },
+                    errorHint = { Text("El token solo puede contener letras y números.") },
                     keyboardOptions = KeyboardOptions.Default.copy(
                         imeAction = ImeAction.Done
                     )
