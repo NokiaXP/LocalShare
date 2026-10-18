@@ -129,7 +129,7 @@ fun InfoScreen(onOpenDrawer: () -> Unit) {
                 Column(Modifier.padding(16.dp)) {
                     InfoRow(label = "Version", value = versionName)
                     InfoRow(label = "Build Number", value = versionCode.toString())
-                    InfoRow(label = "Package Name", value = context.packageName)
+                    InfoRow(label = "Nombre del paquete", value = context.packageName)
                     InfoRow(label = "License", value = hyperlink(licenseUrl, license))
                     InfoRow(label = "Source", value = hyperlink(appSrcUrl))
 
