@@ -169,7 +169,7 @@ fun HomeScreen(
                         ) {
                             Icon(
                                 imageVector = Icons.Default.Clear,
-                                contentDescription = "Borrar todo",
+                                contentDescription = stringResource(R.string.action_clear_all),
                                 modifier = Modifier.size(18.dp)
                             )
                         }
@@ -209,14 +209,14 @@ fun HomeScreen(
                     ) {
                         Icon(imageVector = Icons.Default.Delete, contentDescription = null)
                         Spacer(modifier = Modifier.width(8.dp))
-                        Text("Eliminar seleccionados")
+                        Text(stringResource(R.string.action_delete_selected))
                     }
                     Button(
                         onClick = viewModel::clearFilesToDelete
                     ) {
                         Icon(imageVector = Icons.Default.Cancel, contentDescription = null)
                         Spacer(modifier = Modifier.width(8.dp))
-                        Text("Cancelar")
+                        Text(stringResource(R.string.action_cancel))
                     }
                 } else {
                     Button(
@@ -224,7 +224,7 @@ fun HomeScreen(
                     ) {
                         Icon(imageVector = Icons.Default.Add, contentDescription = null)
                         Spacer(modifier = Modifier.width(8.dp))
-                        Text("Añadir archivos")
+                        Text(stringResource(R.string.action_add_files))
                     }
                 }
             }
@@ -256,7 +256,7 @@ fun HomeScreen(
                     ) {
                         Icon(
                             imageVector = Icons.Default.List,
-                            contentDescription = "Ver registros detallados",
+                            contentDescription = stringResource(R.string.action_view_detailed_logs),
                             modifier = Modifier.size(18.dp)
                         )
                     }
@@ -303,7 +303,7 @@ fun HomeScreen(
                         IconButton(onClick = { viewModel.removeFromBlacklist(ip) }) {
                             Icon(
                                 imageVector = Icons.Default.Undo,
-                                contentDescription = "Unblock",
+                                contentDescription = stringResource(R.string.action_unblock),
                                 tint = MaterialTheme.colorScheme.tertiary
                             )
                         }
