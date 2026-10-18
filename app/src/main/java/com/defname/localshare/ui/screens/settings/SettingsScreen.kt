@@ -32,7 +32,6 @@ import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -169,7 +168,7 @@ fun SettingsScreen(
                             value = settings.whitelistEntryTTLSeconds.toString(),
                             label = { Text(stringResource(R.string.settings_security_whitelist_ttl_label)) },
                             validator = { it.toIntOrNull() != null },
-                            errorHint = { Text("La cantidad de segundos debe ser un número.") },
+                            errorHint = { Text(stringResource(R.string.error_seconds_number)) },
                             keyboardOptions = KeyboardOptions.Default.copy(
                                 keyboardType = KeyboardType.Number,
                                 imeAction = ImeAction.Done
@@ -190,7 +189,7 @@ fun SettingsScreen(
                         value = settings.sseHeartbeatPeriodSeconds.toString(),
                         label = { Text(stringResource(R.string.settings_webinterface_heartbeat_label)) },
                         validator = { it.toIntOrNull() != null },
-                        errorHint = { Text("La cantidad de segundos debe ser un número.") },
+                        errorHint = { Text(stringResource(R.string.error_seconds_number)) },
                         keyboardOptions = KeyboardOptions.Default.copy(
                             keyboardType = KeyboardType.Number,
                             imeAction = ImeAction.Done
