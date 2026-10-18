@@ -192,4 +192,10 @@
     <string name="log_authentication_invalid">Autenticación no válida</string>
     <string name="log_unknown">Desconocido</string>
 
+
+    <string name="upload_permission_notification_title">Solicitud de permiso para subir archivos</string>
+    <string name="upload_permission_notification_text">%1$s solicita permiso para subir archivos.</string>
+    <string name="upload_request_notification_title">Solicitud de carga entrante</string>
+    <string name="upload_request_notification_text">%1$s quiere enviar %2$d archivo(s).</string>
+
 </resources>
