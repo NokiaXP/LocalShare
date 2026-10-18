@@ -33,7 +33,7 @@ fun QrCodeDialog(
             Button(
                 onClick = onDismiss
             ) {
-                Text("Close")
+                Text("Cerrar")
             }
         },
         //title = { Text("QR Code") },
