@@ -86,4 +86,15 @@
     <string name="settings_generate_a_new_security_token_every_time_the_app_starts_hint">Generar un nuevo token de seguridad cada vez que se inicie la aplicación.</string>
     <string name="service_stopped_timeout">Se dejó de compartir debido al tiempo de inactividad (consulta la configuración).</string>
     <string name="service_stopped_starting_error">Error al iniciar el servidor: %1$s</string>
+
+    <string name="settings_language_title">Idioma</string>
+    <string name="settings_language_english">Inglés</string>
+    <string name="settings_language_spanish">Español</string>
+    <string name="settings_experimental_title">Funciones experimentales</string>
+    <string name="settings_upload_feature_title">Función de carga</string>
+    <string name="settings_upload_feature_hint">Envía archivos desde la interfaz web a la aplicación.</string>
+    <string name="error_port_range">El puerto debe estar entre 1024 y 65535.</string>
+    <string name="error_seconds_number">Introduce una cantidad válida de segundos.</string>
+    <string name="toast_text_added_to_shared">Texto añadido al contenido compartido.</string>
+
 </resources>
