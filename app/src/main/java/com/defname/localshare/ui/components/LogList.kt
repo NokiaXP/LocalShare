@@ -91,7 +91,7 @@ fun DisconnectReasonText(
         is DisconnectReason.ServerShutdown -> {
             Icon(
                 imageVector = Icons.Default.Stop,
-                contentDescription = "Servidor detenido",
+                contentDescription = stringResource(R.string.log_server_stopped),
                 tint = colorGreen
             )
         }
@@ -100,18 +100,18 @@ fun DisconnectReasonText(
             when (disconnectReason) {
                 DisconnectReason.Unexpected.ClientGone -> Icon(
                     imageVector = Icons.Default.Close,
-                    contentDescription = "Cliente desconectado",
+                    contentDescription = stringResource(R.string.log_client_disconnected),
                     tint = colorGreen
                 )
                 DisconnectReason.Unexpected.AuthInvalid -> Icon(
                     imageVector = Icons.Default.Shield,
-                    contentDescription = "Autenticación no válida",
+                    contentDescription = stringResource(R.string.log_authentication_invalid),
                     tint = colorRed
                 )
 
                 DisconnectReason.Unexpected.Unknown -> Icon(
                     imageVector = Icons.Default.QuestionMark,
-                    contentDescription = "Desconocido",
+                    contentDescription = stringResource(R.string.log_unknown),
                     tint = colorRed
                 )
 
@@ -201,7 +201,7 @@ fun LogListEntry(
             } else if (entry.logEntry.result != null) {
                 DisconnectReasonText(entry.logEntry.result)
             } else {
-                Text("DESCONOCIDO")
+                Text(stringResource(R.string.log_unknown).uppercase())
             }
             Spacer(Modifier.width(8.dp))
             Text(entry.logEntry.method)
