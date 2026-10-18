@@ -35,6 +35,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.res.stringResource
+import com.defname.localshare.R
 import androidx.compose.ui.unit.dp
 import com.defname.localshare.ui.screens.home.HomeState
 import com.defname.localshare.ui.screens.home.HomeViewModel
@@ -122,7 +124,7 @@ fun SharingHeroSection(
                             modifier = Modifier.size(18.dp)
                         )
                         Spacer(Modifier.width(8.dp))
-                        Text("Rechazar")
+                        Text(stringResource(R.string.action_reject))
                     }
                     Button(
                         onClick = { requestingIp?.also { viewModel.onGrantRequest(context, it) } },
@@ -136,7 +138,7 @@ fun SharingHeroSection(
                             modifier = Modifier.size(18.dp)
                         )
                         Spacer(Modifier.width(8.dp))
-                        Text("Aceptar")
+                        Text(stringResource(R.string.action_accept))
                     }
                 }
             }
@@ -196,7 +198,7 @@ fun SharingHeroSection(
                         modifier = Modifier.size(18.dp)
                     )
                     Spacer(Modifier.width(8.dp))
-                    Text("Ver transferencias")
+                    Text(stringResource(R.string.action_view_transfers))
                 }
             }
         }
@@ -352,7 +354,7 @@ fun SharingHeroSection(
                                 modifier = Modifier.size(18.dp)
                             )
                             Spacer(Modifier.width(8.dp))
-                            Text("Compartir enlace")
+                            Text(stringResource(R.string.action_share_link))
                         }
                         Button(
                             onClick = { viewModel.onOpenQrCodeDialog(primaryUrl) },
@@ -366,7 +368,7 @@ fun SharingHeroSection(
                                 modifier = Modifier.size(18.dp)
                             )
                             Spacer(Modifier.width(8.dp))
-                            Text("Código QR")
+                            Text(stringResource(R.string.action_qr_code))
                         }
                     }
                 } else if (!isRunning) {
