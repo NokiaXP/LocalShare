@@ -179,4 +179,17 @@
     <string name="home_no_files_hint">Todavía no has añadido archivos. Añade archivos para empezar a compartir.</string>
     <string name="home_no_recent_activity_hint">Todavía no hay actividad reciente.</string>
 
+
+    <string name="upload_request_title">Solicitud de carga</string>
+    <string name="batch_from_client">Desde: %1$s</string>
+    <string name="batch_files_one">%1$d archivo</string>
+    <string name="batch_files_many">%1$d archivos</string>
+    <string name="batch_total_size">Tamaño total: %1$s</string>
+    <string name="batch_transfer_id">Transferencia: %1$s</string>
+    <string name="batch_source">Origen: %1$s</string>
+    <string name="log_server_stopped">Servidor detenido</string>
+    <string name="log_client_disconnected">Cliente desconectado</string>
+    <string name="log_authentication_invalid">Autenticación no válida</string>
+    <string name="log_unknown">Desconocido</string>
+
 </resources>
