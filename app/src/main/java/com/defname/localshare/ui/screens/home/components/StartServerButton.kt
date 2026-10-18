@@ -57,7 +57,7 @@ fun StartServerButton(
                         contentColor = MaterialTheme.colorScheme.onTertiary
                     ),
                 ) {
-                    Text("Enable Notifications to Start")
+                    Text("Activa las notificaciones para iniciar")
                 }
             } else {
                 when (serverState) {
@@ -73,10 +73,10 @@ fun StartServerButton(
                         ) {
                             Icon(
                                 imageVector = Icons.Default.Send,
-                                contentDescription = "Start Sharing"
+                                contentDescription = "Iniciar uso compartido"
                             )
                             Spacer(modifier = Modifier.width(8.dp))
-                            Text("Start Sharing")
+                            Text("Empezar a compartir")
                         }
                     }
 
@@ -92,10 +92,10 @@ fun StartServerButton(
                         ) {
                             Icon(
                                 imageVector = Icons.Default.Stop,
-                                contentDescription = "Stop Sharing"
+                                contentDescription = "Detener uso compartido"
                             )
                             Spacer(modifier = Modifier.width(8.dp))
-                            Text("Stop Sharing")
+                            Text("Dejar de compartir")
                         }
                     }
 
