@@ -77,7 +77,7 @@ fun MainMenu(
             ) {
                 Icon(
                     imageVector = Icons.Default.HelpOutline,
-                    contentDescription = "Help",
+                    contentDescription = "Ayuda",
                     tint = MaterialTheme.colorScheme.primary
                 )
             }
