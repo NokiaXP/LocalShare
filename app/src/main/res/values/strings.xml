@@ -86,4 +86,15 @@
     <string name="settings_generate_a_new_security_token_every_time_the_app_starts_hint">Generate a new security token every time the app starts</string>
     <string name="service_stopped_timeout">Sharing stopped due to a idle timeout (check settings).</string>
     <string name="service_stopped_starting_error">Error starting server: %1$s</string>
+
+    <string name="settings_language_title">Language</string>
+    <string name="settings_language_english">English</string>
+    <string name="settings_language_spanish">Spanish</string>
+    <string name="settings_experimental_title">Experimental features</string>
+    <string name="settings_upload_feature_title">Upload feature</string>
+    <string name="settings_upload_feature_hint">Send files from the web interface to the app.</string>
+    <string name="error_port_range">Port must be between 1024 and 65535.</string>
+    <string name="error_seconds_number">Enter a valid number of seconds.</string>
+    <string name="toast_text_added_to_shared">Text added to shared content.</string>
+
 </resources>
