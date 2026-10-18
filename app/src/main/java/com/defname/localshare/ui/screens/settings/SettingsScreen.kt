@@ -235,7 +235,6 @@ fun SettingsScreenPreview() {
 }
 
 @Composable
-@Composable
 private fun LanguageOption(label: String, selected: Boolean, onClick: () -> Unit) {
     Row(
         modifier = Modifier
