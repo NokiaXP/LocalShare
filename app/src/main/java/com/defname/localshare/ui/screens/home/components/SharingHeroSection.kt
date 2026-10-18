@@ -87,7 +87,7 @@ fun SharingHeroSection(
                 )
                 Spacer(modifier = Modifier.height(16.dp))
                 Text(
-                    text = if (pendingRequests.size == 1) "Solicitud pendiente" else "Solicitudes pendientes (${pendingRequests.size})",
+                    text = if (pendingRequests.size == 1) stringResource(R.string.pending_request_one) else stringResource(R.string.pending_request_many, pendingRequests.size),
                     style = MaterialTheme.typography.headlineSmall,
                 )
                 Spacer(modifier = Modifier.height(8.dp))
@@ -168,7 +168,7 @@ fun SharingHeroSection(
                 )
                 Spacer(modifier = Modifier.height(16.dp))
                 Text(
-                    text = if (pendingUploadRequests.size == 1) "Transferencia entrante" else "Transferencias entrantes (${pendingUploadRequests.size})",
+                    text = if (pendingUploadRequests.size == 1) stringResource(R.string.incoming_transfer_one) else stringResource(R.string.incoming_transfer_many, pendingUploadRequests.size),
                     style = MaterialTheme.typography.headlineSmall,
                 )
                 Spacer(modifier = Modifier.height(8.dp))
@@ -227,7 +227,7 @@ fun SharingHeroSection(
                 )
                 Spacer(modifier = Modifier.height(16.dp))
                 Text(
-                    text = if (pendingUploadPermissionRequests.size == 1) "Permiso para subir archivos" else "Permisos para subir archivos (${pendingUploadPermissionRequests.size})",
+                    text = if (pendingUploadPermissionRequests.size == 1) stringResource(R.string.upload_permission_one) else stringResource(R.string.upload_permission_many, pendingUploadPermissionRequests.size),
                     style = MaterialTheme.typography.headlineSmall,
                 )
                 Spacer(modifier = Modifier.height(8.dp))
@@ -264,7 +264,7 @@ fun SharingHeroSection(
                             modifier = Modifier.size(18.dp)
                         )
                         Spacer(Modifier.width(8.dp))
-                        Text("Rechazar")
+                        Text(stringResource(R.string.action_reject))
                     }
                     Button(
                         onClick = { uploadPermissionRequestingIp?.also { viewModel.onGrantUploadPermissionRequest(context, it) } },
@@ -278,7 +278,7 @@ fun SharingHeroSection(
                             modifier = Modifier.size(18.dp)
                         )
                         Spacer(Modifier.width(8.dp))
-                        Text("Aceptar")
+                        Text(stringResource(R.string.action_accept))
                     }
                 }
             }
@@ -313,7 +313,7 @@ fun SharingHeroSection(
                 Spacer(modifier = Modifier.height(16.dp))
 
                 Text(
-                    text = if (isRunning) "Sharing is Active" else "Sharing is Off",
+                    text = stringResource(if (isRunning) R.string.sharing_active else R.string.sharing_off),
                     style = MaterialTheme.typography.headlineSmall,
                     fontWeight = FontWeight.Bold,
                     color = if (isRunning) MaterialTheme.colorScheme.onPrimaryContainer else MaterialTheme.colorScheme.onSurfaceVariant
@@ -322,7 +322,7 @@ fun SharingHeroSection(
                 if (isRunning && primaryUrl != null) {
                     Spacer(modifier = Modifier.height(8.dp))
                     Text(
-                        text = "Cualquier persona conectada a tu Wi-Fi puede acceder a los archivos en:",
+                        text = stringResource(R.string.sharing_wifi_access_hint),
                         style = MaterialTheme.typography.bodyMedium,
                         color = MaterialTheme.colorScheme.onPrimaryContainer.copy(alpha = 0.8f),
                         textAlign = TextAlign.Center
@@ -373,7 +373,7 @@ fun SharingHeroSection(
                     }
                 } else if (!isRunning) {
                     Text(
-                        "Inicia el uso compartido para que otros dispositivos de esta red puedan acceder a tus archivos.",
+                        stringResource(R.string.sharing_start_hint),
                         style = MaterialTheme.typography.bodyMedium,
                         textAlign = TextAlign.Center,
                         color = MaterialTheme.colorScheme.onSurfaceVariant
