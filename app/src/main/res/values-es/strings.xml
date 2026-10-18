@@ -152,4 +152,11 @@
     <string name="action_next">Siguiente</string>
     <string name="action_got_it">Entendido</string>
 
+
+    <string name="action_close">Cerrar</string>
+    <string name="action_sort">Ordenar</string>
+    <string name="action_paste_clipboard">Pegar desde el portapapeles</string>
+    <string name="action_grant">Permitir</string>
+    <string name="screen_transfers_title">Transferencias</string>
+
 </resources>
