@@ -154,7 +154,7 @@ fun HomeScreen(
                 modifier = Modifier.padding(top = 8.dp)
             ) {
                 Text(
-                    "Shared Files",
+                    "Archivos compartidos",
                     style = MaterialTheme.typography.titleMedium,
                     fontWeight = FontWeight.Bold,
                     color = MaterialTheme.colorScheme.onSurface,
@@ -169,7 +169,7 @@ fun HomeScreen(
                         ) {
                             Icon(
                                 imageVector = Icons.Default.Clear,
-                                contentDescription = "Clear All",
+                                contentDescription = "Borrar todo",
                                 modifier = Modifier.size(18.dp)
                             )
                         }
@@ -190,7 +190,7 @@ fun HomeScreen(
                     onToggleSelection = viewModel::toggleFileToDelete,
                 )
             } else {
-                HintCard(text = "No files added yet. Add files to start sharing.")
+                HintCard(text = "Todavía no has añadido archivos. Añade archivos para empezar a compartir.")
             }
 
             Spacer(modifier = Modifier.height(12.dp))
@@ -209,14 +209,14 @@ fun HomeScreen(
                     ) {
                         Icon(imageVector = Icons.Default.Delete, contentDescription = null)
                         Spacer(modifier = Modifier.width(8.dp))
-                        Text("Delete Selected")
+                        Text("Eliminar seleccionados")
                     }
                     Button(
                         onClick = viewModel::clearFilesToDelete
                     ) {
                         Icon(imageVector = Icons.Default.Cancel, contentDescription = null)
                         Spacer(modifier = Modifier.width(8.dp))
-                        Text("Cancel")
+                        Text("Cancelar")
                     }
                 } else {
                     Button(
@@ -224,7 +224,7 @@ fun HomeScreen(
                     ) {
                         Icon(imageVector = Icons.Default.Add, contentDescription = null)
                         Spacer(modifier = Modifier.width(8.dp))
-                        Text("Add Files")
+                        Text("Añadir archivos")
                     }
                 }
             }
@@ -256,7 +256,7 @@ fun HomeScreen(
                     ) {
                         Icon(
                             imageVector = Icons.Default.List,
-                            contentDescription = "View Detailed Logs",
+                            contentDescription = "Ver registros detallados",
                             modifier = Modifier.size(18.dp)
                         )
                     }
@@ -278,7 +278,7 @@ fun HomeScreen(
                 }
             }
             else {
-                HintCard(text = "No recent activity yet.")
+                HintCard(text = "Todavía no hay actividad reciente.")
             }
             Spacer(modifier = Modifier.height(8.dp))
 
