@@ -97,4 +97,36 @@
     <string name="error_seconds_number">Enter a valid number of seconds.</string>
     <string name="toast_text_added_to_shared">Text added to shared content.</string>
 
+
+    <string name="files_selected_count">%1$d selected</string>
+    <string name="action_cancel">Cancel</string>
+    <string name="action_select_all">Select all</string>
+    <string name="action_delete">Delete</string>
+    <string name="action_clear_all">Clear all</string>
+    <string name="action_delete_selected">Delete selected</string>
+    <string name="action_add_files">Add files</string>
+    <string name="action_view_detailed_logs">View detailed logs</string>
+    <string name="action_unblock">Unblock</string>
+    <string name="security_token_label">Security token</string>
+    <string name="action_generate_new">Generate a new one</string>
+    <string name="error_token_alphanumeric">The token can contain only letters and numbers.</string>
+    <string name="ip_address_browser_warning">The selected address will not work in most browsers!</string>
+    <string name="action_reject">Reject</string>
+    <string name="action_accept">Accept</string>
+    <string name="action_view_transfers">View transfers</string>
+    <string name="action_share_link">Share link</string>
+    <string name="action_qr_code">QR code</string>
+    <string name="notifications_required_to_start">Enable notifications to start</string>
+    <string name="action_start_sharing">Start sharing</string>
+    <string name="action_stop_sharing">Stop sharing</string>
+    <string name="server_starting">Starting…</string>
+    <string name="server_stopping">Stopping…</string>
+    <string name="info_version">Version</string>
+    <string name="info_build_number">Build number</string>
+    <string name="info_package_name">Package name</string>
+    <string name="info_license">License</string>
+    <string name="info_source">Source</string>
+    <string name="info_credits">Credits</string>
+    <string name="action_clear_logs">Clear logs</string>
+
 </resources>
