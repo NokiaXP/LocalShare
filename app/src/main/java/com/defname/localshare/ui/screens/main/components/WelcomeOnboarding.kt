@@ -44,6 +44,8 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.res.stringResource
+import com.defname.localshare.R
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
 import kotlinx.coroutines.launch
@@ -62,32 +64,32 @@ fun WelcomeOnboarding(
 ) {
     val pages = listOf(
         OnboardingPage(
-            title = "¡Te damos la bienvenida a LocalShare!",
-            description = "Comparte archivos y texto en tu red local. No necesitas la nube ni conexión a Internet.",
+            title = stringResource(R.string.onboarding_welcome_title),
+            description = stringResource(R.string.onboarding_welcome_description),
             icon = Icons.Default.WavingHand,
             color = MaterialTheme.colorScheme.primary
         ),
         OnboardingPage(
-            title = "1. Añadir contenido",
-            description = "Toca el botón «Añadir archivos» para elegir archivos o comparte archivos y texto directamente desde otras aplicaciones mediante el menú Compartir de Android.",
+            title = stringResource(R.string.onboarding_add_title),
+            description = stringResource(R.string.onboarding_add_description),
             icon = Icons.Default.AddCircle,
             color = MaterialTheme.colorScheme.primary
         ),
         OnboardingPage(
-            title = "2. Empezar a compartir",
-            description = "Toca «Empezar a compartir» para poner tu contenido a disposición de otros dispositivos. Si alguien intenta conectarse, se te pedirá confirmación.",
+            title = stringResource(R.string.onboarding_share_title),
+            description = stringResource(R.string.onboarding_share_description),
             icon = Icons.Default.Send,
             color = MaterialTheme.colorScheme.primary
         ),
         OnboardingPage(
-            title = "3. Conectar y compartir",
-            description = "Los otros dispositivos solo tienen que escanear el código QR o abrir el enlace en su navegador. ¡No necesitan instalar ninguna aplicación!",
+            title = stringResource(R.string.onboarding_connect_title),
+            description = stringResource(R.string.onboarding_connect_description),
             icon = Icons.Default.QrCodeScanner,
             color = MaterialTheme.colorScheme.primary
         ),
         OnboardingPage(
-            title = "¿Necesitas ayuda?",
-            description = "Si tienes algún problema, busca el icono (?) en el menú. Abre la guía completa (solo funciona mientras el servidor está activo).",
+            title = stringResource(R.string.onboarding_help_title),
+            description = stringResource(R.string.onboarding_help_description),
             icon = Icons.Default.QuestionMark,
             color = MaterialTheme.colorScheme.error
         )
@@ -176,7 +178,7 @@ fun WelcomeOnboarding(
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     TextButton(onClick = onDontShowAgain) {
-                        Text("Don't show again")
+                        Text(stringResource(R.string.onboarding_dont_show_again))
                     }
 
                     if (pagerState.currentPage < pages.size - 1) {
@@ -188,7 +190,7 @@ fun WelcomeOnboarding(
                             },
                             contentPadding = PaddingValues(horizontal = 20.dp, vertical = 12.dp)
                         ) {
-                            Text("Siguiente")
+                            Text(stringResource(R.string.action_next))
                             Spacer(Modifier.width(8.dp))
                             Icon(Icons.AutoMirrored.Filled.ArrowForward, contentDescription = null)
                         }
@@ -197,7 +199,7 @@ fun WelcomeOnboarding(
                             onClick = onDismiss,
                             contentPadding = PaddingValues(horizontal = 24.dp, vertical = 12.dp)
                         ) {
-                            Text("Got it!")
+                            Text(stringResource(R.string.action_got_it))
                         }
                     }
                 }
