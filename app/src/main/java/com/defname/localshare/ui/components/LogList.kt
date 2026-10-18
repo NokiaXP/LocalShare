@@ -91,7 +91,7 @@ fun DisconnectReasonText(
         is DisconnectReason.ServerShutdown -> {
             Icon(
                 imageVector = Icons.Default.Stop,
-                contentDescription = "Server shutdown",
+                contentDescription = "Servidor detenido",
                 tint = colorGreen
             )
         }
@@ -100,7 +100,7 @@ fun DisconnectReasonText(
             when (disconnectReason) {
                 DisconnectReason.Unexpected.ClientGone -> Icon(
                     imageVector = Icons.Default.Close,
-                    contentDescription = "Client Gone",
+                    contentDescription = "Cliente desconectado",
                     tint = colorGreen
                 )
                 DisconnectReason.Unexpected.AuthInvalid -> Icon(
@@ -111,13 +111,13 @@ fun DisconnectReasonText(
 
                 DisconnectReason.Unexpected.Unknown -> Icon(
                     imageVector = Icons.Default.QuestionMark,
-                    contentDescription = "Unknown",
+                    contentDescription = "Desconocido",
                     tint = colorRed
                 )
 
                 is DisconnectReason.Unexpected.Error -> Icon(
                     imageVector = Icons.Default.QuestionMark,
-                    contentDescription = disconnectReason.message ?: "Unknown",
+                    contentDescription = disconnectReason.message ?: "Desconocido",
                     tint = colorRed
                 )
             }
@@ -201,7 +201,7 @@ fun LogListEntry(
             } else if (entry.logEntry.result != null) {
                 DisconnectReasonText(entry.logEntry.result)
             } else {
-                Text("UNKNOWN")
+                Text("DESCONOCIDO")
             }
             Spacer(Modifier.width(8.dp))
             Text(entry.logEntry.method)
