@@ -91,18 +91,18 @@ fun DraftBatchCard(
                 Spacer(Modifier.width(12.dp))
                 Column(Modifier.weight(1f)) {
                     Text(
-                        text = "Solicitud de carga",
+                        text = stringResource(R.string.upload_request_title),
                         style = MaterialTheme.typography.titleMedium,
                         fontWeight = FontWeight.Bold
                     )
                     Text(
-                        text = "From: ${batch.clientIp}",
+                        text = stringResource(R.string.batch_from_client, batch.clientIp),
                         style = MaterialTheme.typography.bodySmall,
                         color = MaterialTheme.colorScheme.onSurfaceVariant
                     )
                 }
                 Text(
-                    text = "${batch.files.size} archivos",
+                    text = if (batch.files.size == 1) stringResource(R.string.batch_files_one, batch.files.size) else stringResource(R.string.batch_files_many, batch.files.size),
                     style = MaterialTheme.typography.labelLarge,
                     color = MaterialTheme.colorScheme.primary
                 )
@@ -116,7 +116,7 @@ fun DraftBatchCard(
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Text(
-                    text = "Tamaño total: ${batch.files.sumOf { it.size }.sizeAsString()}",
+                    text = stringResource(R.string.batch_total_size, batch.files.sumOf { it.size }.sizeAsString()),
                     style = MaterialTheme.typography.bodyMedium
                 )
                 Row {
@@ -186,12 +186,12 @@ fun ActiveBatchCard(
                 Spacer(Modifier.width(12.dp))
                 Column(Modifier.weight(1f)) {
                     Text(
-                        text = "Transferencia: ${batch.batchId.take(8)}",
+                        text = stringResource(R.string.batch_transfer_id, batch.batchId.take(8)),
                         style = MaterialTheme.typography.titleMedium,
                         fontWeight = FontWeight.Bold
                     )
                     Text(
-                        text = "Source: ${batch.clientIp}",
+                        text = stringResource(R.string.batch_source, batch.clientIp),
                         style = MaterialTheme.typography.bodySmall
                     )
                 }
