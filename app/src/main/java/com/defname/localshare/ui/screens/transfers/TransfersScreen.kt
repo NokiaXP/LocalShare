@@ -71,7 +71,7 @@ fun TransfersScreen(
                     .padding(innerPadding)
             ) {
                 HintCard(
-                    "La función de carga es experimental y debe activarse expresamente en los ajustes.",
+                    stringResource(R.string.transfers_upload_feature_hint),
                     modifier = Modifier.padding(16.dp)
                 )
             }
@@ -91,7 +91,7 @@ fun TransfersScreen(
                     )
                     Spacer(Modifier.height(16.dp))
                     Text(
-                        "No hay transferencias activas ni pendientes",
+                        stringResource(R.string.transfers_empty_hint),
                         style = MaterialTheme.typography.bodyLarge,
                         color = MaterialTheme.colorScheme.outline
                     )
@@ -106,7 +106,7 @@ fun TransfersScreen(
             ) {
                 if (state.draftBatches.isNotEmpty()) {
                     item {
-                        SectionHeader("Solicitudes pendientes")
+                        SectionHeader(stringResource(R.string.transfers_pending_requests))
                     }
                     items(state.draftBatches, key = { "draft_${it.draftId}_${it.clientIp}" }) { item ->
                         DraftBatchCard(
@@ -119,7 +119,7 @@ fun TransfersScreen(
 
                 if (state.batches.isNotEmpty()) {
                     item {
-                        SectionHeader("Transferencias activas")
+                        SectionHeader(stringResource(R.string.transfers_active))
                     }
                     items(state.batches, key = { "active_${it.batchId}" }) { item ->
                         ActiveBatchCard(item)
