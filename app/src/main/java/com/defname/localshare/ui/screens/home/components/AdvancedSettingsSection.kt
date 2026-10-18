@@ -53,7 +53,7 @@ fun AdvancedSettingsSection(
             verticalAlignment = Alignment.CenterVertically
         ) {
             Text(
-                "Technical Details",
+                stringResource(R.string.advanced_technical_details_title),
                 style = MaterialTheme.typography.titleMedium,
                 fontWeight = FontWeight.Bold,
                 modifier = Modifier.weight(1f)
