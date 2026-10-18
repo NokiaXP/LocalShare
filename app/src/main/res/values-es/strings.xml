@@ -159,4 +159,16 @@
     <string name="action_grant">Permitir</string>
     <string name="screen_transfers_title">Transferencias</string>
 
+
+    <string name="pending_request_one">Solicitud pendiente</string>
+    <string name="pending_request_many">Solicitudes pendientes (%1$d)</string>
+    <string name="incoming_transfer_one">Transferencia entrante</string>
+    <string name="incoming_transfer_many">Transferencias entrantes (%1$d)</string>
+    <string name="upload_permission_one">Permiso para subir archivos</string>
+    <string name="upload_permission_many">Permisos para subir archivos (%1$d)</string>
+    <string name="sharing_active">Uso compartido activo</string>
+    <string name="sharing_off">Uso compartido detenido</string>
+    <string name="sharing_wifi_access_hint">Cualquier persona conectada a tu Wi-Fi puede acceder a los archivos en:</string>
+    <string name="sharing_start_hint">Inicia el uso compartido para que otros dispositivos de esta red puedan acceder a tus archivos.</string>
+
 </resources>
