@@ -69,7 +69,7 @@ fun TransfersScreen(
                     .padding(innerPadding)
             ) {
                 HintCard(
-                    "The upload feature is experimental and must be explicitly enabled in the settings.",
+                    "La función de carga es experimental y debe activarse expresamente en los ajustes.",
                     modifier = Modifier.padding(16.dp)
                 )
             }
@@ -89,7 +89,7 @@ fun TransfersScreen(
                     )
                     Spacer(Modifier.height(16.dp))
                     Text(
-                        "No active or pending transfers",
+                        "No hay transferencias activas ni pendientes",
                         style = MaterialTheme.typography.bodyLarge,
                         color = MaterialTheme.colorScheme.outline
                     )
