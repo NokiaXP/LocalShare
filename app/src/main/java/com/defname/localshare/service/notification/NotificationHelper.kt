@@ -122,7 +122,7 @@ class NotificationHelper(private val context: Context) {
         val denyPending = PendingIntent.getService(context, clientIp.hashCode(), denyIntent, PendingIntent.FLAG_IMMUTABLE)
 
         val notification = NotificationCompat.Builder(context, APPROVAL_CHANNEL_ID)
-            .setContentTitle("Upload Permission Request")
+            .setContentTitle("Solicitud de permiso para subir archivos")
             .setContentText("$clientIp asks for permission to upload files.")
             .setSmallIcon(android.R.drawable.ic_dialog_alert)
             .setPriority(NotificationCompat.PRIORITY_HIGH)
@@ -150,7 +150,7 @@ class NotificationHelper(private val context: Context) {
         )
 
         val notification = NotificationCompat.Builder(context, APPROVAL_CHANNEL_ID)
-            .setContentTitle("Incoming Upload Request")
+            .setContentTitle("Solicitud de carga entrante")
             .setContentText("$clientIp wants to send $fileCount file(s).")
             .setSmallIcon(R.drawable.ic_launcher_foreground)
             .setPriority(NotificationCompat.PRIORITY_HIGH)
