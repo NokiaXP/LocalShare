@@ -142,7 +142,7 @@ fun SharedContentScreen(
                 )
             } else {
                 HintCard(
-                    "Puedes compartir fragmentos de texto desde cualquier otra aplicación o pegar texto del portapapeles con el botón de abajo (si está disponible). Ten en cuenta que los fragmentos de texto añadidos will be available to connected clients instantly.",
+                    stringResource(R.string.shared_content_empty_hint),
                     modifier = Modifier.padding(16.dp)
                 )
             }
