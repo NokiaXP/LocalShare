@@ -11,11 +11,14 @@ import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
 import androidx.core.app.NotificationCompat
+import com.defname.localshare.LocaleManager
 import com.defname.localshare.MainActivity
 import com.defname.localshare.R
 import com.defname.localshare.service.LocalShareService
 
 class NotificationHelper(private val context: Context) {
+    private fun localizedString(resId: Int, vararg formatArgs: Any): String =
+        LocaleManager.wrap(context).getString(resId, *formatArgs)
     companion object {
         const val CHANNEL_ID = "local_share_server_channel"
         const val APPROVAL_CHANNEL_ID = "local_share_approval_channel"
@@ -34,7 +37,7 @@ class NotificationHelper(private val context: Context) {
         // Channel für den dauerhaften Server-Dienst (niedrige Wichtigkeit, damit es nicht nervt)
         val serverChannel = NotificationChannel(
             CHANNEL_ID,
-            context.getString(R.string.notification_channel_name),
+            localizedString(R.string.notification_channel_name),
             NotificationManager.IMPORTANCE_LOW
         ).apply {
             description = context.getString(R.string.notification_channel_description)
@@ -122,8 +125,8 @@ class NotificationHelper(private val context: Context) {
         val denyPending = PendingIntent.getService(context, clientIp.hashCode(), denyIntent, PendingIntent.FLAG_IMMUTABLE)
 
         val notification = NotificationCompat.Builder(context, APPROVAL_CHANNEL_ID)
-            .setContentTitle("Solicitud de permiso para subir archivos")
-            .setContentText("$clientIp asks for permission to upload files.")
+            .setContentTitle(localizedString(R.string.upload_permission_notification_title))
+            .setContentText(localizedString(R.string.upload_permission_notification_text, clientIp))
             .setSmallIcon(android.R.drawable.ic_dialog_alert)
             .setPriority(NotificationCompat.PRIORITY_HIGH)
             .setCategory(NotificationCompat.CATEGORY_ALARM)
@@ -150,8 +153,8 @@ class NotificationHelper(private val context: Context) {
         )
 
         val notification = NotificationCompat.Builder(context, APPROVAL_CHANNEL_ID)
-            .setContentTitle("Solicitud de carga entrante")
-            .setContentText("$clientIp wants to send $fileCount file(s).")
+            .setContentTitle(localizedString(R.string.upload_request_notification_title))
+            .setContentText(localizedString(R.string.upload_request_notification_text, clientIp, fileCount))
             .setSmallIcon(R.drawable.ic_launcher_foreground)
             .setPriority(NotificationCompat.PRIORITY_HIGH)
             .setCategory(NotificationCompat.CATEGORY_EVENT)
