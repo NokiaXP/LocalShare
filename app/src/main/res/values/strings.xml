@@ -159,4 +159,16 @@
     <string name="action_grant">Allow</string>
     <string name="screen_transfers_title">Transfers</string>
 
+
+    <string name="pending_request_one">Pending request</string>
+    <string name="pending_request_many">Pending requests (%1$d)</string>
+    <string name="incoming_transfer_one">Incoming transfer</string>
+    <string name="incoming_transfer_many">Incoming transfers (%1$d)</string>
+    <string name="upload_permission_one">Permission to upload files</string>
+    <string name="upload_permission_many">Permissions to upload files (%1$d)</string>
+    <string name="sharing_active">Sharing is active</string>
+    <string name="sharing_off">Sharing is off</string>
+    <string name="sharing_wifi_access_hint">Anyone connected to your Wi-Fi can access files at:</string>
+    <string name="sharing_start_hint">Start sharing to let other devices on this network access your files.</string>
+
 </resources>
