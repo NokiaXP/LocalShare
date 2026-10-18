@@ -104,7 +104,7 @@ fun TransfersScreen(
             ) {
                 if (state.draftBatches.isNotEmpty()) {
                     item {
-                        SectionHeader("Pending Requests")
+                        SectionHeader("Solicitudes pendientes")
                     }
                     items(state.draftBatches, key = { "draft_${it.draftId}_${it.clientIp}" }) { item ->
                         DraftBatchCard(
