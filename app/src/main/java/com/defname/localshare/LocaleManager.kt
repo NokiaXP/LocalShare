@@ -13,8 +13,8 @@ object LocaleManager {
 
     fun currentLanguage(context: Context): String =
         context.getSharedPreferences(PREFERENCES_NAME, Context.MODE_PRIVATE)
-            .getString(LANGUAGE_KEY, ENGLISH)
-            ?.takeIf { it == ENGLISH || it == SPANISH } ?: ENGLISH
+            .getString(LANGUAGE_KEY, SPANISH)
+            ?.takeIf { it == ENGLISH || it == SPANISH } ?: SPANISH
 
     fun setLanguage(context: Context, language: String) {
         val supportedLanguage = if (language == SPANISH) SPANISH else ENGLISH
