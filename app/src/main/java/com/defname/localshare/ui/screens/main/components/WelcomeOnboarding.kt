@@ -62,32 +62,32 @@ fun WelcomeOnboarding(
 ) {
     val pages = listOf(
         OnboardingPage(
-            title = "Welcome to LocalShare!",
-            description = "Share files and text across your local network. No cloud or internet required.",
+            title = "¡Te damos la bienvenida a LocalShare!",
+            description = "Comparte archivos y texto en tu red local. No necesitas la nube ni conexión a Internet.",
             icon = Icons.Default.WavingHand,
             color = MaterialTheme.colorScheme.primary
         ),
         OnboardingPage(
             title = "1. Add Content",
-            description = "Tap the 'Add Files' button to pick files or share files or text directly from other apps via the Android share sheet.",
+            description = "Toca el botón «Añadir archivos» para elegir archivos o comparte archivos y texto directamente desde otras aplicaciones mediante el menú Compartir de Android.",
             icon = Icons.Default.AddCircle,
             color = MaterialTheme.colorScheme.primary
         ),
         OnboardingPage(
             title = "2. Start Sharing",
-            description = "Tap 'Start Sharing' to make your content available. If someone tries to connect you will be asked for confirmation.",
+            description = "Toca «Empezar a compartir» para poner tu contenido a disposición de otros dispositivos. Si alguien intenta conectarse, se te pedirá confirmación.",
             icon = Icons.Default.Send,
             color = MaterialTheme.colorScheme.primary
         ),
         OnboardingPage(
             title = "3. Connect & Share",
-            description = "Other devices just need to scan the QR code or open the link in their browser. No app installation needed for them!",
+            description = "Los otros dispositivos solo tienen que escanear el código QR o abrir el enlace en su navegador. ¡No necesitan instalar ninguna aplicación!",
             icon = Icons.Default.QrCodeScanner,
             color = MaterialTheme.colorScheme.primary
         ),
         OnboardingPage(
-            title = "Need Help?",
-            description = "If you're stuck, look for the (?) icon in the menu. It opens the full guide (only works while the server is running).",
+            title = "¿Necesitas ayuda?",
+            description = "Si tienes algún problema, busca el icono (?) en el menú. Abre la guía completa (solo funciona mientras el servidor está activo).",
             icon = Icons.Default.QuestionMark,
             color = MaterialTheme.colorScheme.error
         )
@@ -188,7 +188,7 @@ fun WelcomeOnboarding(
                             },
                             contentPadding = PaddingValues(horizontal = 20.dp, vertical = 12.dp)
                         ) {
-                            Text("Next")
+                            Text("Siguiente")
                             Spacer(Modifier.width(8.dp))
                             Icon(Icons.AutoMirrored.Filled.ArrowForward, contentDescription = null)
                         }
