@@ -16,6 +16,7 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.stringResource
+import com.defname.localshare.R
 import com.defname.localshare.ui.screens.files.FilesSortType
 
 @Composable
@@ -28,7 +29,7 @@ fun SortingButton(
 ) {
     Box {
         IconButton(onClick = onToggleMenu) {
-            Icon(Icons.Default.FilterList, contentDescription = "Sort")
+            Icon(Icons.Default.FilterList, contentDescription = stringResource(R.string.action_sort))
         }
         DropdownMenu(
             expanded = isMenuOpen,

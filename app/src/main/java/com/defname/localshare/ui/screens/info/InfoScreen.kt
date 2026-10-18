@@ -127,11 +127,11 @@ fun InfoScreen(onOpenDrawer: () -> Unit) {
                 modifier = Modifier.fillMaxWidth()
             ) {
                 Column(Modifier.padding(16.dp)) {
-                    InfoRow(label = "Version", value = versionName)
-                    InfoRow(label = "Build Number", value = versionCode.toString())
-                    InfoRow(label = "Package Name", value = context.packageName)
-                    InfoRow(label = "License", value = hyperlink(licenseUrl, license))
-                    InfoRow(label = "Source", value = hyperlink(appSrcUrl))
+                    InfoRow(label = stringResource(R.string.info_version), value = versionName)
+                    InfoRow(label = stringResource(R.string.info_build_number), value = versionCode.toString())
+                    InfoRow(label = stringResource(R.string.info_package_name), value = context.packageName)
+                    InfoRow(label = stringResource(R.string.info_license), value = hyperlink(licenseUrl, license))
+                    InfoRow(label = stringResource(R.string.info_source), value = hyperlink(appSrcUrl))
 
                     Row(
                         modifier = Modifier
@@ -155,7 +155,7 @@ fun InfoScreen(onOpenDrawer: () -> Unit) {
 
             Spacer(Modifier.height(32.dp))
 
-            Text("Credits", style = MaterialTheme.typography.titleLarge)
+            Text(stringResource(R.string.info_credits), style = MaterialTheme.typography.titleLarge)
             Spacer(Modifier.height(8.dp))
 
             val papirusUrl = stringResource(R.string.icon_theme_url)
@@ -207,7 +207,7 @@ fun InfoRow(label: String, value: AnnotatedString) {
 fun InfoRowPreview() {
     LocalShareTheme {
         InfoRow(
-            label = "Version",
+            label = stringResource(R.string.info_version),
             value = "1.0.0"
         )
     }

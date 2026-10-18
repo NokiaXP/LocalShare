@@ -86,4 +86,129 @@
     <string name="settings_generate_a_new_security_token_every_time_the_app_starts_hint">Generate a new security token every time the app starts</string>
     <string name="service_stopped_timeout">Sharing stopped due to a idle timeout (check settings).</string>
     <string name="service_stopped_starting_error">Error starting server: %1$s</string>
+
+    <string name="settings_language_title">Language</string>
+    <string name="settings_language_english">English</string>
+    <string name="settings_language_spanish">Spanish</string>
+    <string name="settings_experimental_title">Experimental features</string>
+    <string name="settings_upload_feature_title">Upload feature</string>
+    <string name="settings_upload_feature_hint">Send files from the web interface to the app.</string>
+    <string name="error_port_range">Port must be between 1024 and 65535.</string>
+    <string name="error_seconds_number">Enter a valid number of seconds.</string>
+    <string name="toast_text_added_to_shared">Text added to shared content.</string>
+
+
+    <string name="files_selected_count">%1$d selected</string>
+    <string name="action_cancel">Cancel</string>
+    <string name="action_select_all">Select all</string>
+    <string name="action_delete">Delete</string>
+    <string name="action_clear_all">Clear all</string>
+    <string name="action_delete_selected">Delete selected</string>
+    <string name="action_add_files">Add files</string>
+    <string name="action_view_detailed_logs">View detailed logs</string>
+    <string name="action_unblock">Unblock</string>
+    <string name="security_token_label">Security token</string>
+    <string name="action_generate_new">Generate a new one</string>
+    <string name="error_token_alphanumeric">The token can contain only letters and numbers.</string>
+    <string name="ip_address_browser_warning">The selected address will not work in most browsers!</string>
+    <string name="action_reject">Reject</string>
+    <string name="action_accept">Accept</string>
+    <string name="action_view_transfers">View transfers</string>
+    <string name="action_share_link">Share link</string>
+    <string name="action_qr_code">QR code</string>
+    <string name="notifications_required_to_start">Enable notifications to start</string>
+    <string name="action_start_sharing">Start sharing</string>
+    <string name="action_stop_sharing">Stop sharing</string>
+    <string name="server_starting">Starting…</string>
+    <string name="server_stopping">Stopping…</string>
+    <string name="info_version">Version</string>
+    <string name="info_build_number">Build number</string>
+    <string name="info_package_name">Package name</string>
+    <string name="info_license">License</string>
+    <string name="info_source">Source</string>
+    <string name="info_credits">Credits</string>
+    <string name="action_clear_logs">Clear logs</string>
+
+
+    <string name="nav_overview">Overview</string>
+    <string name="nav_shared_files">Shared files</string>
+    <string name="nav_shared_text">Shared text</string>
+    <string name="nav_transfers">Transfers</string>
+    <string name="nav_logs">Logs</string>
+    <string name="nav_settings">Settings</string>
+    <string name="nav_info">Info</string>
+    <string name="toast_start_server_first">Start the server first.</string>
+    <string name="onboarding_welcome_title">Welcome to LocalShare!</string>
+    <string name="onboarding_welcome_description">Share files and text on your local network. No cloud or Internet connection is required.</string>
+    <string name="onboarding_add_title">1. Add content</string>
+    <string name="onboarding_add_description">Tap “Add files” to choose files, or share files and text directly from other apps using Android’s Share menu.</string>
+    <string name="onboarding_share_title">2. Start sharing</string>
+    <string name="onboarding_share_description">Tap “Start sharing” to make your content available to other devices. If someone tries to connect, you will be asked to approve it.</string>
+    <string name="onboarding_connect_title">3. Connect and share</string>
+    <string name="onboarding_connect_description">Other devices only need to scan the QR code or open the link in their browser. They do not need to install an app.</string>
+    <string name="onboarding_help_title">Need help?</string>
+    <string name="onboarding_help_description">If you have a problem, look for the (?) icon in the menu. Open the full guide (available only while the server is running).</string>
+    <string name="onboarding_dont_show_again">Don’t show again</string>
+    <string name="action_next">Next</string>
+    <string name="action_got_it">Got it!</string>
+
+
+    <string name="action_close">Close</string>
+    <string name="action_sort">Sort</string>
+    <string name="action_paste_clipboard">Paste from clipboard</string>
+    <string name="action_grant">Allow</string>
+    <string name="screen_transfers_title">Transfers</string>
+
+
+    <string name="pending_request_one">Pending request</string>
+    <string name="pending_request_many">Pending requests (%1$d)</string>
+    <string name="incoming_transfer_one">Incoming transfer</string>
+    <string name="incoming_transfer_many">Incoming transfers (%1$d)</string>
+    <string name="upload_permission_one">Permission to upload files</string>
+    <string name="upload_permission_many">Permissions to upload files (%1$d)</string>
+    <string name="sharing_active">Sharing is active</string>
+    <string name="sharing_off">Sharing is off</string>
+    <string name="sharing_wifi_access_hint">Anyone connected to your Wi-Fi can access files at:</string>
+    <string name="sharing_start_hint">Start sharing to let other devices on this network access your files.</string>
+
+
+    <string name="request_wants_to_connect">wants to connect.</string>
+    <string name="request_wants_to_send_one">wants to send 1 file.</string>
+    <string name="request_wants_to_send_many">wants to send %1$d files.</string>
+    <string name="request_upload_permission">is requesting permission to upload files.</string>
+    <string name="home_no_files_hint">You haven’t added any files yet. Add files to start sharing.</string>
+    <string name="home_no_recent_activity_hint">There is no recent activity yet.</string>
+
+
+    <string name="upload_request_title">Upload request</string>
+    <string name="batch_from_client">From: %1$s</string>
+    <string name="batch_files_one">%1$d file</string>
+    <string name="batch_files_many">%1$d files</string>
+    <string name="batch_total_size">Total size: %1$s</string>
+    <string name="batch_transfer_id">Transfer: %1$s</string>
+    <string name="batch_source">Source: %1$s</string>
+    <string name="log_server_stopped">Server stopped</string>
+    <string name="log_client_disconnected">Client disconnected</string>
+    <string name="log_authentication_invalid">Invalid authentication</string>
+    <string name="log_unknown">Unknown</string>
+
+
+    <string name="upload_permission_notification_title">Upload permission request</string>
+    <string name="upload_permission_notification_text">%1$s is requesting permission to upload files.</string>
+    <string name="upload_request_notification_title">Incoming upload request</string>
+    <string name="upload_request_notification_text">%1$s wants to send %2$d file(s).</string>
+
+
+    <string name="home_shared_files_title">Shared files</string>
+    <string name="home_recent_activity_title">Recent activity</string>
+    <string name="home_blocked_connections_title">Blocked connections</string>
+    <string name="advanced_technical_details_title">Technical details</string>
+    <string name="shared_content_empty_hint">You can share text snippets from any other app or paste text from the clipboard using the button below (if available). Text snippets you add will be available to connected clients instantly.</string>
+    <string name="transfers_upload_feature_hint">The upload feature is experimental and must be explicitly enabled in Settings.</string>
+    <string name="transfers_empty_hint">There are no active or pending transfers.</string>
+    <string name="transfers_pending_requests">Pending requests</string>
+    <string name="transfers_active">Active transfers</string>
+
+
+    <string name="action_help">Help</string>
 </resources>

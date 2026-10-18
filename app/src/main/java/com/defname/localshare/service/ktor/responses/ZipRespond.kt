@@ -28,7 +28,7 @@ suspend fun ApplicationCall.sendZip(
     filename: String = "files.zip"
 ) {
     if (files.isEmpty()) {
-        respond(HttpStatusCode.NotFound, "No files available for download")
+        respond(HttpStatusCode.NotFound, "No hay archivos disponibles para descargar")
         return
     }
 

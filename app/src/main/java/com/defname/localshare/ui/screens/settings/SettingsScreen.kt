@@ -24,6 +24,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.RadioButton
 import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
@@ -31,14 +32,15 @@ import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
+import com.defname.localshare.LocaleManager
 import com.defname.localshare.R
 import com.defname.localshare.data.RuntimeState
 import com.defname.localshare.ui.components.ConfirmedTextField
@@ -53,7 +55,8 @@ fun SettingsScreen(
 ) {
     val settings by viewModel.settings.collectAsState()
     val runtimeState by viewModel.runtimeState.collectAsState()
-    val scope = rememberCoroutineScope()
+    val context = LocalContext.current
+    val selectedLanguage = LocaleManager.currentLanguage(context)
 
     Scaffold(
         topBar = {
@@ -76,14 +79,37 @@ fun SettingsScreen(
                 .padding(innerPadding)
                 .verticalScroll(rememberScrollState())
         ) {
-            // Gruppe 1: Server Konfiguration
+            SettingsGroup(title = stringResource(R.string.settings_language_title)) {
+                LanguageOption(
+                    label = stringResource(R.string.settings_language_english),
+                    selected = selectedLanguage == LocaleManager.ENGLISH,
+                    onClick = {
+                        if (selectedLanguage != LocaleManager.ENGLISH) {
+                            LocaleManager.setLanguage(context, LocaleManager.ENGLISH)
+                            (context as? android.app.Activity)?.recreate()
+                        }
+                    }
+                )
+                LanguageOption(
+                    label = stringResource(R.string.settings_language_spanish),
+                    selected = selectedLanguage == LocaleManager.SPANISH,
+                    onClick = {
+                        if (selectedLanguage != LocaleManager.SPANISH) {
+                            LocaleManager.setLanguage(context, LocaleManager.SPANISH)
+                            (context as? android.app.Activity)?.recreate()
+                        }
+                    }
+                )
+            }
+
+            // Server configuration
             SettingsGroup(title = stringResource(R.string.settings_server_title)) {
                 // Port Einstellung
                 SettingsRow {
                     ConfirmedTextField(
                         value = settings.serverPort.toString(),
                         validator = { input -> input.toIntOrNull().let { it != null && it in 1024.. 65535 } },
-                        errorHint = { Text("Port must be between 1024 and 65535") },
+                        errorHint = { Text(stringResource(R.string.error_port_range)) },
                         enabled = runtimeState.serviceState == RuntimeState.STOPPED,
                         label = { Text(stringResource(R.string.settings_server_port_label)) },
                         modifier = Modifier.weight(1f),
@@ -107,7 +133,7 @@ fun SettingsScreen(
                         value = settings.serverIdleTimeoutSeconds.toString(),
                         label = { Text(stringResource(R.string.settings_server_timeout_label)) },
                         validator = { input -> input.toIntOrNull() != null },
-                        errorHint = { Text("Number of seonds must be a number.") },
+                        errorHint = { Text(stringResource(R.string.error_seconds_number)) },
                         modifier = Modifier.weight(1f),
                         supportingText = {
                             Text(stringResource(R.string.settings_server_timeout_hint))
@@ -142,7 +168,7 @@ fun SettingsScreen(
                             value = settings.whitelistEntryTTLSeconds.toString(),
                             label = { Text(stringResource(R.string.settings_security_whitelist_ttl_label)) },
                             validator = { it.toIntOrNull() != null },
-                            errorHint = { Text("Number of seconds must be a number.") },
+                            errorHint = { Text(stringResource(R.string.error_seconds_number)) },
                             keyboardOptions = KeyboardOptions.Default.copy(
                                 keyboardType = KeyboardType.Number,
                                 imeAction = ImeAction.Done
@@ -163,7 +189,7 @@ fun SettingsScreen(
                         value = settings.sseHeartbeatPeriodSeconds.toString(),
                         label = { Text(stringResource(R.string.settings_webinterface_heartbeat_label)) },
                         validator = { it.toIntOrNull() != null },
-                        errorHint = { Text("Number of seconds must be a number.") },
+                        errorHint = { Text(stringResource(R.string.error_seconds_number)) },
                         keyboardOptions = KeyboardOptions.Default.copy(
                             keyboardType = KeyboardType.Number,
                             imeAction = ImeAction.Done
@@ -186,10 +212,10 @@ fun SettingsScreen(
                 )
             }
 
-            SettingsGroup(title = "Experimental Features") {
+            SettingsGroup(title = stringResource(R.string.settings_experimental_title)) {
                 SettingsSwitchRow(
-                    title = "Upload Feature",
-                    subtitle = "Send files from the web UI to the app.",
+                    title = stringResource(R.string.settings_upload_feature_title),
+                    subtitle = stringResource(R.string.settings_upload_feature_hint),
                     checked = settings.uploadFeatureActive,
                     onCheckedChange = viewModel::setUploadFeatureActive
                 )
@@ -205,6 +231,20 @@ fun SettingsScreenPreview() {
         SettingsScreen(
             onOpenDrawer = {},
         )
+    }
+}
+
+@Composable
+private fun LanguageOption(label: String, selected: Boolean, onClick: () -> Unit) {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .clickable(onClick = onClick)
+            .padding(horizontal = 16.dp, vertical = 6.dp),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        RadioButton(selected = selected, onClick = onClick)
+        Text(label, modifier = Modifier.padding(start = 8.dp), style = MaterialTheme.typography.bodyLarge)
     }
 }
 

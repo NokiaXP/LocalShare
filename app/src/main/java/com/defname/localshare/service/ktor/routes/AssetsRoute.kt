@@ -5,6 +5,7 @@
 package com.defname.localshare.service.ktor.routes
 
 import android.content.Context
+import com.defname.localshare.LocaleManager
 import com.defname.localshare.service.ServerSecurityHandler
 import io.ktor.http.ContentType
 import io.ktor.http.HttpStatusCode
@@ -30,7 +31,12 @@ fun Route.getAssets(
         }
 
         try {
-            val assetPath = "web/$path"
+            val requestedAssetPath = "web/$path"
+            val assetPath = if (requestedAssetPath == "web/docs/index.html" && LocaleManager.currentLanguage(context) != LocaleManager.SPANISH) {
+                "web/docs/index_en.html"
+            } else {
+                requestedAssetPath
+            }
             val inputStream = context.assets.open(assetPath)
             val contentType = ContentType.defaultForFilePath(path)
 

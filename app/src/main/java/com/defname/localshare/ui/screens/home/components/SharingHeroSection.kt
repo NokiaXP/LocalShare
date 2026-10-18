@@ -35,6 +35,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.res.stringResource
+import com.defname.localshare.R
 import androidx.compose.ui.unit.dp
 import com.defname.localshare.ui.screens.home.HomeState
 import com.defname.localshare.ui.screens.home.HomeViewModel
@@ -85,7 +87,7 @@ fun SharingHeroSection(
                 )
                 Spacer(modifier = Modifier.height(16.dp))
                 Text(
-                    text = if (pendingRequests.size == 1) "Pending Request" else "Pending Requests (${pendingRequests.size})",
+                    text = if (pendingRequests.size == 1) stringResource(R.string.pending_request_one) else stringResource(R.string.pending_request_many, pendingRequests.size),
                     style = MaterialTheme.typography.headlineSmall,
                 )
                 Spacer(modifier = Modifier.height(8.dp))
@@ -98,7 +100,7 @@ fun SharingHeroSection(
                 )
                 Spacer(modifier = Modifier.height(8.dp))
                 Text(
-                    text = "wants to connect.",
+                    text = stringResource(R.string.request_wants_to_connect),
                     style = MaterialTheme.typography.bodyMedium,
                 )
 
@@ -122,7 +124,7 @@ fun SharingHeroSection(
                             modifier = Modifier.size(18.dp)
                         )
                         Spacer(Modifier.width(8.dp))
-                        Text("Reject")
+                        Text(stringResource(R.string.action_reject))
                     }
                     Button(
                         onClick = { requestingIp?.also { viewModel.onGrantRequest(context, it) } },
@@ -136,7 +138,7 @@ fun SharingHeroSection(
                             modifier = Modifier.size(18.dp)
                         )
                         Spacer(Modifier.width(8.dp))
-                        Text("Accept")
+                        Text(stringResource(R.string.action_accept))
                     }
                 }
             }
@@ -166,7 +168,7 @@ fun SharingHeroSection(
                 )
                 Spacer(modifier = Modifier.height(16.dp))
                 Text(
-                    text = if (pendingUploadRequests.size == 1) "Incoming Transfer" else "Incoming Transfers (${pendingUploadRequests.size})",
+                    text = if (pendingUploadRequests.size == 1) stringResource(R.string.incoming_transfer_one) else stringResource(R.string.incoming_transfer_many, pendingUploadRequests.size),
                     style = MaterialTheme.typography.headlineSmall,
                 )
                 Spacer(modifier = Modifier.height(8.dp))
@@ -179,7 +181,7 @@ fun SharingHeroSection(
                 )
                 Spacer(modifier = Modifier.height(8.dp))
                 Text(
-                    text = "wants to send ${uploadRequestingBatch?.files?.size ?: 0} file(s).",
+                    text = if ((uploadRequestingBatch?.files?.size ?: 0) == 1) stringResource(R.string.request_wants_to_send_one) else stringResource(R.string.request_wants_to_send_many, uploadRequestingBatch?.files?.size ?: 0),
                     style = MaterialTheme.typography.bodyMedium,
                 )
 
@@ -196,7 +198,7 @@ fun SharingHeroSection(
                         modifier = Modifier.size(18.dp)
                     )
                     Spacer(Modifier.width(8.dp))
-                    Text("View Transfers")
+                    Text(stringResource(R.string.action_view_transfers))
                 }
             }
         }
@@ -225,7 +227,7 @@ fun SharingHeroSection(
                 )
                 Spacer(modifier = Modifier.height(16.dp))
                 Text(
-                    text = if (pendingUploadPermissionRequests.size == 1) "Upload Permission" else "Upload Permissions (${pendingUploadPermissionRequests.size})",
+                    text = if (pendingUploadPermissionRequests.size == 1) stringResource(R.string.upload_permission_one) else stringResource(R.string.upload_permission_many, pendingUploadPermissionRequests.size),
                     style = MaterialTheme.typography.headlineSmall,
                 )
                 Spacer(modifier = Modifier.height(8.dp))
@@ -238,7 +240,7 @@ fun SharingHeroSection(
                 )
                 Spacer(modifier = Modifier.height(8.dp))
                 Text(
-                    text = "asks for permission to upload files.",
+                    text = stringResource(R.string.request_upload_permission),
                     style = MaterialTheme.typography.bodyMedium,
                 )
 
@@ -262,7 +264,7 @@ fun SharingHeroSection(
                             modifier = Modifier.size(18.dp)
                         )
                         Spacer(Modifier.width(8.dp))
-                        Text("Reject")
+                        Text(stringResource(R.string.action_reject))
                     }
                     Button(
                         onClick = { uploadPermissionRequestingIp?.also { viewModel.onGrantUploadPermissionRequest(context, it) } },
@@ -276,7 +278,7 @@ fun SharingHeroSection(
                             modifier = Modifier.size(18.dp)
                         )
                         Spacer(Modifier.width(8.dp))
-                        Text("Accept")
+                        Text(stringResource(R.string.action_accept))
                     }
                 }
             }
@@ -311,7 +313,7 @@ fun SharingHeroSection(
                 Spacer(modifier = Modifier.height(16.dp))
 
                 Text(
-                    text = if (isRunning) "Sharing is Active" else "Sharing is Off",
+                    text = stringResource(if (isRunning) R.string.sharing_active else R.string.sharing_off),
                     style = MaterialTheme.typography.headlineSmall,
                     fontWeight = FontWeight.Bold,
                     color = if (isRunning) MaterialTheme.colorScheme.onPrimaryContainer else MaterialTheme.colorScheme.onSurfaceVariant
@@ -320,7 +322,7 @@ fun SharingHeroSection(
                 if (isRunning && primaryUrl != null) {
                     Spacer(modifier = Modifier.height(8.dp))
                     Text(
-                        text = "Anyone on your Wi-Fi can access files at:",
+                        text = stringResource(R.string.sharing_wifi_access_hint),
                         style = MaterialTheme.typography.bodyMedium,
                         color = MaterialTheme.colorScheme.onPrimaryContainer.copy(alpha = 0.8f),
                         textAlign = TextAlign.Center
@@ -352,7 +354,7 @@ fun SharingHeroSection(
                                 modifier = Modifier.size(18.dp)
                             )
                             Spacer(Modifier.width(8.dp))
-                            Text("Share Link")
+                            Text(stringResource(R.string.action_share_link))
                         }
                         Button(
                             onClick = { viewModel.onOpenQrCodeDialog(primaryUrl) },
@@ -366,12 +368,12 @@ fun SharingHeroSection(
                                 modifier = Modifier.size(18.dp)
                             )
                             Spacer(Modifier.width(8.dp))
-                            Text("QR Code")
+                            Text(stringResource(R.string.action_qr_code))
                         }
                     }
                 } else if (!isRunning) {
                     Text(
-                        "Start sharing to make your files available to other devices on this network.",
+                        stringResource(R.string.sharing_start_hint),
                         style = MaterialTheme.typography.bodyMedium,
                         textAlign = TextAlign.Center,
                         color = MaterialTheme.colorScheme.onSurfaceVariant

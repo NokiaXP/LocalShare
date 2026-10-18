@@ -10,6 +10,8 @@ import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.res.stringResource
+import com.defname.localshare.R
 
 @Composable
 fun AddFilesFab(
@@ -23,7 +25,7 @@ fun AddFilesFab(
     ) {
         Icon(
             imageVector = Icons.Default.Add,
-            contentDescription = "Add Files"
+            contentDescription = stringResource(R.string.action_add_files)
         )
     }
 }

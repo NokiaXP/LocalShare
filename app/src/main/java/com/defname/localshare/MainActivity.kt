@@ -5,6 +5,7 @@
 package com.defname.localshare
 
 import android.Manifest
+import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
@@ -41,45 +42,41 @@ class MainActivity : ComponentActivity() {
     private val mainViewModel: com.defname.localshare.ui.screens.main.MainViewModel by inject()
     private val scope = CoroutineScope(Dispatchers.Main + SupervisorJob())
 
+    override fun attachBaseContext(newBase: Context) {
+        super.attachBaseContext(LocaleManager.wrap(newBase))
+    }
+
     private val requestPermissionLauncher = registerForActivityResult(
         ActivityResultContracts.RequestPermission()
-    ) { _ ->
-        permissionRepository.updatePermissionStatus()
-    }
+    ) { _ -> permissionRepository.updatePermissionStatus() }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         installSplashScreen()
-
         super.onCreate(savedInstanceState)
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
             splashScreen.setOnExitAnimationListener { splashScreenView ->
-                splashScreenView.animate()
-                    .scaleX(3f)
-                    .scaleY(3f)
-                    .alpha(0f)
+                splashScreenView.animate().scaleX(3f).scaleY(3f).alpha(0f)
                     .setDuration(300L)
                     .withEndAction { splashScreenView.remove() }
                     .start()
             }
         }
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            if (ContextCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
-                requestPermissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS)
-            }
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU &&
+            ContextCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED
+        ) {
+            requestPermissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS)
         }
 
-        intent?.let { 
+        intent?.let {
             handleSendIntent(it)
             handleNavigationIntent(it)
         }
 
         enableEdgeToEdge()
         setContent {
-            LocalShareTheme {
-                MainScreen(mainViewModel)
-            }
+            LocalShareTheme { MainScreen(mainViewModel) }
         }
     }
 
@@ -102,27 +99,24 @@ class MainActivity : ComponentActivity() {
 
         scope.launch {
             val settings = settingsRepository.settingsFlow.first()
-
-            if (settings.clearFileListOnShareIntent) {
-                serviceRepository.clearFiles()
-            }
-
+            if (settings.clearFileListOnShareIntent) serviceRepository.clearFiles()
             val urisToGrant = mutableListOf<Uri>()
+
             when (action) {
                 Intent.ACTION_SEND -> {
                     val uri = IntentCompat.getParcelableExtra(intent, Intent.EXTRA_STREAM, Uri::class.java)
-                    if (uri != null)  {
+                    if (uri != null) {
                         urisToGrant.add(uri)
                         addFilesUseCase(uri)
-                    }
-                    else {
-                        val mime = intent.type
-                        val extraText = intent.getStringExtra(Intent.EXTRA_TEXT)
-                        val extraSubject = intent.getStringExtra(Intent.EXTRA_SUBJECT)
-                        addSharedContentUseCase(mime, extraText, extraSubject)
+                    } else {
+                        addSharedContentUseCase(
+                            intent.type,
+                            intent.getStringExtra(Intent.EXTRA_TEXT),
+                            intent.getStringExtra(Intent.EXTRA_SUBJECT)
+                        )
                         android.widget.Toast.makeText(
                             this@MainActivity,
-                            "Text added to shared texts.",
+                            getString(R.string.toast_text_added_to_shared),
                             android.widget.Toast.LENGTH_LONG
                         ).show()
                     }
@@ -137,14 +131,11 @@ class MainActivity : ComponentActivity() {
                 }
             }
 
-            // 4. Permissions transferieren, falls der Server bereits läuft
             if (urisToGrant.isNotEmpty() && serviceRepository.serverRunning()) {
                 val serviceIntent = Intent(this@MainActivity, com.defname.localshare.service.LocalShareService::class.java).apply {
                     this.action = com.defname.localshare.service.LocalShareService.ACTION_GRANT_PERMISSION
-                    this.clipData = android.content.ClipData.newRawUri("Shared Files", urisToGrant.first()).apply {
-                        for (i in 1 until urisToGrant.size) {
-                            addItem(android.content.ClipData.Item(urisToGrant[i]))
-                        }
+                    clipData = android.content.ClipData.newRawUri("Shared Files", urisToGrant.first()).apply {
+                        for (i in 1 until urisToGrant.size) addItem(android.content.ClipData.Item(urisToGrant[i]))
                     }
                     addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
                 }
@@ -157,5 +148,4 @@ class MainActivity : ComponentActivity() {
         super.onDestroy()
         scope.cancel()
     }
-
 }

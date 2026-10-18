@@ -26,6 +26,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.res.stringResource
+import com.defname.localshare.R
 import androidx.compose.ui.unit.dp
 import com.defname.localshare.ui.components.ConfirmedTextField
 import com.defname.localshare.ui.screens.home.HomeState
@@ -51,7 +53,7 @@ fun AdvancedSettingsSection(
             verticalAlignment = Alignment.CenterVertically
         ) {
             Text(
-                "Technical Details",
+                stringResource(R.string.advanced_technical_details_title),
                 style = MaterialTheme.typography.titleMedium,
                 fontWeight = FontWeight.Bold,
                 modifier = Modifier.weight(1f)
@@ -66,17 +68,17 @@ fun AdvancedSettingsSection(
             Column(modifier = Modifier.padding(top = 8.dp, bottom = 16.dp)) {
                 ConfirmedTextField(
                     value = state.token,
-                    label = { Text("Security Token") },
+                    label = { Text(stringResource(R.string.security_token_label)) },
                     singleLine = true,
                     onValueChange = viewModel::onTokenChange,
                     modifier = Modifier.fillMaxWidth(),
                     trailingIcon = {
                         IconButton(onClick = viewModel::onRandomTokenClick) {
-                            Icon(Icons.Default.Refresh, contentDescription = "Generate New")
+                            Icon(Icons.Default.Refresh, contentDescription = stringResource(R.string.action_generate_new))
                         }
                     },
                     validator = { input -> input.all { it.isLetterOrDigit() } },
-                    errorHint = { Text("The token must only consist of letters and numbers.") },
+                    errorHint = { Text(stringResource(R.string.error_token_alphanumeric)) },
                     keyboardOptions = KeyboardOptions.Default.copy(
                         imeAction = ImeAction.Done
                     )

@@ -6,10 +6,12 @@ package com.defname.localshare.service
 
 import android.app.NotificationManager
 import android.app.Service
+import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.IBinder
 import android.widget.Toast
+import com.defname.localshare.LocaleManager
 import com.defname.localshare.R
 import com.defname.localshare.data.ConnectionLogsRepository
 import com.defname.localshare.data.FileInfoProvider
@@ -37,6 +39,10 @@ import kotlinx.serialization.json.Json
 import org.koin.android.ext.android.inject
 
 class LocalShareService : Service() {
+    override fun attachBaseContext(newBase: Context) {
+        super.attachBaseContext(LocaleManager.wrap(newBase))
+    }
+
     private val notificationHelper: NotificationHelper by inject()
     private val settingsRepository: SettingsRepository by inject()
     private val serviceRepository: ServiceRepository by inject()

@@ -48,6 +48,8 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.res.stringResource
+import com.defname.localshare.R
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
@@ -154,7 +156,7 @@ fun HomeScreen(
                 modifier = Modifier.padding(top = 8.dp)
             ) {
                 Text(
-                    "Shared Files",
+                    stringResource(R.string.home_shared_files_title),
                     style = MaterialTheme.typography.titleMedium,
                     fontWeight = FontWeight.Bold,
                     color = MaterialTheme.colorScheme.onSurface,
@@ -169,7 +171,7 @@ fun HomeScreen(
                         ) {
                             Icon(
                                 imageVector = Icons.Default.Clear,
-                                contentDescription = "Clear All",
+                                contentDescription = stringResource(R.string.action_clear_all),
                                 modifier = Modifier.size(18.dp)
                             )
                         }
@@ -179,7 +181,7 @@ fun HomeScreen(
 
             if (state.fileList.isNotEmpty()) {
                 Text(
-                    "${state.fileList.size} files" + " • " + Formatter.formatFileSize(context, state.fileList.sumOf { it.size }),
+                    "${state.fileList.size} archivos" + " • " + Formatter.formatFileSize(context, state.fileList.sumOf { it.size }),
                     style = MaterialTheme.typography.bodySmall,
                     color = MaterialTheme.colorScheme.onSurfaceVariant
                 )
@@ -190,7 +192,7 @@ fun HomeScreen(
                     onToggleSelection = viewModel::toggleFileToDelete,
                 )
             } else {
-                HintCard(text = "No files added yet. Add files to start sharing.")
+                HintCard(text = stringResource(R.string.home_no_files_hint))
             }
 
             Spacer(modifier = Modifier.height(12.dp))
@@ -209,14 +211,14 @@ fun HomeScreen(
                     ) {
                         Icon(imageVector = Icons.Default.Delete, contentDescription = null)
                         Spacer(modifier = Modifier.width(8.dp))
-                        Text("Delete Selected")
+                        Text(stringResource(R.string.action_delete_selected))
                     }
                     Button(
                         onClick = viewModel::clearFilesToDelete
                     ) {
                         Icon(imageVector = Icons.Default.Cancel, contentDescription = null)
                         Spacer(modifier = Modifier.width(8.dp))
-                        Text("Cancel")
+                        Text(stringResource(R.string.action_cancel))
                     }
                 } else {
                     Button(
@@ -224,7 +226,7 @@ fun HomeScreen(
                     ) {
                         Icon(imageVector = Icons.Default.Add, contentDescription = null)
                         Spacer(modifier = Modifier.width(8.dp))
-                        Text("Add Files")
+                        Text(stringResource(R.string.action_add_files))
                     }
                 }
             }
@@ -242,7 +244,7 @@ fun HomeScreen(
                 modifier = Modifier.padding(top = 8.dp)
             ) {
                 Text(
-                    "Recent Activity",
+                    stringResource(R.string.home_recent_activity_title),
                     style = MaterialTheme.typography.titleMedium,
                     fontWeight = FontWeight.Bold,
                     color = MaterialTheme.colorScheme.onSurface,
@@ -256,7 +258,7 @@ fun HomeScreen(
                     ) {
                         Icon(
                             imageVector = Icons.Default.List,
-                            contentDescription = "View Detailed Logs",
+                            contentDescription = stringResource(R.string.action_view_detailed_logs),
                             modifier = Modifier.size(18.dp)
                         )
                     }
@@ -278,13 +280,13 @@ fun HomeScreen(
                 }
             }
             else {
-                HintCard(text = "No recent activity yet.")
+                HintCard(text = stringResource(R.string.home_no_recent_activity_hint))
             }
             Spacer(modifier = Modifier.height(8.dp))
 
             if (state.blacklist.isNotEmpty()) {
                 Text(
-                    "Blocked Connections",
+                    stringResource(R.string.home_blocked_connections_title),
                     style = MaterialTheme.typography.titleMedium,
                     fontWeight = FontWeight.Bold,
                     color = MaterialTheme.colorScheme.error,
@@ -303,7 +305,7 @@ fun HomeScreen(
                         IconButton(onClick = { viewModel.removeFromBlacklist(ip) }) {
                             Icon(
                                 imageVector = Icons.Default.Undo,
-                                contentDescription = "Unblock",
+                                contentDescription = stringResource(R.string.action_unblock),
                                 tint = MaterialTheme.colorScheme.tertiary
                             )
                         }

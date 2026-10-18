@@ -19,6 +19,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.res.stringResource
+import com.defname.localshare.R
 
 @Composable
 fun QrCodeDialog(
@@ -33,7 +35,7 @@ fun QrCodeDialog(
             Button(
                 onClick = onDismiss
             ) {
-                Text("Close")
+                Text(stringResource(R.string.action_close))
             }
         },
         //title = { Text("QR Code") },
@@ -51,7 +53,7 @@ fun QrCodeDialog(
                 else {
                     Image(
                         bitmap = qrCodeBitmap.asImageBitmap(),
-                        contentDescription = "QR Code",
+                        contentDescription = stringResource(R.string.action_qr_code),
                         modifier = Modifier
                             .size(256.dp)
                             .padding(4.dp)

@@ -58,7 +58,7 @@ fun IpAddressSelector(
                 else if (!enabled)
                     Text(stringResource(R.string.ipaddressselector_stop_sharing_to_change))
                 else if (selectedAddress != null && '%' in selectedAddress) {
-                    Text("The selected address will not work in most browsers!")
+                    Text(stringResource(R.string.ip_address_browser_warning))
                 }
             }
         )

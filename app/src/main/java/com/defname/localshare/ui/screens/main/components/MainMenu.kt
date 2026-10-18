@@ -61,7 +61,7 @@ fun MainMenu(
                 drawerItems.forEach { item ->
                     NavigationDrawerItem(
                         icon = { Icon(item.icon, contentDescription = null) },
-                        label = { Text(item.label) },
+                        label = { Text(stringResource(item.labelRes)) },
                         onClick = { onItemClick(item.route) },
                         selected = currentRoute == item.route,
                         modifier = Modifier.padding(NavigationDrawerItemDefaults.ItemPadding)
@@ -77,7 +77,7 @@ fun MainMenu(
             ) {
                 Icon(
                     imageVector = Icons.Default.HelpOutline,
-                    contentDescription = "Help",
+                    contentDescription = stringResource(R.string.action_help),
                     tint = MaterialTheme.colorScheme.primary
                 )
             }

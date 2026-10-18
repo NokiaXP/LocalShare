@@ -54,7 +54,7 @@ fun FilesScreen(
             TopAppBar(
                 title = { 
                     if (state.selectedFiles.isNotEmpty()) {
-                        Text("${state.selectedFiles.size} selected")
+                        Text(stringResource(R.string.files_selected_count, state.selectedFiles.size))
                     } else {
                         Text(stringResource(R.string.screen_files_title))
                     }
@@ -62,7 +62,7 @@ fun FilesScreen(
                 navigationIcon = {
                     if (state.selectedFiles.isNotEmpty()) {
                         IconButton(onClick = { viewModel.onClearSelection() }) {
-                            Icon(Icons.Default.Close, contentDescription = "Cancel")
+                            Icon(Icons.Default.Close, contentDescription = stringResource(R.string.action_cancel))
                         }
                     } else {
                         IconButton(onClick = onOpenDrawer) {
@@ -73,10 +73,10 @@ fun FilesScreen(
                 actions = {
                     if (state.selectedFiles.isNotEmpty()) {
                         IconButton(onClick = { viewModel.selectAll() }) {
-                            Icon(Icons.Default.LibraryAddCheck, contentDescription = "Select All")
+                            Icon(Icons.Default.LibraryAddCheck, contentDescription = stringResource(R.string.action_select_all))
                         }
                         IconButton(onClick = { viewModel.onDeleteSelected() }) {
-                            Icon(Icons.Default.Delete, contentDescription = "Remove", tint = MaterialTheme.colorScheme.error)
+                            Icon(Icons.Default.Delete, contentDescription = stringResource(R.string.action_delete), tint = MaterialTheme.colorScheme.error)
                         }
                     } else {
                         SortingButton(

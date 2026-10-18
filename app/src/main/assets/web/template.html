@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <!-- Part of LocalShare - https://github.com/PapirusDevelopmentTeam/LocalShare -->
-<html lang="en"
+<html lang="es"
       x-data="{
         darkMode: localStorage.getItem('dark') === 'true' ||
                  (!('dark' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)
@@ -10,7 +10,7 @@
     <meta charset="UTF-8">
     <meta name="generator" content="LocalShare">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{appname}} - Shared Files</title>
+    <title>{{appname}} - Archivos compartidos</title>
     <link rel="icon" type="image/png" href="/{{token}}/favicon">
     <link rel="stylesheet" href="/{{token}}/static/css/tailwind.css">
 
@@ -33,14 +33,14 @@
 
     <div class="flex items-center gap-2">
         <!-- Upload Button -->
-        <button x-bind="UploadButton" title="Upload Files">
+        <button x-bind="UploadButton" title="Subir archivos">
             <svg class="w-6 h-6 text-gray-600 dark:text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a2 2 0 002 2h12a2 2 0 002-2v-1m-4-8l-4-4m0 0L8 8m4-4v12"></path>
             </svg>
         </button>
 
         <!-- Sidebar Button -->
-        <button x-bind="SidebarToggle" title="Shared Content">
+        <button x-bind="SidebarToggle" title="Contenido compartido">
             <svg class="w-6 h-6 text-gray-600 dark:text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"></path>
             </svg>
@@ -75,21 +75,21 @@
             </div>
 
             <h1 class="text-2xl font-extrabold text-gray-900 dark:text-white mb-4">
-                JavaScript Required
+                Se requiere JavaScript
             </h1>
 
             <p class="text-gray-600 dark:text-gray-300 leading-relaxed mb-8">
-                To provide the best experience, this interface requires JavaScript.
-                It seems to be disabled in your browser.
+                Para ofrecer la mejor experiencia, esta interfaz necesita JavaScript.
+                Parece que está desactivado en el navegador.
             </p>
 
             <a href="/{{token}}?nojs"
                class="inline-block w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-xl transition-all transform hover:scale-[1.02] active:scale-[0.98] shadow-lg shadow-blue-600/20">
-                Use Simple Version
+                Usar versión sencilla
             </a>
 
             <p class="mt-4 text-xs text-gray-400 dark:text-gray-500">
-                No installation or JavaScript needed for this mode.
+                Este modo no requiere instalación ni JavaScript.
             </p>
         </div>
     </div>
@@ -104,14 +104,14 @@
     <div class="ls-modal-container">
         <!-- Permission State -->
         <div x-show="$store.app.uploadPermissionStatus === 'not_requested' || $store.app.uploadPermissionStatus === 'denied'" class="text-center py-4">
-            <h3 class="text-lg font-bold text-gray-900 dark:text-white mb-2">Upload Permission Required</h3>
-            <p class="text-sm text-gray-600 dark:text-gray-4<div class="max-w-6xl mx-auto p-4">00 mb-6">Request permission from the device owner to upload files.</p>
-            <button @click="$store.app.requestUploadPermission()" class="ls-btn-primary w-full py-3">Request Permission</button>
+            <h3 class="text-lg font-bold text-gray-900 dark:text-white mb-2">Se requiere permiso para subir archivos</h3>
+            <p class="text-sm text-gray-600 dark:text-gray-400 mb-6">Solicita permiso al propietario del dispositivo para subir archivos.</p>
+            <button @click="$store.app.requestUploadPermission()" class="ls-btn-primary w-full py-3">Solicitar permiso</button>
         </div>
 
         <div x-show="$store.app.uploadPermissionStatus === 'pending'" class="text-center py-8">
             <div class="animate-spin rounded-full h-12 w-12 border-4 border-blue-500 border-t-transparent mx-auto mb-4"></div>
-            <h3 class="text-lg font-bold mb-2">Waiting for Approval</h3>
+            <h3 class="text-lg font-bold mb-2">Esperando aprobación</h3>
         </div>
 
         <!-- Dropzone / Upload State -->
@@ -127,7 +127,7 @@
                     <input x-ref="fileInput" class="hidden" type="file" multiple @change="handleFiles($event.target.files)">
                     
                     <div x-show="files.length === 0">
-                        <p class="text-sm text-gray-600">Click or drop files here.</p>
+                        <p class="text-sm text-gray-600">Pulsa aquí o arrastra archivos a esta zona.</p>
                     </div>
 
                     <div class="flex flex-wrap gap-2 justify-center" x-show="files.length > 0">
@@ -141,9 +141,9 @@
                 </div>
 
                 <div class="mt-6 flex justify-end gap-3">
-                    <button type="button" @click="$store.app.showUploadModal = false" class="ls-btn-secondary px-4 py-2">Close</button>
+                    <button type="button" @click="$store.app.showUploadModal = false" class="ls-btn-secondary px-4 py-2">Cerrar</button>
                     <button type="submit" class="ls-btn-primary px-4 py-2" :disabled="files.length === 0 || isUploading">
-                        <span x-text="isUploading ? 'Uploading...' : 'Upload'"></span>
+                        <span x-text="isUploading ? 'Subiendo...' : 'Subir'"></span>
                     </button>
                 </div>
             </form>
@@ -154,7 +154,7 @@
 <div class="max-w-6xl mx-auto p-4">
     <!-- Active Uploads Progress -->
     <div x-show="$store.app.uploadBatches.some(b => b.state >= 4 && b.state < 8)" class="mb-6 space-y-2" x-cloak>
-        <h3 class="text-sm font-bold text-gray-500 uppercase tracking-wider">Active Uploads</h3>
+        <h3 class="text-sm font-bold text-gray-500 uppercase tracking-wider">Cargas activas</h3>
         <template x-for="batch in $store.app.uploadBatches" :key="batch.draftId">
             <div x-show="batch.state >= 4 && batch.state < 8" class="space-y-2">
                 <template x-for="file in batch.files" :key="file.checksum">
@@ -173,7 +173,7 @@
                                  :style="'width: ' + (file.state === 4 || file.state === 3 ? '100%' : ((file.progress / file.size * 100)|0) + '%')"></div>
                         </div>
                         <template x-if="file.state === 4">
-                             <p class="text-[10px] text-red-400 mt-1" x-text="file.errorMessage || 'Upload failed'"></p>
+                             <p class="text-[10px] text-red-400 mt-1" x-text="file.errorMessage || 'Error al subir'"></p>
                         </template>
                     </div>
                 </template>
@@ -185,24 +185,24 @@
     <div class="ls-toolbar">
         <div class="flex items-center gap-2">
             <select x-model="sortKey" class="ls-toolbar-select">
-                <option value="filename">Filename</option>
-                <option value="size">Size</option>
+                <option value="filename">Nombre del archivo</option>
+                <option value="size">Tamaño</option>
             </select>
             <button @click="sortAsc = !sortAsc" class="ls-btn-toolbar">
                 <span x-text="sortAsc ? '↓' : '↑'"></span>
             </button>
             <div class="h-6 w-px bg-gray-200 dark:bg-slate-700 mx-2"></div>
-            <button @click="showGrid()" :class="isGrid ? 'active' : 'inactive'" class="ls-btn-view-switcher">Grid</button>
-            <button @click="showList()" :class="isList ? 'active' : 'inactive'" class="ls-btn-view-switcher">List</button>
+            <button @click="showGrid()" :class="isGrid ? 'active' : 'inactive'" class="ls-btn-view-switcher">Cuadrícula</button>
+            <button @click="showList()" :class="isList ? 'active' : 'inactive'" class="ls-btn-view-switcher">Lista</button>
             <div class="h-6 w-px bg-gray-200 dark:bg-slate-700 mx-2"></div>
-            <button @click="toggleSlideshow()" class="ls-btn-toolbar" title="Slideshow">
+            <button @click="toggleSlideshow()" class="ls-btn-toolbar" title="Presentación">
                 <svg class="w-5 h-5 text-gray-600 dark:text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 4v16l12-8z"></path>
                 </svg>
             </button>
         </div>
         
-        <a x-show="files.length > 0" :href="'/' + window.token + '/?download'" class="ls-btn-primary">Download All (ZIP)</a>
+        <a x-show="files.length > 0" :href="'/' + window.token + '/?download'" class="ls-btn-primary">Descargar todo (ZIP)</a>
     </div>
 
     <!-- File List -->
@@ -225,12 +225,12 @@
                            target="_blank"
                            class="ls-btn-action-small open flex-1">
                             <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path></svg>
-                            <span>Open</span>
+                            <span>Abrir</span>
                         </a>
                         <a :href="'/' + window.token + '/file/' + file.fileId + '?download'" 
                            class="ls-btn-action-small get flex-1">
                             <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a2 2 0 002 2h12a2 2 0 002-2v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
-                            <span>Get</span>
+                            <span>Descargar</span>
                         </a>
                     </div>
                 </div>
@@ -242,7 +242,7 @@
     <div x-show="isSlideshow" class="ls-slideshow-container" x-cloak>
         <div class="ls-slideshow-header">
              <span class="font-bold truncate max-w-md" x-text="currentFile?.filename"></span>
-             <button @click="toggleSlideshow()" class="ls-btn-secondary text-xs uppercase tracking-widest font-bold px-4">Close</button>
+             <button @click="toggleSlideshow()" class="ls-btn-secondary text-xs uppercase tracking-widest font-bold px-4">Cerrar</button>
         </div>
         <div class="ls-slideshow-main">
             <button @click="prevSlide()" class="ls-slideshow-btn-nav left-4">
@@ -260,12 +260,12 @@
                target="_blank"
                class="ls-slideshow-btn-action secondary">
                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path></svg>
-                <span>Open File</span>
+                <span>Abrir archivo</span>
             </a>
             <a :href="'/' + window.token + '/file/' + currentFile?.fileId + '?download'" 
                class="ls-slideshow-btn-action primary">
                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a2 2 0 002 2h12a2 2 0 002-2v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
-                <span>Download File</span>
+                <span>Descargar archivo</span>
             </a>
         </div>
     </div>
@@ -276,7 +276,7 @@
     <div @click="$store.sidebar.isOpen = false" class="ls-sidebar-backdrop"></div>
     <div class="ls-sidebar-panel">
         <div class="ls-sidebar-header">
-            <h2 class="text-xl font-bold">Shared Content</h2>
+            <h2 class="text-xl font-bold">Contenido compartido</h2>
         </div>
         <div class="p-4 space-y-4">
             <template x-for="item in $store.sidebar.items" :key="item.id">
@@ -285,7 +285,7 @@
                     <button @click="$store.sidebar.copy(item)" 
                             class="ls-sidebar-btn-copy"
                             :class="$store.sidebar.copiedId === item.id ? 'text-green-600 border-green-300 bg-green-50' : 'text-gray-400 hover:text-gray-600'"
-                            title="Copy to Clipboard">
+                            title="Copiar al portapapeles">
                         <!-- Standard Copy Icon -->
                         <svg x-show="$store.sidebar.copiedId !== item.id" class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                             <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>

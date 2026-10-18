@@ -45,6 +45,8 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
+import com.defname.localshare.R
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -89,18 +91,18 @@ fun DraftBatchCard(
                 Spacer(Modifier.width(12.dp))
                 Column(Modifier.weight(1f)) {
                     Text(
-                        text = "Upload Request",
+                        text = stringResource(R.string.upload_request_title),
                         style = MaterialTheme.typography.titleMedium,
                         fontWeight = FontWeight.Bold
                     )
                     Text(
-                        text = "From: ${batch.clientIp}",
+                        text = stringResource(R.string.batch_from_client, batch.clientIp),
                         style = MaterialTheme.typography.bodySmall,
                         color = MaterialTheme.colorScheme.onSurfaceVariant
                     )
                 }
                 Text(
-                    text = "${batch.files.size} files",
+                    text = if (batch.files.size == 1) stringResource(R.string.batch_files_one, batch.files.size) else stringResource(R.string.batch_files_many, batch.files.size),
                     style = MaterialTheme.typography.labelLarge,
                     color = MaterialTheme.colorScheme.primary
                 )
@@ -114,7 +116,7 @@ fun DraftBatchCard(
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Text(
-                    text = "Total Size: ${batch.files.sumOf { it.size }.sizeAsString()}",
+                    text = stringResource(R.string.batch_total_size, batch.files.sumOf { it.size }.sizeAsString()),
                     style = MaterialTheme.typography.bodyMedium
                 )
                 Row {
@@ -125,7 +127,7 @@ fun DraftBatchCard(
                             contentColor = MaterialTheme.colorScheme.onErrorContainer
                         )
                     ) {
-                        Icon(Icons.Default.Close, contentDescription = "Deny")
+                        Icon(Icons.Default.Close, contentDescription = stringResource(R.string.action_reject))
                     }
                     Spacer(Modifier.width(8.dp))
                     FilledIconButton(
@@ -135,7 +137,7 @@ fun DraftBatchCard(
                             contentColor = MaterialTheme.colorScheme.onPrimary
                         )
                     ) {
-                        Icon(Icons.Default.Check, contentDescription = "Grant")
+                        Icon(Icons.Default.Check, contentDescription = stringResource(R.string.action_grant))
                     }
                 }
             }
@@ -184,12 +186,12 @@ fun ActiveBatchCard(
                 Spacer(Modifier.width(12.dp))
                 Column(Modifier.weight(1f)) {
                     Text(
-                        text = "Transfer: ${batch.batchId.take(8)}",
+                        text = stringResource(R.string.batch_transfer_id, batch.batchId.take(8)),
                         style = MaterialTheme.typography.titleMedium,
                         fontWeight = FontWeight.Bold
                     )
                     Text(
-                        text = "Source: ${batch.clientIp}",
+                        text = stringResource(R.string.batch_source, batch.clientIp),
                         style = MaterialTheme.typography.bodySmall
                     )
                 }

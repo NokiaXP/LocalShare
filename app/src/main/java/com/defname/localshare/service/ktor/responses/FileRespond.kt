@@ -49,7 +49,7 @@ suspend fun ApplicationCall.sendFile(
     if (inputStream == null) {
         Log.d("FileServerService", "File not accessible anymore: $fileUri")
         onFileNotAvailable(fileInfo)
-        return respond(HttpStatusCode.Gone, "File no longer available")
+        return respond(HttpStatusCode.Gone, "El archivo ya no está disponible")
     }
 
     try {
@@ -84,7 +84,7 @@ suspend fun ApplicationCall.sendFile(
                             }
                             throw e
                         }
-                    } ?: throw Exception("Could not open InputStream")
+                    } ?: throw Exception("No se pudo abrir el flujo de entrada")
                 }.channel
             }
         })

@@ -44,6 +44,8 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.res.stringResource
+import com.defname.localshare.R
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
 import kotlinx.coroutines.launch
@@ -62,32 +64,32 @@ fun WelcomeOnboarding(
 ) {
     val pages = listOf(
         OnboardingPage(
-            title = "Welcome to LocalShare!",
-            description = "Share files and text across your local network. No cloud or internet required.",
+            title = stringResource(R.string.onboarding_welcome_title),
+            description = stringResource(R.string.onboarding_welcome_description),
             icon = Icons.Default.WavingHand,
             color = MaterialTheme.colorScheme.primary
         ),
         OnboardingPage(
-            title = "1. Add Content",
-            description = "Tap the 'Add Files' button to pick files or share files or text directly from other apps via the Android share sheet.",
+            title = stringResource(R.string.onboarding_add_title),
+            description = stringResource(R.string.onboarding_add_description),
             icon = Icons.Default.AddCircle,
             color = MaterialTheme.colorScheme.primary
         ),
         OnboardingPage(
-            title = "2. Start Sharing",
-            description = "Tap 'Start Sharing' to make your content available. If someone tries to connect you will be asked for confirmation.",
+            title = stringResource(R.string.onboarding_share_title),
+            description = stringResource(R.string.onboarding_share_description),
             icon = Icons.Default.Send,
             color = MaterialTheme.colorScheme.primary
         ),
         OnboardingPage(
-            title = "3. Connect & Share",
-            description = "Other devices just need to scan the QR code or open the link in their browser. No app installation needed for them!",
+            title = stringResource(R.string.onboarding_connect_title),
+            description = stringResource(R.string.onboarding_connect_description),
             icon = Icons.Default.QrCodeScanner,
             color = MaterialTheme.colorScheme.primary
         ),
         OnboardingPage(
-            title = "Need Help?",
-            description = "If you're stuck, look for the (?) icon in the menu. It opens the full guide (only works while the server is running).",
+            title = stringResource(R.string.onboarding_help_title),
+            description = stringResource(R.string.onboarding_help_description),
             icon = Icons.Default.QuestionMark,
             color = MaterialTheme.colorScheme.error
         )
@@ -176,7 +178,7 @@ fun WelcomeOnboarding(
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     TextButton(onClick = onDontShowAgain) {
-                        Text("Don't show again")
+                        Text(stringResource(R.string.onboarding_dont_show_again))
                     }
 
                     if (pagerState.currentPage < pages.size - 1) {
@@ -188,7 +190,7 @@ fun WelcomeOnboarding(
                             },
                             contentPadding = PaddingValues(horizontal = 20.dp, vertical = 12.dp)
                         ) {
-                            Text("Next")
+                            Text(stringResource(R.string.action_next))
                             Spacer(Modifier.width(8.dp))
                             Icon(Icons.AutoMirrored.Filled.ArrowForward, contentDescription = null)
                         }
@@ -197,7 +199,7 @@ fun WelcomeOnboarding(
                             onClick = onDismiss,
                             contentPadding = PaddingValues(horizontal = 24.dp, vertical = 12.dp)
                         ) {
-                            Text("Got it!")
+                            Text(stringResource(R.string.action_got_it))
                         }
                     }
                 }

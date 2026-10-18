@@ -33,6 +33,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.res.stringResource
+import com.defname.localshare.R
 import com.defname.localshare.ui.components.HintCard
 import com.defname.localshare.ui.screens.transfers.components.ActiveBatchCard
 import com.defname.localshare.ui.screens.transfers.components.DraftBatchCard
@@ -50,7 +52,7 @@ fun TransfersScreen(
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("Transfers") },
+                title = { Text(stringResource(R.string.screen_transfers_title)) },
                 navigationIcon = {
                     IconButton(onClick = onOpenDrawer) {
                         Icon(Icons.Default.Menu, contentDescription = null)
@@ -69,7 +71,7 @@ fun TransfersScreen(
                     .padding(innerPadding)
             ) {
                 HintCard(
-                    "The upload feature is experimental and must be explicitly enabled in the settings.",
+                    stringResource(R.string.transfers_upload_feature_hint),
                     modifier = Modifier.padding(16.dp)
                 )
             }
@@ -89,7 +91,7 @@ fun TransfersScreen(
                     )
                     Spacer(Modifier.height(16.dp))
                     Text(
-                        "No active or pending transfers",
+                        stringResource(R.string.transfers_empty_hint),
                         style = MaterialTheme.typography.bodyLarge,
                         color = MaterialTheme.colorScheme.outline
                     )
@@ -104,7 +106,7 @@ fun TransfersScreen(
             ) {
                 if (state.draftBatches.isNotEmpty()) {
                     item {
-                        SectionHeader("Pending Requests")
+                        SectionHeader(stringResource(R.string.transfers_pending_requests))
                     }
                     items(state.draftBatches, key = { "draft_${it.draftId}_${it.clientIp}" }) { item ->
                         DraftBatchCard(
@@ -117,7 +119,7 @@ fun TransfersScreen(
 
                 if (state.batches.isNotEmpty()) {
                     item {
-                        SectionHeader("Active Transfers")
+                        SectionHeader(stringResource(R.string.transfers_active))
                     }
                     items(state.batches, key = { "active_${it.batchId}" }) { item ->
                         ActiveBatchCard(item)

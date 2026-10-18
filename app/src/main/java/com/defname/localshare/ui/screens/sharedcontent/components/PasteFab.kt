@@ -10,6 +10,8 @@ import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.res.stringResource
+import com.defname.localshare.R
 
 @Composable
 fun PasteFab(
@@ -23,7 +25,7 @@ fun PasteFab(
     ) {
         Icon(
             imageVector = Icons.Default.ContentPaste,
-            contentDescription = "Paste from clipboard"
+            contentDescription = stringResource(R.string.action_paste_clipboard)
         )
     }
 }

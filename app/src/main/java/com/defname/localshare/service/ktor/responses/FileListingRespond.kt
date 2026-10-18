@@ -28,6 +28,6 @@ suspend fun ApplicationCall.sendFileListing(
 
     } catch (e: Exception) {
         Log.e("FileServerService", "Error loading template", e)
-        respond(HttpStatusCode.InternalServerError, "Template Error")
+        respond(HttpStatusCode.InternalServerError, "Error de plantilla")
     }
 }

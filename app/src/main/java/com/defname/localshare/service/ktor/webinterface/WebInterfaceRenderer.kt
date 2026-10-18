@@ -5,6 +5,7 @@
 package com.defname.localshare.service.ktor.webinterface
 
 import android.content.Context
+import com.defname.localshare.LocaleManager
 import com.defname.localshare.R
 import com.defname.localshare.domain.model.FileInfo
 import com.defname.localshare.service.ktor.json.toJsonString
@@ -12,7 +13,8 @@ import com.defname.localshare.service.ktor.json.toJsonString
 class WebInterfaceRenderer(
     private val context: Context
 ) : InterfaceRenderer {
-    private val templateFile: String = "web/template.html"
+    private val templateFile: String
+        get() = if (LocaleManager.currentLanguage(context) == LocaleManager.SPANISH) "web/template.html" else "web/template_en.html"
 
     override fun render(token: String, files: List<FileInfo>, uploadFeatureActive: Boolean): String {
 
