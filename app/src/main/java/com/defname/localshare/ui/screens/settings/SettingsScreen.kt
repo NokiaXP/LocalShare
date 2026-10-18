@@ -83,7 +83,7 @@ fun SettingsScreen(
                     ConfirmedTextField(
                         value = settings.serverPort.toString(),
                         validator = { input -> input.toIntOrNull().let { it != null && it in 1024.. 65535 } },
-                        errorHint = { Text("Port must be between 1024 and 65535") },
+                        errorHint = { Text("El puerto debe estar entre 1024 y 65535") },
                         enabled = runtimeState.serviceState == RuntimeState.STOPPED,
                         label = { Text(stringResource(R.string.settings_server_port_label)) },
                         modifier = Modifier.weight(1f),
@@ -188,8 +188,8 @@ fun SettingsScreen(
 
             SettingsGroup(title = "Experimental Features") {
                 SettingsSwitchRow(
-                    title = "Upload Feature",
-                    subtitle = "Send files from the web UI to the app.",
+                    title = "Función de carga",
+                    subtitle = "Envía archivos desde la interfaz web a la aplicación.",
                     checked = settings.uploadFeatureActive,
                     onCheckedChange = viewModel::setUploadFeatureActive
                 )
