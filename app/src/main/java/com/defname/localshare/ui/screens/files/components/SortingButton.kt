@@ -28,7 +28,7 @@ fun SortingButton(
 ) {
     Box {
         IconButton(onClick = onToggleMenu) {
-            Icon(Icons.Default.FilterList, contentDescription = "Ordenar")
+            Icon(Icons.Default.FilterList, contentDescription = stringResource(R.string.action_sort))
         }
         DropdownMenu(
             expanded = isMenuOpen,
