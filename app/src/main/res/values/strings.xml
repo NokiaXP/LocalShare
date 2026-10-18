@@ -192,4 +192,10 @@
     <string name="log_authentication_invalid">Invalid authentication</string>
     <string name="log_unknown">Unknown</string>
 
+
+    <string name="upload_permission_notification_title">Upload permission request</string>
+    <string name="upload_permission_notification_text">%1$s is requesting permission to upload files.</string>
+    <string name="upload_request_notification_title">Incoming upload request</string>
+    <string name="upload_request_notification_text">%1$s wants to send %2$d file(s).</string>
+
 </resources>
