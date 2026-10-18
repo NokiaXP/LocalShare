@@ -179,7 +179,7 @@ fun HomeScreen(
 
             if (state.fileList.isNotEmpty()) {
                 Text(
-                    "${state.fileList.size} files" + " • " + Formatter.formatFileSize(context, state.fileList.sumOf { it.size }),
+                    "${state.fileList.size} archivos" + " • " + Formatter.formatFileSize(context, state.fileList.sumOf { it.size }),
                     style = MaterialTheme.typography.bodySmall,
                     color = MaterialTheme.colorScheme.onSurfaceVariant
                 )
