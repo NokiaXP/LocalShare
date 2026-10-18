@@ -16,10 +16,12 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import com.defname.localshare.R
 import com.defname.localshare.data.RuntimeState
 import com.defname.localshare.ui.screens.files.FilesScreen
 import com.defname.localshare.ui.screens.home.HomeScreen
@@ -91,7 +93,7 @@ fun MainScreen(
                     if (state.serverState != RuntimeState.RUNNING) {
                         android.widget.Toast.makeText(
                             context,
-                            "Primero debes iniciar el servidor",
+                            context.getString(R.string.toast_start_server_first),
                             android.widget.Toast.LENGTH_LONG
                         ).show()
                     }
