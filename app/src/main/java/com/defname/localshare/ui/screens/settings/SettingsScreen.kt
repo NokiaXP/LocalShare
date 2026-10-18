@@ -107,7 +107,7 @@ fun SettingsScreen(
                         value = settings.serverIdleTimeoutSeconds.toString(),
                         label = { Text(stringResource(R.string.settings_server_timeout_label)) },
                         validator = { input -> input.toIntOrNull() != null },
-                        errorHint = { Text("Number of seonds must be a number.") },
+                        errorHint = { Text("La cantidad de segundos debe ser un número.") },
                         modifier = Modifier.weight(1f),
                         supportingText = {
                             Text(stringResource(R.string.settings_server_timeout_hint))
@@ -142,7 +142,7 @@ fun SettingsScreen(
                             value = settings.whitelistEntryTTLSeconds.toString(),
                             label = { Text(stringResource(R.string.settings_security_whitelist_ttl_label)) },
                             validator = { it.toIntOrNull() != null },
-                            errorHint = { Text("Number of seconds must be a number.") },
+                            errorHint = { Text("La cantidad de segundos debe ser un número.") },
                             keyboardOptions = KeyboardOptions.Default.copy(
                                 keyboardType = KeyboardType.Number,
                                 imeAction = ImeAction.Done
@@ -163,7 +163,7 @@ fun SettingsScreen(
                         value = settings.sseHeartbeatPeriodSeconds.toString(),
                         label = { Text(stringResource(R.string.settings_webinterface_heartbeat_label)) },
                         validator = { it.toIntOrNull() != null },
-                        errorHint = { Text("Number of seconds must be a number.") },
+                        errorHint = { Text("La cantidad de segundos debe ser un número.") },
                         keyboardOptions = KeyboardOptions.Default.copy(
                             keyboardType = KeyboardType.Number,
                             imeAction = ImeAction.Done
@@ -186,7 +186,7 @@ fun SettingsScreen(
                 )
             }
 
-            SettingsGroup(title = "Experimental Features") {
+            SettingsGroup(title = "Funciones experimentales") {
                 SettingsSwitchRow(
                     title = "Función de carga",
                     subtitle = "Envía archivos desde la interfaz web a la aplicación.",
