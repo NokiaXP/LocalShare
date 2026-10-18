@@ -88,7 +88,7 @@ fun SharedContentScreen(
                 navigationIcon = {
                     if (state.selectedItems.isNotEmpty()) {
                         IconButton(onClick = { viewModel.onClearSelection() }) {
-                            Icon(Icons.Default.Close, contentDescription = "Cancel")
+                            Icon(Icons.Default.Close, contentDescription = "Cancelar")
                         }
                     } else {
                         IconButton(onClick = onOpenDrawer) {
@@ -99,10 +99,10 @@ fun SharedContentScreen(
                 actions = {
                     if (state.selectedItems.isNotEmpty()) {
                         IconButton(onClick = { viewModel.onSelectAll() }) {
-                            Icon(Icons.Default.LibraryAddCheck, contentDescription = "Select All")
+                            Icon(Icons.Default.LibraryAddCheck, contentDescription = "Seleccionar todo")
                         }
                         IconButton(onClick = { viewModel.onRemoveSelected() }) {
-                            Icon(Icons.Default.Delete, contentDescription = "Remove", tint = MaterialTheme.colorScheme.error)
+                            Icon(Icons.Default.Delete, contentDescription = "Eliminar", tint = MaterialTheme.colorScheme.error)
                         }
                     } else {
 
@@ -142,7 +142,7 @@ fun SharedContentScreen(
                 )
             } else {
                 HintCard(
-                    "You can share text snippets by sharing text from any other app or by pasting text from the clipboard by pressing the button below (if available). Be aware that added text snippets will be available to connected clients instantly.",
+                    "Puedes compartir fragmentos de texto desde cualquier otra aplicación o pegar texto del portapapeles con el botón de abajo (si está disponible). Ten en cuenta que los fragmentos de texto añadidos will be available to connected clients instantly.",
                     modifier = Modifier.padding(16.dp)
                 )
             }
