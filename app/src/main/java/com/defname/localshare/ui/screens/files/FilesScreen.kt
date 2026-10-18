@@ -54,7 +54,7 @@ fun FilesScreen(
             TopAppBar(
                 title = { 
                     if (state.selectedFiles.isNotEmpty()) {
-                        Text("${state.selectedFiles.size} selected")
+                        Text("${state.selectedFiles.size} seleccionados")
                     } else {
                         Text(stringResource(R.string.screen_files_title))
                     }
