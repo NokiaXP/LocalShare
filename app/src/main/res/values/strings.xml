@@ -198,4 +198,15 @@
     <string name="upload_request_notification_title">Incoming upload request</string>
     <string name="upload_request_notification_text">%1$s wants to send %2$d file(s).</string>
 
+
+    <string name="home_shared_files_title">Shared files</string>
+    <string name="home_recent_activity_title">Recent activity</string>
+    <string name="home_blocked_connections_title">Blocked connections</string>
+    <string name="advanced_technical_details_title">Technical details</string>
+    <string name="shared_content_empty_hint">You can share text snippets from any other app or paste text from the clipboard using the button below (if available). Text snippets you add will be available to connected clients instantly.</string>
+    <string name="transfers_upload_feature_hint">The upload feature is experimental and must be explicitly enabled in Settings.</string>
+    <string name="transfers_empty_hint">There are no active or pending transfers.</string>
+    <string name="transfers_pending_requests">Pending requests</string>
+    <string name="transfers_active">Active transfers</string>
+
 </resources>
