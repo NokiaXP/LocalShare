@@ -133,7 +133,7 @@ class MainActivity : ComponentActivity() {
 
             if (urisToGrant.isNotEmpty() && serviceRepository.serverRunning()) {
                 val serviceIntent = Intent(this@MainActivity, com.defname.localshare.service.LocalShareService::class.java).apply {
-                    action = com.defname.localshare.service.LocalShareService.ACTION_GRANT_PERMISSION
+                    this.action = com.defname.localshare.service.LocalShareService.ACTION_GRANT_PERMISSION
                     clipData = android.content.ClipData.newRawUri("Shared Files", urisToGrant.first()).apply {
                         for (i in 1 until urisToGrant.size) addItem(android.content.ClipData.Item(urisToGrant[i]))
                     }
