@@ -45,6 +45,8 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
+import com.defname.localshare.R
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -125,7 +127,7 @@ fun DraftBatchCard(
                             contentColor = MaterialTheme.colorScheme.onErrorContainer
                         )
                     ) {
-                        Icon(Icons.Default.Close, contentDescription = "Rechazar")
+                        Icon(Icons.Default.Close, contentDescription = stringResource(R.string.action_reject))
                     }
                     Spacer(Modifier.width(8.dp))
                     FilledIconButton(
@@ -135,7 +137,7 @@ fun DraftBatchCard(
                             contentColor = MaterialTheme.colorScheme.onPrimary
                         )
                     ) {
-                        Icon(Icons.Default.Check, contentDescription = "Grant")
+                        Icon(Icons.Default.Check, contentDescription = stringResource(R.string.action_grant))
                     }
                 }
             }
