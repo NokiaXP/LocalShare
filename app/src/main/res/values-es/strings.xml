@@ -97,4 +97,36 @@
     <string name="error_seconds_number">Introduce una cantidad válida de segundos.</string>
     <string name="toast_text_added_to_shared">Texto añadido al contenido compartido.</string>
 
+
+    <string name="files_selected_count">%1$d seleccionados</string>
+    <string name="action_cancel">Cancelar</string>
+    <string name="action_select_all">Seleccionar todo</string>
+    <string name="action_delete">Eliminar</string>
+    <string name="action_clear_all">Borrar todo</string>
+    <string name="action_delete_selected">Eliminar seleccionados</string>
+    <string name="action_add_files">Añadir archivos</string>
+    <string name="action_view_detailed_logs">Ver registros detallados</string>
+    <string name="action_unblock">Desbloquear</string>
+    <string name="security_token_label">Token de seguridad</string>
+    <string name="action_generate_new">Generar uno nuevo</string>
+    <string name="error_token_alphanumeric">El token solo puede contener letras y números.</string>
+    <string name="ip_address_browser_warning">La dirección seleccionada no funcionará en la mayoría de los navegadores.</string>
+    <string name="action_reject">Rechazar</string>
+    <string name="action_accept">Aceptar</string>
+    <string name="action_view_transfers">Ver transferencias</string>
+    <string name="action_share_link">Compartir enlace</string>
+    <string name="action_qr_code">Código QR</string>
+    <string name="notifications_required_to_start">Activa las notificaciones para iniciar</string>
+    <string name="action_start_sharing">Empezar a compartir</string>
+    <string name="action_stop_sharing">Dejar de compartir</string>
+    <string name="server_starting">Iniciando…</string>
+    <string name="server_stopping">Deteniendo…</string>
+    <string name="info_version">Versión</string>
+    <string name="info_build_number">Número de compilación</string>
+    <string name="info_package_name">Nombre del paquete</string>
+    <string name="info_license">Licencia</string>
+    <string name="info_source">Código fuente</string>
+    <string name="info_credits">Créditos</string>
+    <string name="action_clear_logs">Borrar registros</string>
+
 </resources>
