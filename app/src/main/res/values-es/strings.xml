@@ -198,4 +198,15 @@
     <string name="upload_request_notification_title">Solicitud de carga entrante</string>
     <string name="upload_request_notification_text">%1$s quiere enviar %2$d archivo(s).</string>
 
+
+    <string name="home_shared_files_title">Archivos compartidos</string>
+    <string name="home_recent_activity_title">Actividad reciente</string>
+    <string name="home_blocked_connections_title">Conexiones bloqueadas</string>
+    <string name="advanced_technical_details_title">Detalles técnicos</string>
+    <string name="shared_content_empty_hint">Puedes compartir fragmentos de texto desde cualquier aplicación o pegar texto del portapapeles con el botón de abajo (si está disponible). El texto añadido estará disponible de inmediato para los dispositivos conectados.</string>
+    <string name="transfers_upload_feature_hint">La función de carga es experimental y debe activarse expresamente en los ajustes.</string>
+    <string name="transfers_empty_hint">No hay transferencias activas ni pendientes.</string>
+    <string name="transfers_pending_requests">Solicitudes pendientes</string>
+    <string name="transfers_active">Transferencias activas</string>
+
 </resources>
