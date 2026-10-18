@@ -209,4 +209,6 @@
     <string name="transfers_pending_requests">Pending requests</string>
     <string name="transfers_active">Active transfers</string>
 
+
+    <string name="action_help">Help</string>
 </resources>
