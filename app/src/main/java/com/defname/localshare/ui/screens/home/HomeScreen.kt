@@ -154,7 +154,7 @@ fun HomeScreen(
                 modifier = Modifier.padding(top = 8.dp)
             ) {
                 Text(
-                    "Archivos compartidos",
+                    stringResource(R.string.home_shared_files_title),
                     style = MaterialTheme.typography.titleMedium,
                     fontWeight = FontWeight.Bold,
                     color = MaterialTheme.colorScheme.onSurface,
@@ -242,7 +242,7 @@ fun HomeScreen(
                 modifier = Modifier.padding(top = 8.dp)
             ) {
                 Text(
-                    "Recent Activity",
+                    stringResource(R.string.home_recent_activity_title),
                     style = MaterialTheme.typography.titleMedium,
                     fontWeight = FontWeight.Bold,
                     color = MaterialTheme.colorScheme.onSurface,
@@ -284,7 +284,7 @@ fun HomeScreen(
 
             if (state.blacklist.isNotEmpty()) {
                 Text(
-                    "Blocked Connections",
+                    stringResource(R.string.home_blocked_connections_title),
                     style = MaterialTheme.typography.titleMedium,
                     fontWeight = FontWeight.Bold,
                     color = MaterialTheme.colorScheme.error,
