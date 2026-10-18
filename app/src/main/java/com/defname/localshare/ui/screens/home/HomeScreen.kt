@@ -190,7 +190,7 @@ fun HomeScreen(
                     onToggleSelection = viewModel::toggleFileToDelete,
                 )
             } else {
-                HintCard(text = "Todavía no has añadido archivos. Añade archivos para empezar a compartir.")
+                HintCard(text = stringResource(R.string.home_no_files_hint))
             }
 
             Spacer(modifier = Modifier.height(12.dp))
@@ -278,7 +278,7 @@ fun HomeScreen(
                 }
             }
             else {
-                HintCard(text = "Todavía no hay actividad reciente.")
+                HintCard(text = stringResource(R.string.home_no_recent_activity_hint))
             }
             Spacer(modifier = Modifier.height(8.dp))
 
