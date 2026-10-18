@@ -80,7 +80,7 @@ fun SharedContentScreen(
             TopAppBar(
                 title = {
                     if (state.selectedItems.isNotEmpty()) {
-                        Text("${state.selectedItems.size} selected")
+                        Text(stringResource(R.string.files_selected_count, state.selectedItems.size))
                     } else {
                         Text(stringResource(R.string.sharedcontentscreen_title))
                     }
@@ -88,7 +88,7 @@ fun SharedContentScreen(
                 navigationIcon = {
                     if (state.selectedItems.isNotEmpty()) {
                         IconButton(onClick = { viewModel.onClearSelection() }) {
-                            Icon(Icons.Default.Close, contentDescription = "Cancelar")
+                            Icon(Icons.Default.Close, contentDescription = stringResource(R.string.action_cancel))
                         }
                     } else {
                         IconButton(onClick = onOpenDrawer) {
@@ -99,10 +99,10 @@ fun SharedContentScreen(
                 actions = {
                     if (state.selectedItems.isNotEmpty()) {
                         IconButton(onClick = { viewModel.onSelectAll() }) {
-                            Icon(Icons.Default.LibraryAddCheck, contentDescription = "Seleccionar todo")
+                            Icon(Icons.Default.LibraryAddCheck, contentDescription = stringResource(R.string.action_select_all))
                         }
                         IconButton(onClick = { viewModel.onRemoveSelected() }) {
-                            Icon(Icons.Default.Delete, contentDescription = "Eliminar", tint = MaterialTheme.colorScheme.error)
+                            Icon(Icons.Default.Delete, contentDescription = stringResource(R.string.action_delete), tint = MaterialTheme.colorScheme.error)
                         }
                     } else {
 
