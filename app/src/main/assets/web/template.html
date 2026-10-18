@@ -89,7 +89,7 @@
             </a>
 
             <p class="mt-4 text-xs text-gray-400 dark:text-gray-500">
-                No installation or JavaScript needed for this mode.
+                Este modo no requiere instalación ni JavaScript.
             </p>
         </div>
     </div>
@@ -105,13 +105,13 @@
         <!-- Permission State -->
         <div x-show="$store.app.uploadPermissionStatus === 'not_requested' || $store.app.uploadPermissionStatus === 'denied'" class="text-center py-4">
             <h3 class="text-lg font-bold text-gray-900 dark:text-white mb-2">Se requiere permiso para subir archivos</h3>
-            <p class="text-sm text-gray-600 dark:text-gray-4<div class="max-w-6xl mx-auto p-4">00 mb-6">Solicita permiso al propietario del dispositivo para subir archivos.</p>
+            <p class="text-sm text-gray-600 dark:text-gray-400 mb-6">Solicita permiso al propietario del dispositivo para subir archivos.</p>
             <button @click="$store.app.requestUploadPermission()" class="ls-btn-primary w-full py-3">Solicitar permiso</button>
         </div>
 
         <div x-show="$store.app.uploadPermissionStatus === 'pending'" class="text-center py-8">
             <div class="animate-spin rounded-full h-12 w-12 border-4 border-blue-500 border-t-transparent mx-auto mb-4"></div>
-            <h3 class="text-lg font-bold mb-2">Waiting for Approval</h3>
+            <h3 class="text-lg font-bold mb-2">Esperando aprobación</h3>
         </div>
 
         <!-- Dropzone / Upload State -->
