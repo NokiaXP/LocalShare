@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<!-- Part of LocalShare - https://github.com/PapirusDevelopmentTeam/LocalShare -->
+<html lang="en"
+      x-data="{
+        darkMode: localStorage.getItem('dark') === 'true' ||
+                 (!('dark' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)
+      }"
+      :class="{ 'dark': darkMode }">
+<head>
+    <meta charset="UTF-8">
+    <meta name="generator" content="LocalShare">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{appname}} - Shared Files</title>
+    <link rel="icon" type="image/png" href="/{{token}}/favicon">
+    <link rel="stylesheet" href="/{{token}}/static/css/tailwind.css">
+
+    <script>
+        window.initialFiles = {{filelist}};
+        window.token = '{{token}}';
+        window.uploadEnabled = {{upload_enabled}};
+    </script>
+    <script defer src="/{{token}}/static/js/main.js"></script>
+</head>
+<body x-data="fileManager(window.initialFiles)"
+      @keydown.window.left="isSlideshow && prevSlide()"
+      @keydown.window.right="isSlideshow && nextSlide()">
+
+<header class="ls-header">
+    <div class="flex items-center gap-4">
+        <img src="/{{token}}/favicon/medium" alt="Logo" class="w-10 h-10" />
+        <h1 class="text-xl font-bold text-gray-800 dark:text-white">{{appname}}</h1>
+    </div>
+
+    <div class="flex items-center gap-2">
+        <!-- Upload Button -->
+        <button x-bind="UploadButton" title="Upload Files">
+            <svg class="w-6 h-6 text-gray-600 dark:text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a2 2 0 002 2h12a2 2 0 002-2v-1m-4-8l-4-4m0 0L8 8m4-4v12"></path>
+            </svg>
+        </button>
+
+        <!-- Sidebar Button -->
+        <button x-bind="SidebarToggle" title="Shared Content">
+            <svg class="w-6 h-6 text-gray-600 dark:text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"></path>
+            </svg>
+            <span x-show="$store.sidebar.hasNew"
+                  class="absolute top-1 right-1 flex h-3 w-3">
+                <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
+                <span class="relative inline-flex rounded-full h-3 w-3 bg-red-500"></span>
+            </span>
+        </button>
+
+        <!-- Theme Toggle -->
+        <button x-bind="ThemeToggle">
+            <svg x-show="darkMode" class="w-6 h-6 text-yellow-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364l-.707.707M6.343 17.657l-.707.707m12.728 0l-.707-.707M6.343 6.343l-.707-.707M12 8a4 4 0 100 8 4 4 0 000-8z"></path>
+            </svg>
+            <svg x-show="!darkMode" class="w-6 h-6 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path>
+            </svg>
+        </button>
+    </div>
+</header>
+
+
+<noscript>
+    <div class="fixed inset-0 z-[9999] flex items-center justify-center p-4 bg-gray-900/80 backdrop-blur-sm">
+        <div class="bg-white dark:bg-slate-800 rounded-2xl shadow-2xl border border-gray-200 dark:border-slate-700 max-w-md w-full p-8 text-center">
+            <!-- Alert Icon -->
+            <div class="mx-auto flex items-center justify-center h-16 w-16 rounded-full bg-amber-100 dark:bg-amber-900/30 mb-6">
+                <svg class="h-10 w-10 text-amber-600 dark:text-amber-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/>
+                </svg>
+            </div>
+
+            <h1 class="text-2xl font-extrabold text-gray-900 dark:text-white mb-4">
+                JavaScript Required
+            </h1>
+
+            <p class="text-gray-600 dark:text-gray-300 leading-relaxed mb-8">
+                To provide the best experience, this interface requires JavaScript.
+                It seems to be disabled in your browser.
+            </p>
+
+            <a href="/{{token}}?nojs"
+               class="inline-block w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-xl transition-all transform hover:scale-[1.02] active:scale-[0.98] shadow-lg shadow-blue-600/20">
+                Use Simple Version
+            </a>
+
+            <p class="mt-4 text-xs text-gray-400 dark:text-gray-500">
+                No installation or JavaScript needed for this mode.
+            </p>
+        </div>
+    </div>
+</noscript>
+
+<!-- Upload Modal -->
+<div x-show="$store.app.showUploadModal"
+     class="fixed inset-0 z-50 flex items-center justify-center p-4"
+     x-cloak>
+    <div @click="$store.app.showUploadModal = false" class="ls-modal-overlay"></div>
+
+    <div class="ls-modal-container">
+        <!-- Permission State -->
+        <div x-show="$store.app.uploadPermissionStatus === 'not_requested' || $store.app.uploadPermissionStatus === 'denied'" class="text-center py-4">
+            <h3 class="text-lg font-bold text-gray-900 dark:text-white mb-2">Upload Permission Required</h3>
+            <p class="text-sm text-gray-600 dark:text-gray-4<div class="max-w-6xl mx-auto p-4">00 mb-6">Request permission from the device owner to upload files.</p>
+            <button @click="$store.app.requestUploadPermission()" class="ls-btn-primary w-full py-3">Request Permission</button>
+        </div>
+
+        <div x-show="$store.app.uploadPermissionStatus === 'pending'" class="text-center py-8">
+            <div class="animate-spin rounded-full h-12 w-12 border-4 border-blue-500 border-t-transparent mx-auto mb-4"></div>
+            <h3 class="text-lg font-bold mb-2">Waiting for Approval</h3>
+        </div>
+
+        <!-- Dropzone / Upload State -->
+        <div x-show="$store.app.uploadPermissionStatus === 'granted'" x-data="dropzone">
+            <form @submit.prevent="submit" class="text-center">
+                <div class="ls-dropzone"
+                     :class="dragActive ? 'active' : 'inactive'"
+                     @click="$refs.fileInput.click()"
+                     @drop.prevent="dropFile($event)"
+                     @dragover.prevent="dragOver"
+                     @dragleave.prevent="dragLeave">
+                    
+                    <input x-ref="fileInput" class="hidden" type="file" multiple @change="handleFiles($event.target.files)">
+                    
+                    <div x-show="files.length === 0">
+                        <p class="text-sm text-gray-600">Click or drop files here.</p>
+                    </div>
+
+                    <div class="flex flex-wrap gap-2 justify-center" x-show="files.length > 0">
+                        <template x-for="(file, index) in files" :key="index">
+                            <div class="relative w-16 h-16 bg-white dark:bg-slate-700 rounded shadow p-1">
+                                <span class="text-[8px] truncate block" x-text="file.name"></span>
+                                <button @click.stop="removeFile(index)" class="absolute -top-1 -right-1 bg-red-500 text-white rounded-full w-4 h-4 text-[10px]">×</button>
+                            </div>
+                        </template>
+                    </div>
+                </div>
+
+                <div class="mt-6 flex justify-end gap-3">
+                    <button type="button" @click="$store.app.showUploadModal = false" class="ls-btn-secondary px-4 py-2">Close</button>
+                    <button type="submit" class="ls-btn-primary px-4 py-2" :disabled="files.length === 0 || isUploading">
+                        <span x-text="isUploading ? 'Uploading...' : 'Upload'"></span>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="max-w-6xl mx-auto p-4">
+    <!-- Active Uploads Progress -->
+    <div x-show="$store.app.uploadBatches.some(b => b.state >= 4 && b.state < 8)" class="mb-6 space-y-2" x-cloak>
+        <h3 class="text-sm font-bold text-gray-500 uppercase tracking-wider">Active Uploads</h3>
+        <template x-for="batch in $store.app.uploadBatches" :key="batch.draftId">
+            <div x-show="batch.state >= 4 && batch.state < 8" class="space-y-2">
+                <template x-for="file in batch.files" :key="file.checksum">
+                    <div class="bg-white dark:bg-slate-800 rounded-lg shadow-sm p-3 border border-gray-100 dark:border-slate-700">
+                        <div class="flex items-center justify-between mb-1">
+                            <span class="text-sm font-medium truncate flex-1" 
+                                  :class="file.state === 4 ? 'text-red-500' : ''"
+                                  x-text="file.name"></span>
+                            <span class="text-xs font-mono ml-2"
+                                  :class="file.state === 4 ? 'text-red-500' : file.state == 3 ? 'text-green-500' : 'text-gray-500'"
+                                  x-text="file.state === 4 ? 'Error' : file.state === 3 ? '✔' : ((file.progress / file.size * 100)|0) + '%'"></span>
+                        </div>
+                        <div class="ls-progress-container">
+                            <div class="ls-progress-bar" 
+                                 :class="file.state === 4 ? 'error' : 'success'"
+                                 :style="'width: ' + (file.state === 4 || file.state === 3 ? '100%' : ((file.progress / file.size * 100)|0) + '%')"></div>
+                        </div>
+                        <template x-if="file.state === 4">
+                             <p class="text-[10px] text-red-400 mt-1" x-text="file.errorMessage || 'Upload failed'"></p>
+                        </template>
+                    </div>
+                </template>
+            </div>
+        </template>
+    </div>
+
+    <!-- Toolbar -->
+    <div class="ls-toolbar">
+        <div class="flex items-center gap-2">
+            <select x-model="sortKey" class="ls-toolbar-select">
+                <option value="filename">Filename</option>
+                <option value="size">Size</option>
+            </select>
+            <button @click="sortAsc = !sortAsc" class="ls-btn-toolbar">
+                <span x-text="sortAsc ? '↓' : '↑'"></span>
+            </button>
+            <div class="h-6 w-px bg-gray-200 dark:bg-slate-700 mx-2"></div>
+            <button @click="showGrid()" :class="isGrid ? 'active' : 'inactive'" class="ls-btn-view-switcher">Grid</button>
+            <button @click="showList()" :class="isList ? 'active' : 'inactive'" class="ls-btn-view-switcher">List</button>
+            <div class="h-6 w-px bg-gray-200 dark:bg-slate-700 mx-2"></div>
+            <button @click="toggleSlideshow()" class="ls-btn-toolbar" title="Slideshow">
+                <svg class="w-5 h-5 text-gray-600 dark:text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 4v16l12-8z"></path>
+                </svg>
+            </button>
+        </div>
+        
+        <a x-show="files.length > 0" :href="'/' + window.token + '/?download'" class="ls-btn-primary">Download All (ZIP)</a>
+    </div>
+
+    <!-- File List -->
+    <ul x-show="!isSlideshow" :class="isGrid ? 'grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-6' : 'space-y-3'" class="list-none">
+        <template x-for="(file, index) in sortedFiles" :key="file.fileId">
+            <li :class="isGrid ? 'ls-card-grid' : 'ls-card-list'">
+                <div :class="isGrid ? 'contents' : 'flex items-center gap-4 w-full'">
+                    <div @click="currentIndex = index; toggleSlideshow()"
+                        class="cursor-pointer"
+                        :class="isGrid ? 'ls-preview-box-grid' : 'ls-preview-box-list'"
+                    >
+                        <img x-init="loadPreview($el, file)" class="w-full h-full object-contain" />
+                    </div>
+                    <div :class="isGrid ? 'ls-card-content-grid' : 'flex-1 min-w-0'">
+                        <p class="ls-file-name" :class="isGrid ? 'text-sm mb-1' : 'text-base'" x-text="file.filename"></p>
+                        <p class="ls-file-size" x-text="humanFileSize(file.size)"></p>
+                    </div>
+                    <div :class="isGrid ? 'ls-card-actions-grid' : 'ls-card-actions-list'">
+                        <a :href="'/' + window.token + '/file/' + file.fileId" 
+                           target="_blank"
+                           class="ls-btn-action-small open flex-1">
+                            <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path></svg>
+                            <span>Open</span>
+                        </a>
+                        <a :href="'/' + window.token + '/file/' + file.fileId + '?download'" 
+                           class="ls-btn-action-small get flex-1">
+                            <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a2 2 0 002 2h12a2 2 0 002-2v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
+                            <span>Get</span>
+                        </a>
+                    </div>
+                </div>
+            </li>
+        </template>
+    </ul>
+
+    <!-- Slideshow -->
+    <div x-show="isSlideshow" class="ls-slideshow-container" x-cloak>
+        <div class="ls-slideshow-header">
+             <span class="font-bold truncate max-w-md" x-text="currentFile?.filename"></span>
+             <button @click="toggleSlideshow()" class="ls-btn-secondary text-xs uppercase tracking-widest font-bold px-4">Close</button>
+        </div>
+        <div class="ls-slideshow-main">
+            <button @click="prevSlide()" class="ls-slideshow-btn-nav left-4">
+                <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
+            </button>
+            <img x-init="loadPreview($el, currentFile); $watch('currentFile', (val) => loadPreview($el, val))" 
+                 data-is-slideshow="true"
+                 class="ls-slideshow-img" />
+            <button @click="nextSlide()" class="ls-slideshow-btn-nav right-4">
+                <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+            </button>
+        </div>
+        <div class="ls-slideshow-footer">
+            <a :href="'/' + window.token + '/file/' + currentFile?.fileId" 
+               target="_blank"
+               class="ls-slideshow-btn-action secondary">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path></svg>
+                <span>Open File</span>
+            </a>
+            <a :href="'/' + window.token + '/file/' + currentFile?.fileId + '?download'" 
+               class="ls-slideshow-btn-action primary">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a2 2 0 002 2h12a2 2 0 002-2v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
+                <span>Download File</span>
+            </a>
+        </div>
+    </div>
+</div>
+
+<!-- Sidebar -->
+<div x-show="$store.sidebar.isOpen" class="fixed inset-0 z-50" x-cloak>
+    <div @click="$store.sidebar.isOpen = false" class="ls-sidebar-backdrop"></div>
+    <div class="ls-sidebar-panel">
+        <div class="ls-sidebar-header">
+            <h2 class="text-xl font-bold">Shared Content</h2>
+        </div>
+        <div class="p-4 space-y-4">
+            <template x-for="item in $store.sidebar.items" :key="item.id">
+                <div class="ls-sidebar-content-item">
+                    <p class="ls-sidebar-text" x-text="item.text || item.data"></p>
+                    <button @click="$store.sidebar.copy(item)" 
+                            class="ls-sidebar-btn-copy"
+                            :class="$store.sidebar.copiedId === item.id ? 'text-green-600 border-green-300 bg-green-50' : 'text-gray-400 hover:text-gray-600'"
+                            title="Copy to Clipboard">
+                        <!-- Standard Copy Icon -->
+                        <svg x-show="$store.sidebar.copiedId !== item.id" class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                        </svg>
+                        <!-- Checkmark -->
+                        <svg x-show="$store.sidebar.copiedId === item.id" class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" x-cloak>
+                            <polyline points="20 6 9 17 4 12"></polyline>
+                        </svg>
+                    </button>
+                </div>
+            </template>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>
