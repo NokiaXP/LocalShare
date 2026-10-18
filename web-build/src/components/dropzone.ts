@@ -82,7 +82,7 @@ export const Dropzone = () => ({
 
         } catch (err) {
             console.error('Submit failed:', err);
-            alert('Could not start upload.');
+            alert('No se pudo iniciar la carga.');
         }
     },
 
