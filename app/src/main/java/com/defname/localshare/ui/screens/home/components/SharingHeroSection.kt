@@ -98,7 +98,7 @@ fun SharingHeroSection(
                 )
                 Spacer(modifier = Modifier.height(8.dp))
                 Text(
-                    text = "wants to connect.",
+                    text = "quiere conectarse.",
                     style = MaterialTheme.typography.bodyMedium,
                 )
 
@@ -136,7 +136,7 @@ fun SharingHeroSection(
                             modifier = Modifier.size(18.dp)
                         )
                         Spacer(Modifier.width(8.dp))
-                        Text("Accept")
+                        Text("Aceptar")
                     }
                 }
             }
@@ -196,7 +196,7 @@ fun SharingHeroSection(
                         modifier = Modifier.size(18.dp)
                     )
                     Spacer(Modifier.width(8.dp))
-                    Text("View Transfers")
+                    Text("Ver transferencias")
                 }
             }
         }
@@ -276,7 +276,7 @@ fun SharingHeroSection(
                             modifier = Modifier.size(18.dp)
                         )
                         Spacer(Modifier.width(8.dp))
-                        Text("Accept")
+                        Text("Aceptar")
                     }
                 }
             }
@@ -366,7 +366,7 @@ fun SharingHeroSection(
                                 modifier = Modifier.size(18.dp)
                             )
                             Spacer(Modifier.width(8.dp))
-                            Text("QR Code")
+                            Text("Código QR")
                         }
                     }
                 } else if (!isRunning) {
