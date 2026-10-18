@@ -57,7 +57,7 @@ fun StartServerButton(
                         contentColor = MaterialTheme.colorScheme.onTertiary
                     ),
                 ) {
-                    Text("Activa las notificaciones para iniciar")
+                    Text(stringResource(R.string.notifications_required_to_start))
                 }
             } else {
                 when (serverState) {
@@ -73,10 +73,10 @@ fun StartServerButton(
                         ) {
                             Icon(
                                 imageVector = Icons.Default.Send,
-                                contentDescription = "Iniciar uso compartido"
+                                contentDescription = stringResource(R.string.action_start_sharing)
                             )
                             Spacer(modifier = Modifier.width(8.dp))
-                            Text("Empezar a compartir")
+                            Text(stringResource(R.string.action_start_sharing))
                         }
                     }
 
@@ -92,10 +92,10 @@ fun StartServerButton(
                         ) {
                             Icon(
                                 imageVector = Icons.Default.Stop,
-                                contentDescription = "Detener uso compartido"
+                                contentDescription = stringResource(R.string.action_stop_sharing)
                             )
                             Spacer(modifier = Modifier.width(8.dp))
-                            Text("Dejar de compartir")
+                            Text(stringResource(R.string.action_stop_sharing))
                         }
                     }
 
@@ -111,7 +111,7 @@ fun StartServerButton(
                                 color = MaterialTheme.colorScheme.onSurfaceVariant
                             )
                             Spacer(modifier = Modifier.width(8.dp))
-                            Text("Starting...")
+                            Text(stringResource(R.string.server_starting))
                         }
                     }
 
@@ -127,7 +127,7 @@ fun StartServerButton(
                                 color = MaterialTheme.colorScheme.onSurfaceVariant
                             )
                             Spacer(modifier = Modifier.width(8.dp))
-                            Text("Stopping...")
+                            Text(stringResource(R.string.server_stopping))
                         }
                     }
                 }
