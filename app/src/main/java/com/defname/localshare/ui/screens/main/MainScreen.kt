@@ -91,7 +91,7 @@ fun MainScreen(
                     if (state.serverState != RuntimeState.RUNNING) {
                         android.widget.Toast.makeText(
                             context,
-                            "Please start the server first",
+                            "Primero debes iniciar el servidor",
                             android.widget.Toast.LENGTH_LONG
                         ).show()
                     }
