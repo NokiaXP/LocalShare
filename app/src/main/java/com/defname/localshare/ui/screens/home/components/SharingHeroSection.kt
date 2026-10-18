@@ -100,7 +100,7 @@ fun SharingHeroSection(
                 )
                 Spacer(modifier = Modifier.height(8.dp))
                 Text(
-                    text = "quiere conectarse.",
+                    text = stringResource(R.string.request_wants_to_connect),
                     style = MaterialTheme.typography.bodyMedium,
                 )
 
@@ -181,7 +181,7 @@ fun SharingHeroSection(
                 )
                 Spacer(modifier = Modifier.height(8.dp))
                 Text(
-                    text = "quiere enviar ${uploadRequestingBatch?.files?.size ?: 0} archivo(s).",
+                    text = if ((uploadRequestingBatch?.files?.size ?: 0) == 1) stringResource(R.string.request_wants_to_send_one) else stringResource(R.string.request_wants_to_send_many, uploadRequestingBatch?.files?.size ?: 0),
                     style = MaterialTheme.typography.bodyMedium,
                 )
 
@@ -240,7 +240,7 @@ fun SharingHeroSection(
                 )
                 Spacer(modifier = Modifier.height(8.dp))
                 Text(
-                    text = "solicita permiso para subir archivos.",
+                    text = stringResource(R.string.request_upload_permission),
                     style = MaterialTheme.typography.bodyMedium,
                 )
 
