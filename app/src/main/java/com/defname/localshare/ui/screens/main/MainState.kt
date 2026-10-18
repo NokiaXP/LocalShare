@@ -42,12 +42,12 @@ class NavigationItem(
 
 sealed class Screen(val route: String, val label: String, val icon: ImageVector) {
     object Main : Screen("main", "Overview", Icons.Default.Send)
-    object Files : Screen("files", "Shared Files", Icons.Default.ListAlt)
+    object Files : Screen("files", "Archivos compartidos", Icons.Default.ListAlt)
     object SharedContent : Screen("sharedcontent", "Shared Text", Icons.Default.ContentPaste)
-    object Transfers : Screen("transfers", "Transfers", Icons.Default.Upload)
-    object Logs : Screen("logs", "Logs", Icons.Default.List)
-    object Settings : Screen("settings", "Settings", Icons.Default.Settings)
-    object Info : Screen("info", "Info", Icons.Default.Info)
+    object Transfers : Screen("transfers", "Transferencias", Icons.Default.Upload)
+    object Logs : Screen("logs", "Registros", Icons.Default.List)
+    object Settings : Screen("settings", "Ajustes", Icons.Default.Settings)
+    object Info : Screen("info", "Información", Icons.Default.Info)
 
     companion object {
         fun fromRoute(route: String?): Screen {
