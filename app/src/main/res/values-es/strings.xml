@@ -129,4 +129,27 @@
     <string name="info_credits">Créditos</string>
     <string name="action_clear_logs">Borrar registros</string>
 
+
+    <string name="nav_overview">Inicio</string>
+    <string name="nav_shared_files">Archivos compartidos</string>
+    <string name="nav_shared_text">Texto compartido</string>
+    <string name="nav_transfers">Transferencias</string>
+    <string name="nav_logs">Registros</string>
+    <string name="nav_settings">Ajustes</string>
+    <string name="nav_info">Información</string>
+    <string name="toast_start_server_first">Primero debes iniciar el servidor.</string>
+    <string name="onboarding_welcome_title">¡Te damos la bienvenida a LocalShare!</string>
+    <string name="onboarding_welcome_description">Comparte archivos y texto en tu red local. No necesitas la nube ni conexión a Internet.</string>
+    <string name="onboarding_add_title">1. Añadir contenido</string>
+    <string name="onboarding_add_description">Toca «Añadir archivos» para elegir archivos o compártelos directamente desde otras aplicaciones mediante el menú Compartir de Android.</string>
+    <string name="onboarding_share_title">2. Empezar a compartir</string>
+    <string name="onboarding_share_description">Toca «Empezar a compartir» para que otros dispositivos puedan acceder al contenido. Si alguien intenta conectarse, tendrás que aprobarlo.</string>
+    <string name="onboarding_connect_title">3. Conectar y compartir</string>
+    <string name="onboarding_connect_description">Los otros dispositivos solo tienen que escanear el código QR o abrir el enlace en su navegador. No necesitan instalar ninguna aplicación.</string>
+    <string name="onboarding_help_title">¿Necesitas ayuda?</string>
+    <string name="onboarding_help_description">Si tienes algún problema, busca el icono (?) en el menú. Abre la guía completa (solo funciona mientras el servidor está activo).</string>
+    <string name="onboarding_dont_show_again">No volver a mostrar</string>
+    <string name="action_next">Siguiente</string>
+    <string name="action_got_it">Entendido</string>
+
 </resources>
